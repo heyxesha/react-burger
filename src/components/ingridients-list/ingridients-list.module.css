@@ -1,0 +1,19 @@
+.List {
+    width: 100%;
+    max-height: 872px;
+    overflow-y: scroll;
+}
+
+.List::-webkit-scrollbar {
+    width: 8px;
+}
+
+.List::-webkit-scrollbar-track {
+    margin-bottom: 52px;
+    margin-top: 40px;
+    background-color: #2F2F37;
+}
+
+.List::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}

@@ -1,0 +1,9 @@
+.BurgerIngridients {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Tabs {
+    display: flex;
+}
