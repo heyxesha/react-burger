@@ -9,16 +9,12 @@ import './App.css';
 
 function App() {
   return (
-    <div className="AppWrapper">
-      <div className="App pb-10">
+    <div className="App pb-10">
         <AppHeader />
-        <div className="AppContentWrapper">
-          <div className="AppContent">
+          <main className="AppContent">
             <BurgerIngridients ingridients={ data } />
             <BurgerConstructor ingridients={ data } />
-          </div>
-        </div>
-      </div>
+          </main>
     </div>
   );
 }
