@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
 import styles from './burger-ingridients.module.css';
 import IngridientsList from '../ingridients-list/ingridients-list';
 
@@ -30,7 +30,7 @@ class BurgerIngridients extends React.Component {
 };
 
 BurgerIngridients.propTypes = {
-    ingridients: PropTypes.arrayOf(PropTypes.object).isRequired
+    ingridients: IngridientsPropTypes
 }; 
   
 export default BurgerIngridients;

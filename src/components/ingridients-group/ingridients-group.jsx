@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Ingridient from '../ingridient/ingridient';
+import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
 import styles from './ingridients-group.module.css'
 
 class IngridientsGroup extends React.Component {
@@ -31,8 +32,8 @@ class IngridientsGroup extends React.Component {
 };
 
 IngridientsGroup.propTypes = {
-    ingridients: PropTypes.arrayOf(PropTypes.object).isRequired,
-    name: PropTypes.string.isRequired
+    ingridients: IngridientsPropTypes,
+    name: PropTypes.string.isRequired,
 };
   
 export default IngridientsGroup;
