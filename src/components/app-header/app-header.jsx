@@ -12,9 +12,9 @@ class AppHeader extends React.Component {
                   <Button iconType="burger" style="primary" title="Конструктор" />
                   <Button iconType="list" style="secondary" title="Лента заказов" />
               </div>
-              <div className={ styles.Logo }>
+              <a href="" className={ styles.Logo }>
                   <Logo />
-              </div>
+              </a>
               <Button iconType="person" style="secondary" title="Личный кабинет" />
             </div>
             

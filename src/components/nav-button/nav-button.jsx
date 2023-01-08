@@ -19,9 +19,9 @@ class Button extends React.Component {
         return (
             <div className={ styles.Button + ' pl-5 pr-5 pt-4 pb-4' }>
                 { IconComponent && <IconComponent type={ this.props.style } /> }
-                <div className={ 'ml-2 text text_type_main-default' + (isSecondary ? ' text_color_inactive' : '') }>
+                <a href="" className={ 'ml-2 text text_type_main-default ' + (isSecondary ? 'text_color_inactive' : 'text_color_primary') }>
                     { this.props.title }
-                </div>
+                </a>
             </div>
         );
     }
