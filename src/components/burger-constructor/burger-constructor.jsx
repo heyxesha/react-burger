@@ -2,14 +2,14 @@ import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktiku
 import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = ({ ingridients }) => {
     // TODO: наверное, на следующих итерациях проекта сможем получать эти данные динамически.
-    const bun = props.ingridients[0];
+    const bun = ingridients[0];
     const innerIngridients = [];
     let totalSum = bun.price * 2;
     /* "Вырежем" все булки, чтобы остались только все соусы и все начинки по одному разу. Пока не получаем список
         выбранных ингридиентов динамически, в качестве mock будет такое. */
-    props.ingridients.forEach((item) => {
+    ingridients.forEach((item) => {
         if (item.type !== 'bun') {
             innerIngridients.push(item);
             totalSum += item.price;

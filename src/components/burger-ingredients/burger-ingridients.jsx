@@ -3,7 +3,7 @@ import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
 import styles from './burger-ingridients.module.css';
 import IngridientsList from '../ingridients-list/ingridients-list';
 
-const BurgerIngridients = (props) => {
+const BurgerIngridients = ({ ingridients }) => {
     const activeTab = 'bun';
     return (
         <div className={ styles.BurgerIngridients }>
@@ -21,7 +21,7 @@ const BurgerIngridients = (props) => {
                     Начинки
                 </Tab>
             </div>
-            <IngridientsList ingridients={ props.ingridients } />
+            <IngridientsList ingridients={ ingridients } />
         </div>
     );
 };

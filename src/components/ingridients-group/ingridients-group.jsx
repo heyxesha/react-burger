@@ -3,15 +3,18 @@ import Ingridient from '../ingridient/ingridient';
 import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
 import styles from './ingridients-group.module.css'
 
-const IngridientsGroup = (props) => {
+const IngridientsGroup = ({
+    ingridients,
+    name
+}) => {
     return (
         <div>
             <h2 className="text text_type_main-medium">
-                { props.name }
+                { name }
             </h2>
             <div className={ styles.IngridientsGroup + ' pl-4 pr-4 pt-6 pb-10' }>
                 {
-                    props.ingridients.map((item, index) => (
+                    ingridients.map((item, index) => (
                         /* TODO: я думаю, что selectedCount сможем высчитывать на последующих этапах сдачи проекта, а пока что мне
                         нужно посмотреть верстку счетчика. Нужно будет убрать проверку на _id. */
                         <Ingridient
