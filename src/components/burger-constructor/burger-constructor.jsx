@@ -42,12 +42,12 @@ const BurgerConstructor = ({ ingridients }) => {
             <ConstructorElement
                 extraClass={ `${ styles.Bun } ml-8 mr-4 mt-4` }
                 type="bottom"
-                isLocked={true}
+                isLocked={ true }
                 text={ `${ bun.name } (низ)` }
                 price={ bun.price }
                 thumbnail={ bun.image } />
-            <div className={ styles.TotalBlock + ' mt-10' }>
-                <div className={ styles.Sum + ' mr-10' }>
+            <div className={ `${ styles.TotalBlock } mt-10` }>
+                <div className={ `${ styles.Sum } mr-10` }>
                     <div className="text text_type_digits-medium mr-1">
                         { totalSum }
                     </div>
