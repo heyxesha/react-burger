@@ -10,7 +10,7 @@ const BurgerIngridients = ({ ingridients }) => {
             <h1 className="text text_type_main-large mt-10">
                 Соберите бургер
             </h1>
-            <div className={ styles.Tabs + ' mt-5'}>
+            <div className={ `${ styles.Tabs } mt-5` }>
                 <Tab value="bun" active={ activeTab === 'bun' }>
                     Булки
                 </Tab>

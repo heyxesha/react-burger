@@ -19,7 +19,7 @@ const IngridientsList = () => {
         }
     });
     return (
-        <div className={ styles.List + ' pt-10'}>
+        <div className={ `${ styles.List } pt-10` }>
             <IngridientsGroup name="Булки" ingridients={ buns } />
             <IngridientsGroup name="Соусы" ingridients={ sauces } />
             <IngridientsGroup name="Начинки" ingridients={ mains } />

@@ -10,15 +10,15 @@ const Ingridient = ({
     selectedCount
  }) => {
     return (
-        <div className={ styles.Ingridient + (needMargin ? ' mt-8' : '')}>
+        <div className={ `${ styles.Ingridient } ${ needMargin ? 'mt-8' : '' }` }>
             <img src={ image } alt={ name } />
-            <div className={ styles.Price + ' mt-1' }>
+            <div className={ `${ styles.Price } mt-1` }>
                 <div className="text text_type_digits-default mr-1">
                     { price }
                 </div>
                 <CurrencyIcon />
             </div>
-            <div className={ styles.Name + ' text text_type_main-default mt-1' }>
+            <div className={ `${ styles.Name } text text_type_main-default mt-1` }>
                 { name }
             </div>
             {

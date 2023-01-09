@@ -12,7 +12,7 @@ const IngridientsGroup = ({
             <h2 className="text text_type_main-medium">
                 { name }
             </h2>
-            <div className={ styles.IngridientsGroup + ' pl-4 pr-4 pt-6 pb-10' }>
+            <div className={ `${ styles.IngridientsGroup } pl-4 pr-4 pt-6 pb-10` }>
                 {
                     ingridients.map((item, index) => (
                         /* TODO: я думаю, что selectedCount сможем высчитывать на последующих этапах сдачи проекта, а пока что мне

@@ -16,18 +16,18 @@ const BurgerConstructor = ({ ingridients }) => {
         }
     });
     return (
-        <div className={ styles.BurgerConstructor + ' pt-25 pl-4' }>
+        <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
                 <ConstructorElement
-                    extraClass={ styles.Bun + ' ml-8 mr-4' + (innerIngridients.length ? ' mb-4' : '') }
+                    extraClass={ `${ styles.Bun } ml-8 mr-4 ${ innerIngridients.length ? 'mb-4' : '' }` }
                     type="top"
-                    isLocked={true}
-                    text={ bun.name + ' (верх)' }
+                    isLocked={ true }
+                    text={ `${ bun.name } (верх)` }
                     price={ bun.price }
                     thumbnail={ bun.image } />
             <div className={ styles.ScrollArea }>
                 {
                     innerIngridients.map((item, index) => (
-                        <div key={ item._id } className={ styles.DragItem + (index > 0 ? ' mt-4' : '') }>
+                        <div key={ item._id } className={ `${ styles.DragItem } ${ index > 0 ? 'mt-4' : '' }` }>
                             <DragIcon />
                             <ConstructorElement
                                 extraClass="ml-2 mr-2"
@@ -40,10 +40,10 @@ const BurgerConstructor = ({ ingridients }) => {
                 }
             </div>
             <ConstructorElement
-                extraClass={ styles.Bun + ' ml-8 mr-4 mt-4' }
+                extraClass={ `${ styles.Bun } ml-8 mr-4 mt-4` }
                 type="bottom"
                 isLocked={true}
-                text={ bun.name + ' (низ)' }
+                text={ `${ bun.name } (низ)` }
                 price={ bun.price }
                 thumbnail={ bun.image } />
             <div className={ styles.TotalBlock + ' mt-10' }>
