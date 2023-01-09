@@ -1,0 +1,18 @@
+.Ingridient {
+    width: 272px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.Price {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.Name {
+    height: 48px;
+}

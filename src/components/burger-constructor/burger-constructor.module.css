@@ -1,0 +1,43 @@
+.BurgerConstructor {
+    width: 568px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Bun {
+    width: 520px;
+}
+
+.ScrollArea {
+    height: 464px;
+    overflow-y: scroll;
+}
+
+.ScrollArea::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.ScrollArea::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.DragItem {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.TotalBlock {
+    align-self: end;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.Sum {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
