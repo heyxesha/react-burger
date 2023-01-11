@@ -9,7 +9,8 @@ import styles from './burger-constructor.module.css';
 const BurgerConstructor = ({ ingridients }) => {
     const [state, setState] = useState({
         modalVisibility: false,
-        modalChildren: null
+        modalChildren: null,
+        modalTitle: ''
     });
 
     // TODO: наверное, на следующих итерациях проекта сможем получать эти данные динамически.
@@ -30,6 +31,7 @@ const BurgerConstructor = ({ ingridients }) => {
             <OrderDetails orderId="034536" />
         );
         setState({
+            modalTitle: '',
             modalVisibility: true,
             modalChildren: orderDetails
         });
@@ -47,6 +49,7 @@ const BurgerConstructor = ({ ingridients }) => {
             />
         );
         setState({
+            modalTitle: 'Детали ингридиента',
             modalVisibility: true,
             modalChildren: ingridientDetails
         });
@@ -54,6 +57,7 @@ const BurgerConstructor = ({ ingridients }) => {
 
     const close = () => {
         setState({
+            modalTitle: '',
             modalVisibility: false,
             modalChildren: null
         });
@@ -112,6 +116,7 @@ const BurgerConstructor = ({ ingridients }) => {
             </div>
             { state.modalVisibility &&
                 <Modal
+                    title={ state.modalTitle }
                     children={ state.modalChildren }
                     onClose={ close } /> 
             }
