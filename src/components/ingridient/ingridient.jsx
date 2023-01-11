@@ -7,20 +7,23 @@ const Ingridient = ({
     name,
     image,
     price,
-    selectedCount
+    selectedCount,
+    onClick
  }) => {
     return (
-        <div className={ `${ styles.Ingridient } ${ needMargin ? 'mt-8' : '' }` }>
+        <div
+            className={ `${ styles.Ingridient } ${ needMargin ? 'mt-8' : '' }` }
+            onClick={ onClick }>
             <img src={ image } alt={ name } />
             <div className={ `${ styles.Price } mt-1` }>
-                <div className="text text_type_digits-default mr-1">
+                <p className="text text_type_digits-default mr-1">
                     { price }
-                </div>
+                </p>
                 <CurrencyIcon />
             </div>
-            <div className={ `${ styles.Name } text text_type_main-default mt-1` }>
+            <p className={ `${ styles.Name } text text_type_main-default mt-1` }>
                 { name }
-            </div>
+            </p>
             {
                 selectedCount && <Counter count={ selectedCount } size="default" />
             }
@@ -33,7 +36,8 @@ Ingridient.propTypes = {
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    selectedCount: PropTypes.number
+    selectedCount: PropTypes.number,
+    onClick: PropTypes.func
 };
   
 export default Ingridient;

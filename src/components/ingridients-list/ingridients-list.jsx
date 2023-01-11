@@ -1,34 +1,34 @@
-import { data } from '../../utils/data';
-import styles from './ingridients-list.module.css';
+import PropTypes from 'prop-types';
+import { Element } from 'react-scroll';
 import IngridientsGroup from '../ingridients-group/ingridients-group';
 import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
+import styles from './ingridients-list.module.css';
 
-const IngridientsList = () => {
-    const buns = [];
-    const sauces = [];
-    const mains = [];
-    data.forEach((item) => {
-        if (item.type === 'bun') {
-            buns.push(item);
-        }
-        if (item.type === 'sauce') {
-            sauces.push(item);
-        }
-        if (item.type === 'main') {
-            mains.push(item);
-        }
-    });
+const IngridientsList = ({ ingridientsGroups }) => {
     return (
-        <div className={ `${ styles.List } pt-10` }>
-            <IngridientsGroup name="Булки" ingridients={ buns } />
-            <IngridientsGroup name="Соусы" ingridients={ sauces } />
-            <IngridientsGroup name="Начинки" ingridients={ mains } />
+        <div id="List" className={ `${ styles.List } pb-10` }>
+            {
+                Object.keys(ingridientsGroups).map((key) => (
+                    <Element
+                        key={ key }
+                        name={ key }>
+                        <IngridientsGroup
+                            name={ ingridientsGroups[key].title }
+                            ingridients={ ingridientsGroups[key].data } />
+                    </Element>
+                ))
+            }
         </div>
     );
 };
 
 IngridientsList.propTypes = {
-    ingridients: IngridientsPropTypes
+    ingridientsGroups: PropTypes.objectOf(
+        PropTypes.shape({
+            title: PropTypes.string,
+            data: IngridientsPropTypes
+        })
+    )
 };
   
 export default IngridientsList;

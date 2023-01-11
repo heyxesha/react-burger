@@ -28,3 +28,7 @@ a {
   position: absolute;
   top: 50%;
 }
+
+.ModalWrapper {
+  overflow: hidden;
+}

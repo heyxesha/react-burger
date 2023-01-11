@@ -23,8 +23,9 @@ function App() {
             fetch(URL).then((res) => {
                 res.json().then((resData) => {
                     setState({
-                        isLoading: false,
-                        data: resData.data
+                        ...state,
+                        data: resData.data,
+                        isLoading: false
                     });
                 }).catch(() => {
                     setState({
@@ -44,25 +45,28 @@ function App() {
     }, []);
 
     return (
-        <div className="App">
-            <AppHeader />
-                <main className={ `App__content ${ !state.isLoading && !state.data ? 'App__content_errorWrapper' : '' } pb-10` }>
-                    {
-                        !state.isLoading && (
-                            !state.data ? (
-                                <div className="Content__info text_type_main-default">
-                                    { ERROR_MESSAGE }
-                                </div>
-                            ) : (
-                                <>
-                                    <BurgerIngridients ingridients={ state.data } />
-                                    <BurgerConstructor ingridients={ state.data } />
-                                </>
+        <>
+            <div className="App">
+                <AppHeader />
+                    <main className={ `App__content ${ !state.isLoading && !state.data ? 'App__content_errorWrapper' : '' } pb-10` }>
+                        {
+                            !state.isLoading && (
+                                !state.data ? (
+                                    <div className="Content__info text text_type_main-default">
+                                        { ERROR_MESSAGE }
+                                    </div>
+                                ) : (
+                                    <>
+                                        <BurgerIngridients ingridients={ state.data } />
+                                        <BurgerConstructor ingridients={ state.data } />
+                                    </>
+                                )
                             )
-                        )
-                    }
-                </main>
-        </div>
+                        }
+                    </main>
+            </div>
+            <div id="modalRoot" className="ModalWrapper"></div>
+        </>
     );
 }
 
