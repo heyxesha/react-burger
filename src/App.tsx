@@ -5,7 +5,6 @@ import BurgerIngridients from './components/burger-ingredients/burger-ingridient
 import getData from './utils/burger-api';
 import './App.css';
 
-const URL = 'https://norma.nomoreparties.space/api/ingredients';
 const ERROR_MESSAGE = 'Произошла ошибка при получении данных :(';
 
 function App() {
@@ -25,7 +24,7 @@ function App() {
                 ingridients: response,
                 isLoading: false
             });
-        }).catch((error) => {
+        }).catch(() => {
             setState({
                 ...state,
                 isLoading: false
