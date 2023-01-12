@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
 import BurgerIngridients from './components/burger-ingredients/burger-ingridients';
+import getData from './utils/burger-api';
 import './App.css';
 
 const URL = 'https://norma.nomoreparties.space/api/ingredients';
@@ -10,55 +11,47 @@ const ERROR_MESSAGE = 'Произошла ошибка при получении
 function App() {
     const [state, setState] = useState({
         isLoading: false,
-        data: null
+        ingridients: null
     });
 
-    useEffect(() => {
-        const getData = async () => {
+    const getIngredients = () => {
+        setState({
+            ...state, 
+            isLoading: true
+        });
+        getData('ingredients').then((response) => {
             setState({
-                ...state, 
-                isLoading: true
+                ...state,
+                ingridients: response,
+                isLoading: false
             });
-
-            fetch(URL).then((res) => {
-                res.json().then((resData) => {
-                    setState({
-                        ...state,
-                        data: resData.data,
-                        isLoading: false
-                    });
-                }).catch(() => {
-                    setState({
-                        ...state,
-                        isLoading: false
-                    });
-                });
-            }).catch(() => {
-                setState({
-                    ...state,
-                    isLoading: false
-                });
+        }).catch((error) => {
+            setState({
+                ...state,
+                isLoading: false
             });
-        }
+        });
+    };
 
-        getData();
+    useEffect(() => {
+        getIngredients();
     }, []);
 
     return (
         <>
             <div className="App">
                 <AppHeader />
-                    <main className={ `App__content ${ !state.isLoading && !state.data ? 'App__content_errorWrapper' : '' } pb-10` }>
+                    <main className={ `App__content ${ !state.isLoading && !state.ingridients ? 'App__content_errorWrapper' : '' } pb-10` }>
                         {
                             !state.isLoading && (
-                                !state.data ? (
+                                !state.ingridients ? (
                                     <div className="Content__info text text_type_main-default">
                                         { ERROR_MESSAGE }
                                     </div>
                                 ) : (
                                     <>
-                                        <BurgerIngridients ingridients={ state.data } />
-                                        <BurgerConstructor ingridients={ state.data } />
+                                        <BurgerIngridients ingridients={ state.ingridients } />
+                                        <BurgerConstructor ingridients={ state.ingridients } />
                                     </>
                                 )
                             )
