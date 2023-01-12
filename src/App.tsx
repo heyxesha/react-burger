@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
-import BurgerIngridients from './components/burger-ingredients/burger-ingridients';
+import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 import getData from './utils/burger-api';
 import './App.css';
 
@@ -10,7 +10,7 @@ const ERROR_MESSAGE = 'Произошла ошибка при получении
 function App() {
     const [state, setState] = useState({
         isLoading: false,
-        ingridients: null
+        ingredients: null
     });
 
     const getIngredients = () => {
@@ -21,7 +21,7 @@ function App() {
         getData('ingredients').then((response) => {
             setState({
                 ...state,
-                ingridients: response,
+                ingredients: response,
                 isLoading: false
             });
         }).catch(() => {
@@ -40,17 +40,17 @@ function App() {
         <>
             <div className="App">
                 <AppHeader />
-                    <main className={ `App__content ${ !state.isLoading && !state.ingridients ? 'App__content_errorWrapper' : '' } pb-10` }>
+                    <main className={ `App__content ${ !state.isLoading && !state.ingredients ? 'App__content_errorWrapper' : '' } pb-10` }>
                         {
                             !state.isLoading && (
-                                !state.ingridients ? (
+                                !state.ingredients ? (
                                     <div className="Content__info text text_type_main-default">
                                         { ERROR_MESSAGE }
                                     </div>
                                 ) : (
                                     <>
-                                        <BurgerIngridients ingridients={ state.ingridients } />
-                                        <BurgerConstructor ingridients={ state.ingridients } />
+                                        <BurgerIngredients ingredients={ state.ingredients } />
+                                        <BurgerConstructor ingredients={ state.ingredients } />
                                     </>
                                 )
                             )

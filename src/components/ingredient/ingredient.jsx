@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './ingridient.module.css';
+import styles from './ingredient.module.css';
 
-const Ingridient = ({ 
+const Ingredient = ({ 
     needMargin,
     name,
     image,
@@ -12,7 +12,7 @@ const Ingridient = ({
  }) => {
     return (
         <div
-            className={ `${ styles.Ingridient } ${ needMargin ? 'mt-8' : '' }` }
+            className={ `${ styles.Ingredient } ${ needMargin ? 'mt-8' : '' }` }
             onClick={ onClick }>
             <img src={ image } alt={ name } />
             <div className={ `${ styles.Price } mt-1` }>
@@ -31,7 +31,7 @@ const Ingridient = ({
     );
 };
 
-Ingridient.propTypes = {
+Ingredient.propTypes = {
     needMargin: PropTypes.bool,
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
@@ -40,4 +40,4 @@ Ingridient.propTypes = {
     onClick: PropTypes.func
 };
   
-export default Ingridient;
+export default Ingredient;

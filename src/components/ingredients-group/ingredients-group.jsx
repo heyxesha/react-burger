@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import Ingridient from '../ingridient/ingridient';
-import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
-import IngredientDetails from '../ingredient-details/ingridient-details';
+import Ingredient from '../ingredient/ingredient';
+import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import styles from './ingridients-group.module.css'
+import styles from './ingredients-group.module.css'
 
-const IngridientsGroup = ({
-    ingridients,
+const IngredientsGroup = ({
+    ingredients,
     name
 }) => {
     const [state, setState] = useState({
@@ -16,7 +16,7 @@ const IngridientsGroup = ({
     });
 
     const click = (item) => {
-        const ingridientDetails = (
+        const ingredientDetails = (
             <IngredientDetails
                 name={ item.name }
                 image={ item.image_large }
@@ -28,7 +28,7 @@ const IngridientsGroup = ({
         );
         setState({
             modalVisibility: true,
-            modalChildren: ingridientDetails
+            modalChildren: ingredientDetails
         });
     };
 
@@ -44,12 +44,12 @@ const IngridientsGroup = ({
             <h2 className="text text_type_main-medium pt-10">
                 { name }
             </h2>
-            <div className={ `${ styles.IngridientsGroup } pl-4 pr-4 pt-6` }>
+            <div className={ `${ styles.IngredientsGroup } pl-4 pr-4 pt-6` }>
                 {
-                    ingridients.map((item, index) => (
+                    ingredients.map((item, index) => (
                         /* TODO: я думаю, что selectedCount сможем высчитывать на последующих этапах сдачи проекта, а пока что мне
                         нужно посмотреть верстку счетчика. Нужно будет убрать проверку на _id. */
-                        <Ingridient
+                        <Ingredient
                             key={ item._id }
                             name={ item.name }
                             image={ item.image }
@@ -70,9 +70,9 @@ const IngridientsGroup = ({
     );
 };
 
-IngridientsGroup.propTypes = {
-    ingridients: IngridientsPropTypes,
+IngredientsGroup.propTypes = {
+    ingredients: IngredientsPropTypes,
     name: PropTypes.string.isRequired
 };
   
-export default IngridientsGroup;
+export default IngredientsGroup;

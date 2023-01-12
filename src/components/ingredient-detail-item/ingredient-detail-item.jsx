@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import styles from './ingridient-detail-item.module.css';
+import styles from './ingredient-detail-item.module.css';
 
-const IngridientDetailItem = ({ text, number }) => (
-    <div className={ styles.IngridientDetailItem }>
+const IngredientDetailItem = ({ text, number }) => (
+    <div className={ styles.IngredientDetailItem }>
         <p className="text text_type_main-default text_color_inactive">
             { text }
         </p>
@@ -12,9 +12,9 @@ const IngridientDetailItem = ({ text, number }) => (
     </div>
 );
 
-IngridientDetailItem.propTypes = {
+IngredientDetailItem.propTypes = {
     text: PropTypes.string.isRequired,
     number: PropTypes.number.isRequired
 };
 
-export default IngridientDetailItem;
+export default IngredientDetailItem;

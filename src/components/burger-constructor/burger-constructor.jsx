@@ -1,25 +1,25 @@
 import { useState } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
+import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ ingridients }) => {
+const BurgerConstructor = ({ ingredients }) => {
     const [state, setState] = useState({
         modalVisibility: false,
         modalChildren: null
     });
 
     // TODO: наверное, на следующих итерациях проекта сможем получать эти данные динамически.
-    const bun = ingridients[0];
-    const innerIngridients = [];
+    const bun = ingredients[0];
+    const innerIngredients = [];
     let totalSum = bun.price * 2;
     /* "Вырежем" все булки, чтобы остались только все соусы и все начинки по одному разу. Пока не получаем список
         выбранных ингридиентов динамически, в качестве mock будет такое. */
-    ingridients.forEach((item) => {
+    ingredients.forEach((item) => {
         if (item.type !== 'bun') {
-            innerIngridients.push(item);
+            innerIngredients.push(item);
             totalSum += item.price;
         }
     });
@@ -44,7 +44,7 @@ const BurgerConstructor = ({ ingridients }) => {
     return (
         <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
             <ConstructorElement
-                extraClass={ `${ styles.Bun } ml-8 mr-4 ${ innerIngridients.length ? 'mb-4' : '' }` }
+                extraClass={ `${ styles.Bun } ml-8 mr-4 ${ innerIngredients.length ? 'mb-4' : '' }` }
                 type="top"
                 isLocked={ true }
                 text={ `${ bun.name } (верх)` }
@@ -52,12 +52,12 @@ const BurgerConstructor = ({ ingridients }) => {
                 thumbnail={ bun.image }  />
             <div className={ styles.ScrollArea }>
                 {
-                    innerIngridients.map((item, index) => (
+                    innerIngredients.map((item, index) => (
                         <div
                             key={ item._id } className={ `${ styles.DragItem } ${ index > 0 ? 'mt-4' : '' }` }>
                             <DragIcon />
                             <ConstructorElement
-                                extraClass={ `${styles.Ingridient} ml-2 mr-2` }
+                                extraClass={ `${styles.Ingredient} ml-2 mr-2` }
                                 text={ item.name }
                                 price={ item.price }
                                 thumbnail={ item.image } />
@@ -97,7 +97,7 @@ const BurgerConstructor = ({ ingridients }) => {
 };
 
 BurgerConstructor.propTypes = {
-    ingridients: IngridientsPropTypes
+    ingredients: IngredientsPropTypes
 }; 
   
 export default BurgerConstructor;

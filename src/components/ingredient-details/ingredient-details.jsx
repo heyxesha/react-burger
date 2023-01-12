@@ -1,7 +1,7 @@
 
 import PropTypes from 'prop-types';
-import IngridientDetailItem from '../ingridient-detail-item/ingridient-detail-item';
-import styles from './ingridient-details.module.css';
+import IngredientDetailItem from '../ingredient-detail-item/ingredient-detail-item';
+import styles from './ingredient-details.module.css';
 
 const IngredientDetails = ({
     image,
@@ -18,10 +18,10 @@ const IngredientDetails = ({
                 { name }
             </p>
             <div className={ `${ styles.Details } mt-8` }>
-                <IngridientDetailItem text="Каллории,ккал" number={ calories } />
-                <IngridientDetailItem text="Белки, г" number={ proteins } />
-                <IngridientDetailItem text="Жиры, г" number={ fat } />
-                <IngridientDetailItem text="Углеводы, г" number={ carbohydrates } />
+                <IngredientDetailItem text="Каллории,ккал" number={ calories } />
+                <IngredientDetailItem text="Белки, г" number={ proteins } />
+                <IngredientDetailItem text="Жиры, г" number={ fat } />
+                <IngredientDetailItem text="Углеводы, г" number={ carbohydrates } />
             </div>
         </div>
     );

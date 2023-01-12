@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-scroll';
-import IngridientsPropTypes from '../../utils/IngridientsPropTypes';
-import styles from './burger-ingridients.module.css';
-import IngridientsList from '../ingridients-list/ingridients-list';
+import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
+import styles from './burger-ingredients.module.css';
+import IngredientsList from '../ingredients-list/ingredients-list';
 
-const BurgerIngridients = ({ ingridients }) => {
-    const ingridientsGroups = {
+const BurgerIngredients = ({ ingredients }) => {
+    const ingredientsGroups = {
         bun: {
             title: 'Булки',
             data: []
@@ -21,8 +21,8 @@ const BurgerIngridients = ({ ingridients }) => {
         }
     };
 
-    ingridients.forEach((item) => {
-        ingridientsGroups[item.type].data.push(item);
+    ingredients.forEach((item) => {
+        ingredientsGroups[item.type].data.push(item);
     });
     
     const [activeTab, setActiveTab] = useState('bun');
@@ -31,13 +31,13 @@ const BurgerIngridients = ({ ingridients }) => {
     };
 
     return (
-        <div className={ styles.BurgerIngridients }>
+        <div className={ styles.BurgerIngredients }>
             <h1 className="text text_type_main-large mt-10">
                 Соберите бургер
             </h1>
             <div className={ `${ styles.Tabs } mt-5` }>
                 { 
-                    Object.keys(ingridientsGroups).map((key) => (
+                    Object.keys(ingredientsGroups).map((key) => (
                         <Link
                             key={ key }
                             activeClass="active"
@@ -50,19 +50,19 @@ const BurgerIngridients = ({ ingridients }) => {
                                 value={ key }
                                 active={ activeTab === key }
                                 onClick={ onClick }>
-                                { ingridientsGroups[key].title }
+                                { ingredientsGroups[key].title }
                             </Tab>
                         </Link>
                     ))
                 }
             </div>
-            <IngridientsList ingridientsGroups={ ingridientsGroups }  />
+            <IngredientsList ingredientsGroups={ ingredientsGroups }  />
         </div>
     );
 };
 
-BurgerIngridients.propTypes = {
-    ingridients: IngridientsPropTypes
+BurgerIngredients.propTypes = {
+    ingredients: IngredientsPropTypes
 }; 
   
-export default BurgerIngridients;
+export default BurgerIngredients;
