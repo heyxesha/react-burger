@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-scroll';
+import { Link, Events } from 'react-scroll';
 import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
 import styles from './burger-ingredients.module.css';
 import IngredientsList from '../ingredients-list/ingredients-list';
@@ -20,15 +20,15 @@ const BurgerIngredients = ({ ingredients }) => {
             data: []
         }
     };
-
     ingredients.forEach((item) => {
         ingredientsGroups[item.type].data.push(item);
     });
     
     const [activeTab, setActiveTab] = useState('bun');
-    const onClick = (value) => {
-        setActiveTab(value);
-    };
+
+    Events.scrollEvent.register('end', function(to, element) {
+        setActiveTab(to);
+    });
 
     return (
         <div className={ styles.BurgerIngredients }>
@@ -48,8 +48,7 @@ const BurgerIngredients = ({ ingredients }) => {
                             onSetActive={ () => setActiveTab(key) }>
                             <Tab
                                 value={ key }
-                                active={ activeTab === key }
-                                onClick={ onClick }>
+                                active={ activeTab === key }>
                                 { ingredientsGroups[key].title }
                             </Tab>
                         </Link>
