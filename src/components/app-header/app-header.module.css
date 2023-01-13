@@ -18,6 +18,7 @@
 .LeftBlock {
     display: flex;
     flex-wrap: nowrap;
+    min-width: 375px;
 }
 
 .Logo {
