@@ -4,7 +4,7 @@ import styles from './app-header.module.css';
 
 const AppHeader = () => {
   return (
-    <header className={ styles.HeaderWrapper + ' p-4' }>
+    <header className={ `${ styles.HeaderWrapper } p-4` }>
         <div className={ styles.Header }>
           <div className={ styles.LeftBlock }>
               <Button iconType="burger" style="primary" title="Конструктор" />

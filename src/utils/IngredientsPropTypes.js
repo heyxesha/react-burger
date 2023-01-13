@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const IngridientsPropTypes = PropTypes.arrayOf(
+const IngredientsPropTypes = PropTypes.arrayOf(
     PropTypes.shape({
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -17,4 +17,4 @@ const IngridientsPropTypes = PropTypes.arrayOf(
     }).isRequired
 ).isRequired;
 
-export default IngridientsPropTypes;
+export default IngredientsPropTypes;

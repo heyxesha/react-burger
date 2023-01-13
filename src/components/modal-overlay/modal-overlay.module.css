@@ -1,0 +1,12 @@
+.ModalOverlay {
+    width: 100vw;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

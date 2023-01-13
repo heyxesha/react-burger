@@ -7,6 +7,11 @@
 
 .Bun {
     width: 520px;
+    cursor: pointer;
+}
+
+.Ingredient {
+    cursor: pointer;
 }
 
 .ScrollArea {
