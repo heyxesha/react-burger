@@ -23,7 +23,9 @@ const Modal = ({
     useEffect(() => {
         document.addEventListener('keydown', keydown);
 
-        return document.removeEventListener("keydown", keydown);
+        return () => {
+            document.removeEventListener('keydown', keydown);
+        };
     }, []);
 
     const modalRoot = document.getElementById('modalRoot');
