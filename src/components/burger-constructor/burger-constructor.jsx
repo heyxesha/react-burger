@@ -1,28 +1,52 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
+import { SelectedIngredientsContext } from '../../services/app-context';
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ ingredients }) => {
+// Временные захардкоженные выбранные элементы
+import { data } from '../../utils/fakeSelectedIngridients';
+
+const MIN_ITEMS_COUNT_FOR_SCROLL = 5;
+
+const BurgerConstructor = () => {
     const [state, setState] = useState({
         modalVisibility: false,
-        modalChildren: null
+        modalChildren: null,
+        bun: null,
+        innerIngredients: [],
+        totalPrice: 0
     });
 
-    // TODO: наверное, на следующих итерациях проекта сможем получать эти данные динамически.
-    const bun = ingredients[0];
-    const innerIngredients = [];
-    let totalSum = bun.price * 2;
-    /* "Вырежем" все булки, чтобы остались только все соусы и все начинки по одному разу. Пока не получаем список
-        выбранных ингридиентов динамически, в качестве mock будет такое. */
-    ingredients.forEach((item) => {
-        if (item.type !== 'bun') {
-            innerIngredients.push(item);
-            totalSum += item.price;
+    const { selectedIngredients, setSelectedIngredients } = useContext(SelectedIngredientsContext);
+
+    // TODO: Вот тут когда-то будет полноценный dragEnd и push компонентов по одному.
+    // А пока что я просто проверяю верстку пустого представления.
+    const onEmptyClick = () => {
+        setSelectedIngredients(data);
+    };
+
+    useEffect(() => {
+        let bun = null;
+        if (selectedIngredients.length) {
+            bun = selectedIngredients.find(item => item.type === 'bun');
         }
-    });
+        let totalSum = bun ? bun.price * 2 : 0;
+        const innerIngredients = [];
+        selectedIngredients.forEach((item) => {
+            if (item.type !== 'bun') {
+                innerIngredients.push(item);
+                totalSum += item.price;
+            }
+        });
+        setState({
+            ...state,
+            bun,
+            innerIngredients,
+            totalSum
+        });
+    }, [selectedIngredients]);
 
     const orderButtonClick = () => {
         const orderDetails = (
@@ -41,41 +65,87 @@ const BurgerConstructor = ({ ingredients }) => {
         });
     };
 
+    const counstructorElementWidthClass = state.innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.CounstructorElementWidth : styles.CounstructorElemenFulltWidth;
+
     return (
         <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
-            <ConstructorElement
-                extraClass={ `${ styles.Bun } ml-8 mr-4 ${ innerIngredients.length ? 'mb-4' : '' }` }
-                type="top"
-                isLocked={ true }
-                text={ `${ bun.name } (верх)` }
-                price={ bun.price }
-                thumbnail={ bun.image }  />
-            <div className={ styles.ScrollArea }>
-                {
-                    innerIngredients.map((item, index) => (
-                        <div
-                            key={ item._id } className={ `${ styles.DragItem } ${ index > 0 ? 'mt-4' : '' }` }>
-                            <DragIcon />
-                            <ConstructorElement
-                                extraClass={ `${styles.Ingredient} ml-2 mr-2` }
-                                text={ item.name }
-                                price={ item.price }
-                                thumbnail={ item.image } />
+            {
+                selectedIngredients.length ? (
+                    <>
+                        {
+                            state.bun ? (
+                                <ConstructorElement
+                                    extraClass={ `${ styles.Bun } ml-8 mr-4 mb-4 ${ counstructorElementWidthClass }` }
+                                    type="top"
+                                    isLocked={ true }
+                                    text={ `${ state.bun.name } (верх)` }
+                                    price={ state.bun.price }
+                                    thumbnail={ state.bun.image }  />
+                            ) : (
+                                <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } constructor-element constructor-element_pos_top mr-2 mb-4 ml-8` }>
+                                    Перетащите булку
+                                </div>
+                            )
+                        }
+                        {
+                            state.innerIngredients.length ? (
+                                <div className={ state.innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : '' }>
+                                    {   
+                                        state.innerIngredients.map((item, index) => (
+                                            <div
+                                                key={ index } className={ `${ styles.DragItem } ${ index > 0 ? 'mt-4' : '' }` }>
+                                                <DragIcon />
+                                                <ConstructorElement
+                                                    extraClass={ `${styles.Ingredient} ml-2 ${ state.innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? 'mr-2' : '' }` }
+                                                    text={ item.name }
+                                                    price={ item.price }
+                                                    thumbnail={ item.image } />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            ) : (
+                                <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } constructor-element mr-2 ml-8 mr-4` }>
+                                    Перетащите начинку
+                                </div>  
+                            )
+                        }
+                         {
+                            state.bun ? (
+                                <ConstructorElement
+                                    extraClass={ `${ styles.Bun } ml-8 mr-4 mt-4 ${ counstructorElementWidthClass }` }
+                                    type="bottom"
+                                    isLocked={ true }
+                                    text={ `${ state.bun.name } (низ)` }
+                                    price={ state.bun.price }
+                                    thumbnail={ state.bun.image } />
+                            ) : (
+                                <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } constructor-element constructor-element_pos_bottom mr-2 mt-4 ml-8` }>
+                                    Перетащите булку
+                                </div>
+                            )
+                        }
+                    </>
+                ) : (
+                    <>
+                        <div onClick={ onEmptyClick }>
+                            <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } constructor-element constructor-element_pos_top mr-2 mb-4 ml-8` }>
+                                Перетащите булку
+                            </div>
+                            <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } constructor-element mr-2 ml-2 ml-8` }>
+                                Перетащите начинку
+                            </div>
+                            <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } constructor-element constructor-element_pos_bottom mr-2 mt-4 ml-8` }>
+                                Перетащите булку
+                            </div>
                         </div>
-                    ))
-                }
-            </div>
-            <ConstructorElement
-                extraClass={ `${ styles.Bun } ml-8 mr-4 mt-4` }
-                type="bottom"
-                isLocked={ true }
-                text={ `${ bun.name } (низ)` }
-                price={ bun.price }
-                thumbnail={ bun.image } />
+                    </>
+                )
+            }
             <div className={ `${ styles.TotalBlock } mt-10` }>
                 <div className={ `${ styles.Sum } mr-10` }>
                     <div className="text text_type_digits-medium mr-1">
-                        { totalSum }
+                        { state.totalSum }
                     </div>
                     <CurrencyIcon />
                 </div>
@@ -95,9 +165,5 @@ const BurgerConstructor = ({ ingredients }) => {
         </div>
     );
 };
-
-BurgerConstructor.propTypes = {
-    ingredients: IngredientsPropTypes
-}; 
   
 export default BurgerConstructor;

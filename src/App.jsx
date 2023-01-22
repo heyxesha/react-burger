@@ -3,6 +3,7 @@ import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 import getData from './utils/burger-api';
+import { SelectedIngredientsContext } from './services/app-context.js';
 import './App.css';
 
 const ERROR_MESSAGE = 'Произошла ошибка при получении данных :(';
@@ -10,8 +11,10 @@ const ERROR_MESSAGE = 'Произошла ошибка при получении
 function App() {
     const [state, setState] = useState({
         isLoading: false,
-        ingredients: null
+        ingredients: null,
     });
+
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
 
     const getIngredients = () => {
         setState({
@@ -50,7 +53,9 @@ function App() {
                                 ) : (
                                     <>
                                         <BurgerIngredients ingredients={ state.ingredients } />
-                                        <BurgerConstructor ingredients={ state.ingredients } />
+                                        <SelectedIngredientsContext.Provider value={ { selectedIngredients, setSelectedIngredients } }>
+                                            <BurgerConstructor />
+                                        </SelectedIngredientsContext.Provider>
                                     </>
                                 )
                             )
