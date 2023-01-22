@@ -15,7 +15,7 @@ const OrderDetails = ({ orderId }) => {
             <p className="text text_type_main-default mt-15">
                 Ваш заказ начали готовить
             </p>
-            <p className="text text_type_main-inactive mt-2">
+            <p className={ `${ styles.InactiveText } text text_type_main-inactive mt-2` }>
                 Дождитесь готовности на орбитальной станции
             </p>
         </div>

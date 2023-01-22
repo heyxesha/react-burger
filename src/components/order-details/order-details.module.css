@@ -7,3 +7,7 @@
 .OrderId {
     text-shadow: #4c4cff 0px 0 20px;
 }
+
+.InactiveText {
+    height: 24px;
+}
