@@ -24,7 +24,7 @@ function App() {
         getData('ingredients').then((response) => {
             setState({
                 ...state,
-                ingredients: response,
+                ingredients: response.data,
                 isLoading: false
             });
         }).catch(() => {

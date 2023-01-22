@@ -1,12 +1,17 @@
 const NORMA_API = 'https://norma.nomoreparties.space/api';
 
-const getData = (dataType) => {
+const getData = (dataType, bodyParams) => {
     const url = NORMA_API + '/' + dataType;
+    const requestParams = bodyParams ? {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyParams)
+    } : undefined;
     return new Promise((resolve, reject) => {
-        fetch(url).then((response) => {
+        fetch(url, requestParams).then((response) => {
             if (response.ok) {
                 response.json().then((data) => {
-                    resolve(data.data);
+                    resolve(data);
                 }).catch((error) => {
                     reject(error);
                 });

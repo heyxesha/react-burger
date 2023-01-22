@@ -3,6 +3,7 @@ import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktiku
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 import { SelectedIngredientsContext } from '../../services/app-context';
+import getData from '../../utils/burger-api';
 import styles from './burger-constructor.module.css';
 
 // Временные захардкоженные выбранные элементы
@@ -40,6 +41,8 @@ const BurgerConstructor = () => {
         setSelectedIngredients(data);
     };
 
+    // TODO: Вот это тоже пока что реагирует на каждую смену selectedIngredients и рассчитвает все с нуля.
+    // Когда будем добавлять элементы по одному через dnd, то нужно будет переписать этот кусок.
     useEffect(() => {
         let bun = null;
         if (selectedIngredients.length) {
@@ -63,17 +66,25 @@ const BurgerConstructor = () => {
     }, [selectedIngredients]);
 
     const orderButtonClick = () => {
-        const orderDetails = (
-            <OrderDetails orderId="034536" />
-        );
-        setState({
-            modalVisibility: true,
-            modalChildren: orderDetails
+        const ingredients = selectedIngredients.map(item => item._id);
+        const bodyParams = { ingredients };
+        getData('orders', bodyParams).then((res) => {
+            const orderDetails = (
+                <OrderDetails orderId={ res.order.number } />
+            );
+            setState({
+                ...state,
+                modalVisibility: true,
+                modalChildren: orderDetails
+            });
+        }).catch((error) => {
+            alert(`Произошла ошибка при обработке заказа: ${ error }`);
         });
     };
 
     const close = () => {
         setState({
+            ...state,
             modalVisibility: false,
             modalChildren: null
         });
