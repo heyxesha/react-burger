@@ -11,7 +11,7 @@ const ERROR_MESSAGE = 'Произошла ошибка при получении
 function App() {
     const [state, setState] = useState({
         isLoading: false,
-        ingredients: null,
+        ingredients: null
     });
 
     const [selectedIngredients, setSelectedIngredients] = useState([]);
