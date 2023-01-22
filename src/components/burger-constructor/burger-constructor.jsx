@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useReducer } from 'react';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
@@ -10,16 +10,29 @@ import { data } from '../../utils/fakeSelectedIngridients';
 
 const MIN_ITEMS_COUNT_FOR_SCROLL = 5;
 
+const sumReducer = (totalSum, action) => {
+    switch (action.type) {
+      case 'add':
+        return totalSum + action.price;
+      case 'remove':
+        return totalSum - action.price;
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+}
+
 const BurgerConstructor = () => {
     const [state, setState] = useState({
         modalVisibility: false,
         modalChildren: null,
         bun: null,
-        innerIngredients: [],
-        totalPrice: 0
+        innerIngredients: []
     });
 
     const { selectedIngredients, setSelectedIngredients } = useContext(SelectedIngredientsContext);
+
+    const initialTotalSum = 0;
+    const [totalSum, dispatch] = useReducer(sumReducer, initialTotalSum);
 
     // TODO: Вот тут когда-то будет полноценный dragEnd и push компонентов по одному.
     // А пока что я просто проверяю верстку пустого представления.
@@ -32,19 +45,20 @@ const BurgerConstructor = () => {
         if (selectedIngredients.length) {
             bun = selectedIngredients.find(item => item.type === 'bun');
         }
-        let totalSum = bun ? bun.price * 2 : 0;
+        if (bun) {
+            dispatch({ type: 'add', price: bun.price * 2 });
+        }
         const innerIngredients = [];
         selectedIngredients.forEach((item) => {
             if (item.type !== 'bun') {
                 innerIngredients.push(item);
-                totalSum += item.price;
+                dispatch({ type: 'add', price: item.price });
             }
         });
         setState({
             ...state,
             bun,
-            innerIngredients,
-            totalSum
+            innerIngredients
         });
     }, [selectedIngredients]);
 
@@ -145,7 +159,7 @@ const BurgerConstructor = () => {
             <div className={ `${ styles.TotalBlock } mt-10` }>
                 <div className={ `${ styles.Sum } mr-10` }>
                     <div className="text text_type_digits-medium mr-1">
-                        { state.totalSum }
+                        { totalSum }
                     </div>
                     <CurrencyIcon />
                 </div>
@@ -153,7 +167,8 @@ const BurgerConstructor = () => {
                     htmlType="button"
                     type="primary"
                     size="medium"
-                    onClick={ orderButtonClick }>
+                    onClick={ orderButtonClick }
+                    disabled={ !state.bun }>
                     Оформить заказ
                 </Button>
             </div>
