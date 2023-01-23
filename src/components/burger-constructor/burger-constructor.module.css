@@ -6,7 +6,6 @@
 }
 
 .Bun {
-    width: 520px;
     cursor: pointer;
 }
 
@@ -15,7 +14,7 @@
 }
 
 .ScrollArea {
-    height: 464px;
+    max-height: 464px;
     overflow-y: scroll;
 }
 
@@ -45,4 +44,18 @@
     flex-wrap: nowrap;
     flex-direction: row;
     align-items: center;
+}
+
+.EmptyItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.CounstructorElementWidth {
+    width: 520px;
+}
+
+.CounstructorElementFullWidth {
+    width: 100%;
 }

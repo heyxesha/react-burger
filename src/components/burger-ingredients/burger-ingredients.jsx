@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, Events } from 'react-scroll';
-import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
+import { IngredientsContext } from '../../services/app-context';
 import styles from './burger-ingredients.module.css';
 import IngredientsList from '../ingredients-list/ingredients-list';
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = () => {
+    const { ingredients } = useContext(IngredientsContext);
     const ingredientsGroups = {
         bun: {
             title: 'Булки',
@@ -59,9 +60,5 @@ const BurgerIngredients = ({ ingredients }) => {
         </div>
     );
 };
-
-BurgerIngredients.propTypes = {
-    ingredients: IngredientsPropTypes
-}; 
   
 export default BurgerIngredients;
