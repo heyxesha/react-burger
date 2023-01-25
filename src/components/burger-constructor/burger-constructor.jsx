@@ -1,13 +1,13 @@
-import { useState, useContext, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
-import { SelectedIngredientsContext } from '../../services/app-context';
-import getData from '../../utils/burger-api';
-import styles from './burger-constructor.module.css';
+import { createOrder } from '../../services/actions/order';
+import { RESET_VIEWED_ORDER } from '../../services/actions/order';
 
-// Временные захардкоженные выбранные элементы
-import { data } from '../../utils/fakeSelectedIngridients';
+import styles from './burger-constructor.module.css';
 
 const MIN_ITEMS_COUNT_FOR_SCROLL = 5;
 
@@ -30,16 +30,11 @@ const BurgerConstructor = () => {
         innerIngredients: []
     });
 
-    const { selectedIngredients, setSelectedIngredients } = useContext(SelectedIngredientsContext);
+    const { selectedIngredients } = useSelector(state => state.selectedIngredients);
+    const dispatch = useDispatch();
 
     const initialTotalSum = 0;
-    const [totalSum, dispatch] = useReducer(sumReducer, initialTotalSum);
-
-    // TODO: Вот тут когда-то будет полноценный dragEnd и push компонентов по одному.
-    // А пока что я просто проверяю верстку пустого представления.
-    const onEmptyClick = () => {
-        setSelectedIngredients(data);
-    };
+    const [totalSum, dispatchSum] = useReducer(sumReducer, initialTotalSum);
 
     // TODO: Вот это тоже пока что реагирует на каждую смену selectedIngredients и рассчитвает все с нуля.
     // Когда будем добавлять элементы по одному через dnd, то нужно будет переписать этот кусок.
@@ -49,13 +44,13 @@ const BurgerConstructor = () => {
             bun = selectedIngredients.find(item => item.type === 'bun');
         }
         if (bun) {
-            dispatch({ type: 'add', price: bun.price * 2 });
+            dispatchSum({ type: 'add', price: bun.price * 2 });
         }
         const innerIngredients = [];
         selectedIngredients.forEach((item) => {
             if (item.type !== 'bun') {
                 innerIngredients.push(item);
-                dispatch({ type: 'add', price: item.price });
+                dispatchSum({ type: 'add', price: item.price });
             }
         });
         setState({
@@ -67,11 +62,8 @@ const BurgerConstructor = () => {
 
     const orderButtonClick = () => {
         const ingredients = selectedIngredients.map(item => item._id);
-        const bodyParams = { ingredients };
-        getData('orders', bodyParams).then((res) => {
-            const orderDetails = (
-                <OrderDetails orderId={ res.order.number } />
-            );
+        dispatch(createOrder(ingredients)).then(() => {
+            const orderDetails = ( <OrderDetails /> );
             setState({
                 ...state,
                 modalVisibility: true,
@@ -83,6 +75,7 @@ const BurgerConstructor = () => {
     };
 
     const close = () => {
+        dispatch({ type: RESET_VIEWED_ORDER });
         setState({
             ...state,
             modalVisibility: false,
@@ -92,6 +85,7 @@ const BurgerConstructor = () => {
 
     const counstructorElementWidthClass = state.innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.CounstructorElementWidth : styles.CounstructorElemenFulltWidth;
 
+    // TODO: может тут еще верстку подекомпозировать, а то разрослась.
     return (
         <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
             {
@@ -153,7 +147,7 @@ const BurgerConstructor = () => {
                     </>
                 ) : (
                     <>
-                        <div onClick={ onEmptyClick }>
+                        <div>
                             <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } constructor-element constructor-element_pos_top mr-2 mb-4 ml-8` }>
                                 Перетащите булку
                             </div>

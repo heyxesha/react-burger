@@ -1,51 +1,44 @@
-import { useState, useEffect } from 'react';
+
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
-import getData from './utils/burger-api';
-import { SelectedIngredientsContext, IngredientsContext } from './services/app-context.js';
+import { getIngredients } from './services/actions/ingredients';
+
 import './App.css';
 
 const ERROR_MESSAGE = 'Произошла ошибка при получении данных :(';
 
 function App() {
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
-    const [ingredients, setIngredients] = useState([]);
-    const [isLoading, setLoadingStatus] = useState(false);
+    const {
+        ingredients,
+        isIngredientsLoading,
+        isIngredientsFailed
+    } = useSelector(state => state.ingredients);
 
-    const getIngredients = () => {
-        setLoadingStatus(true);
-        getData('ingredients').then((response) => {
-            setLoadingStatus(false);
-            setIngredients(response.data);
-        }).catch(() => {
-            setLoadingStatus(false);
-        });
-    };
-
+    const dispatch = useDispatch();
     useEffect(() => {
-        getIngredients();
-    }, []);
+        dispatch(getIngredients());
+    }, [dispatch]);
 
+    // TODO: хочу добавить ожиданчик и проверку не на ingredients, а на isIngredientsFailed
     return (
         <>
             <div className="App">
                 <AppHeader />
-                    <main className={ `App__content ${ !isLoading && !ingredients ? 'App__content_errorWrapper' : '' } pb-10` }>
+                    <main className={ `App__content ${ !isIngredientsLoading && !ingredients ? 'App__content_errorWrapper' : '' } pb-10` }>
                         {
-                            !isLoading && (
+                            !isIngredientsLoading && (
                                 !ingredients ? (
                                     <div className="Content__info text text_type_main-default">
                                         { ERROR_MESSAGE }
                                     </div>
                                 ) : (
                                     <>
-                                        <IngredientsContext.Provider value={ { ingredients, setIngredients } }>
-                                            <BurgerIngredients />
-                                        </IngredientsContext.Provider>
-                                        <SelectedIngredientsContext.Provider value={ { selectedIngredients, setSelectedIngredients } }>
-                                            <BurgerConstructor />
-                                        </SelectedIngredientsContext.Provider>
+                                        <BurgerIngredients />
+                                        <BurgerConstructor />
                                     </>
                                 )
                             )

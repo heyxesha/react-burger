@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import Ingredient from '../ingredient/ingredient';
 import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { SET_VIEWED_INGREDIENT, RESET_VIEWED_INGREDIENT } from '../../services/actions/viewed-ingredient';
+
 import styles from './ingredients-group.module.css'
 
 const IngredientsGroup = ({
@@ -15,16 +19,15 @@ const IngredientsGroup = ({
         modalChildren: null
     });
 
+    const dispatch = useDispatch();
+
     const click = (item) => {
+        dispatch({
+            type: SET_VIEWED_INGREDIENT,
+            data: item
+        });
         const ingredientDetails = (
-            <IngredientDetails
-                name={ item.name }
-                image={ item.image_large }
-                calories={ item.calories }
-                proteins={ item.proteins }
-                fat={ item.fat }
-                carbohydrates={ item.carbohydrates }
-            />
+            <IngredientDetails />
         );
         setState({
             modalVisibility: true,
@@ -33,6 +36,7 @@ const IngredientsGroup = ({
     };
 
     const close = () => {
+        dispatch({ type: RESET_VIEWED_INGREDIENT });
         setState({
             modalVisibility: false,
             modalChildren: null

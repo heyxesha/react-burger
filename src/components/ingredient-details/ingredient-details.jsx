@@ -1,16 +1,18 @@
+import { useSelector } from 'react-redux';
 
-import PropTypes from 'prop-types';
 import IngredientDetailItem from '../ingredient-detail-item/ingredient-detail-item';
+
 import styles from './ingredient-details.module.css';
 
-const IngredientDetails = ({
-    image,
-    name,
-    calories,
-    proteins,
-    fat,
-    carbohydrates
-}) => {
+const IngredientDetails = () => {
+    const {
+        image,
+        name,
+        calories,
+        proteins,
+        fat,
+        carbohydrates
+    } = useSelector(state => state.viewedIngredient);
     return (
         <div className={ styles.IngredientDetails }>
             <img src={ image } alt={ name } />
@@ -25,15 +27,6 @@ const IngredientDetails = ({
             </div>
         </div>
     );
-};
-
-IngredientDetails.propTypes = {
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired
 };
 
 export default IngredientDetails;
