@@ -55,10 +55,12 @@ const IngredientsGroup = ({
                         нужно посмотреть верстку счетчика. Нужно будет убрать проверку на _id. */
                         <Ingredient
                             key={ item._id }
+                            id={ item._id }
                             name={ item.name }
                             image={ item.image }
                             price={ item.price }
-                            selectedCount={ item._id === '60666c42cc7b410027a1a9b1' ? 1 : undefined }
+                            type={ item.type }
+                            selectedCount={ item.selectedCount }
                             needMargin={ index > 1 }
                             onClick={ () => click(item) } />
                     ))

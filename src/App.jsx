@@ -1,6 +1,8 @@
 
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
@@ -37,8 +39,10 @@ function App() {
                                     </div>
                                 ) : (
                                     <>
-                                        <BurgerIngredients />
-                                        <BurgerConstructor />
+                                        <DndProvider backend={ HTML5Backend }>
+                                            <BurgerIngredients />
+                                            <BurgerConstructor />
+                                        </DndProvider>
                                     </>
                                 )
                             )

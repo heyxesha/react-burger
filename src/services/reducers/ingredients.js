@@ -1,18 +1,16 @@
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
-    GET_INGREDIENTS_FAILED
-} from '../actions/ingredients';
+    GET_INGREDIENTS_FAILED,
 
-import { data } from '../../utils/fakeSelectedIngridients';
+    INCREASE_INGREDIENT_COUNTER,
+    DECREASE_INGREDIENT_COUNTER
+} from '../actions/ingredients';
 
 const initialState = {
     ingredients: [],
     isIngredientsLoading: false,
-    isIngredientsFailed: false,
-
-    //selectedIngredients: []
-    selectedIngredients: data
+    isIngredientsFailed: false
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -35,6 +33,23 @@ export const ingredientsReducer = (state = initialState, action) => {
                 ...state,
                 isIngredientsLoading: false,
                 isIngredientsFailed: true
+            };
+        case INCREASE_INGREDIENT_COUNTER:
+            const ingredientsForIncrease = [...state.ingredients];
+            const increasedIndex = ingredientsForIncrease.findIndex(item => item._id === action.id);
+            const selectedCount = ingredientsForIncrease[increasedIndex].selectedCount || 0;
+            ingredientsForIncrease[increasedIndex].selectedCount = selectedCount + action.value;
+            return {
+                ...state,
+                ingredients: ingredientsForIncrease
+            };
+        case DECREASE_INGREDIENT_COUNTER:
+            const ingredientsForDecrease = [...state.ingredients];
+            const decreasedIndex = ingredientsForDecrease.findIndex(item => item._id === action.id);
+            ingredientsForDecrease[decreasedIndex].selectedCount -= action.value;
+            return {
+                ...state,
+                iingredients: ingredientsForDecrease
             };
       default: {
         return state;
