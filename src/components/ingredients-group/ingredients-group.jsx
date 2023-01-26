@@ -51,8 +51,6 @@ const IngredientsGroup = ({
             <div className={ `${ styles.IngredientsGroup } pl-4 pr-4 pt-6` }>
                 {
                     ingredients.map((item, index) => (
-                        /* TODO: я думаю, что selectedCount сможем высчитывать на последующих этапах сдачи проекта, а пока что мне
-                        нужно посмотреть верстку счетчика. Нужно будет убрать проверку на _id. */
                         <Ingredient
                             key={ item._id }
                             id={ item._id }
