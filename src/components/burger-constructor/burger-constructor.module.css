@@ -49,3 +49,7 @@
 .DragTarget {
     outline: #4C4CFF solid 2px;
 }
+
+.DragTargetBorder {
+    border-radius: 40px;
+}

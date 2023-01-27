@@ -19,7 +19,7 @@ const composeEnhancers =
         : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
-// TODO: разобраться с composeStore
+// TODO: может переделать на composeStore????
 const store = createStore(rootReducer, enhancer);
 
 root.render(

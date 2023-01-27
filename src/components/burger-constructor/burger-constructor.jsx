@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrag, useDrop } from "react-dnd";
+import { useDrop } from "react-dnd";
 import uuid from 'react-uuid';
-import { ConstructorElement, CurrencyIcon, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
@@ -131,7 +131,7 @@ const BurgerConstructor = () => {
                         }
                         {
                             innerIngredients.length ? (
-                                <div className={ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : '' }>
+                                <div className={ `${ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : ''} ${ dragTargetInnerClass } ${ styles.DragTargetBorder }` }>
                                     {   
                                         innerIngredients.map((item, index) => (
                                             <InnerIngredient

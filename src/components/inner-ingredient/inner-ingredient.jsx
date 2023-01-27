@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from "react-dnd";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { MOVE_INGREDIENT_IN_CONSTRUCTOR, ACCEPT_MOVING, CANCEL_MOVING } from '../../services/actions/selected-ingredients'
@@ -17,6 +17,11 @@ const InnerIngredient = ({
     rightMargin,
     topMargin
 }) => {
+    /* TODO: было бы прикольно добавить:
+       1. customDragLayer (разный для левого и правого списков)
+       2. Перенос из левого списка в правый с учетом позиции (наверное, придется на моменте ховера добавлять ингредиент
+          с позицией to, и чтобы отрендерился прозрачный ConstructorElement, а потом воспользоваться механизмом подтверждения/отмены
+          перемещения. */
     const ref = useRef(null);
     const dispatch = useDispatch();
     const [{ isDragging }, dragRef] = useDrag({
@@ -39,13 +44,8 @@ const InnerIngredient = ({
             }
         }
     });
-    const [{ handlerId }, dropRef] = useDrop({
+    const [, dropRef] = useDrop({
         accept: 'selectedIngredient',
-        collect(monitor) {
-            return {
-                handlerId: monitor.getHandlerId()
-            };
-        },
         hover(item, monitor) {
             if (!ref.current) {
                 return;
