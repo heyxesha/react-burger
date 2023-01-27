@@ -109,6 +109,7 @@ const BurgerConstructor = () => {
     const counstructorElementWidthClass = innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.CounstructorElementWidth : styles.CounstructorElementFullWidth;
     const dragTargetBunClass = isHover && dragIngredientType === 'bun' ? styles.DragTarget : '';
     const dragTargetInnerClass = isHover && dragIngredientType !== 'bun' ? styles.DragTarget : '';
+    const scrollAreaDragClass = dragTargetInnerClass && dragItemType === 'ingredient' ? styles.ScrollAreaDragTarget : '';
     return (
         <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
             <div ref={ dropTarget }>
@@ -131,7 +132,7 @@ const BurgerConstructor = () => {
                         }
                         {
                             innerIngredients.length ? (
-                                <div className={ `${ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : ''} ${ dragTargetInnerClass } ${ styles.DragTargetBorder }` }>
+                                <div className={ `${ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : ''} ${ scrollAreaDragClass }` }>
                                     {   
                                         innerIngredients.map((item, index) => (
                                             <InnerIngredient
