@@ -32,7 +32,8 @@ export const ingredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isIngredientsLoading: false,
-                isIngredientsFailed: true
+                isIngredientsFailed: true,
+                ingredients: initialState.ingredients
             };
         case INCREASE_INGREDIENT_COUNTER:
             const ingredientsForIncrease = [...state.ingredients];

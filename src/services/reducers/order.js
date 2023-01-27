@@ -31,12 +31,13 @@ export const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isCreateOrderLoading: false,
-                isCreateOrderFailed: true
+                isCreateOrderFailed: true,
+                orderId: initialState.orderId
             };
         case RESET_VIEWED_ORDER:
             return {
                 ...state,
-                orderId: null
+                orderId: initialState.orderId
             };
       default: {
         return state;
