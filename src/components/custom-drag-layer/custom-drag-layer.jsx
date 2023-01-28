@@ -23,7 +23,6 @@ const CustomDragLayer = () => {
         }
     );
 
-    console.log(item);
     if (!isDragging || !currentOffset) {
         return null;
     } else {
