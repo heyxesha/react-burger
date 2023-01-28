@@ -59,7 +59,7 @@ const Ingredient = ({
                 { name }
             </p>
             {
-                selectedCount ? <Counter count={ selectedCount } size="default" /> : <></>
+                !!selectedCount && <Counter count={ selectedCount } size="default" />
             }
         </div>
     );

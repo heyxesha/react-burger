@@ -128,62 +128,58 @@ const BurgerConstructor = () => {
         <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
             <div ref={ dropTarget }>
                 {
-                    <>
-                        {
-                            bun ? (
-                                <ConstructorElement
-                                    extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mb-4` }
-                                    type="top"
-                                    isLocked={ true }
-                                    text={ `${ bun.name } (верх)` }
-                                    price={ bun.price }
-                                    thumbnail={ bun.image }  />
-                            ) : (
-                                <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetBunClass } constructor-element constructor-element_pos_top mr-2 mb-4 ml-8` }>
-                                    Перетащите булку
-                                </div>
-                            )
-                        }
-                        {
-                            innerIngredients.length ? (
-                                <div className={ `${ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : ''}` }>
-                                    {   
-                                        innerIngredients.map((item, index) => (
-                                            <InnerIngredient
-                                                key={ item.constructorId }
-                                                name={ item.name }
-                                                price={ item.price }
-                                                image={ item.image }
-                                                index={ index }
-                                                isItemDragging={ item.isDragging }
-                                                rightMargin={ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL }
-                                                topMargin={ index > 0 }
-                                                handleClose={ event => removeItem(item) } />
-                                        ))
-                                    }
-                                </div>
-                            ) : (
-                                <div className={`${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetInnerClass } constructor-element mr-2 ml-8 mr-4` }>
-                                    Перетащите начинку
-                                </div>  
-                            )
-                        }
-                        {
-                            bun ? (
-                                <ConstructorElement
-                                    extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mt-4` }
-                                    type="bottom"
-                                    isLocked={ true }
-                                    text={ `${ bun.name } (низ)` }
-                                    price={ bun.price }
-                                    thumbnail={ bun.image } />
-                            ) : (
-                                <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetBunClass } constructor-element constructor-element_pos_bottom mr-2 mt-4 ml-8` }>
-                                    Перетащите булку
-                                </div>
-                            )
-                        }
-                    </>
+                    bun ? (
+                        <ConstructorElement
+                            extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mb-4` }
+                            type="top"
+                            isLocked={ true }
+                            text={ `${ bun.name } (верх)` }
+                            price={ bun.price }
+                            thumbnail={ bun.image }  />
+                    ) : (
+                        <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetBunClass } constructor-element constructor-element_pos_top mr-2 mb-4 ml-8` }>
+                            Перетащите булку
+                        </div>
+                    )
+                }
+                {
+                    innerIngredients.length ? (
+                        <div className={ `${ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : ''}` }>
+                            {   
+                                innerIngredients.map((item, index) => (
+                                    <InnerIngredient
+                                        key={ item.constructorId }
+                                        name={ item.name }
+                                        price={ item.price }
+                                        image={ item.image }
+                                        index={ index }
+                                        isItemDragging={ item.isDragging }
+                                        rightMargin={ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL }
+                                        topMargin={ index > 0 }
+                                        handleClose={ event => removeItem(item) } />
+                                ))
+                            }
+                        </div>
+                    ) : (
+                        <div className={`${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetInnerClass } constructor-element mr-2 ml-8 mr-4` }>
+                            Перетащите начинку
+                        </div>  
+                    )
+                }
+                {
+                    bun ? (
+                        <ConstructorElement
+                            extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mt-4` }
+                            type="bottom"
+                            isLocked={ true }
+                            text={ `${ bun.name } (низ)` }
+                            price={ bun.price }
+                            thumbnail={ bun.image } />
+                    ) : (
+                        <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetBunClass } constructor-element constructor-element_pos_bottom mr-2 mt-4 ml-8` }>
+                            Перетащите булку
+                        </div>
+                    )
                 }
             </div>
             <div className={ `${ styles.TotalBlock } mt-10` }>
