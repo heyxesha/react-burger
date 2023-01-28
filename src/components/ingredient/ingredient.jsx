@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { useDrag } from "react-dnd";
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import uuid from 'react-uuid';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { acceptAddToConstructor, cancelAddToConstructor } from '../../services/actions/selected-ingredients';
@@ -15,14 +17,13 @@ const Ingredient = ({
     onClick
 }) => {
     const dispatch = useDispatch();
-    const [, dragRef] = useDrag({
+    const [, dragRef, dragPreview] = useDrag({
         type: 'ingredient',
         item: {
             ...item,
             constructorId: uuid()
         },
         end: (item, monitor) => {
-            console.log(monitor.getDropResult()?.type);
             if (monitor.getDropResult()?.type === 'innerIngredients') {
                 dispatch(acceptAddToConstructor());
             } else {
@@ -30,6 +31,11 @@ const Ingredient = ({
             }
         }
     });
+    
+    useEffect(() => {
+        dragPreview(getEmptyImage())
+    }, [dragPreview]);
+
     return (
         <div
             className={ `${ styles.Ingredient } ${ needMargin ? 'mt-8' : '' }` }
