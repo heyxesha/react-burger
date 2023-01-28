@@ -1,7 +1,10 @@
 import { useDrag } from "react-dnd";
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ACCEPT_ADD_TO_CONSTRUCTOR, CANCEL_ADD_TO_CONSTRUCTOR } from '../../services/actions/selected-ingredients';
 import styles from './ingredient.module.css';
 
 const Ingredient = ({ 
@@ -14,6 +17,7 @@ const Ingredient = ({
     selectedCount,
     onClick
  }) => {
+    const dispatch = useDispatch();
     const [, dragRef] = useDrag({
         type: 'ingredient',
         item: {
@@ -21,7 +25,21 @@ const Ingredient = ({
             type,
             image,
             name,
-            price
+            price,
+            constructorId: uuid()
+        },
+        end: (item, monitor) => {
+            if (monitor.getDropResult()) {
+                dispatch({
+                    type: ACCEPT_ADD_TO_CONSTRUCTOR,
+                    dragItemId: item.constructorId
+                });
+            } else {
+                dispatch({
+                    type: CANCEL_ADD_TO_CONSTRUCTOR,
+                    dragItemId: item.constructorId
+                });
+            }
         }
     });
     return (

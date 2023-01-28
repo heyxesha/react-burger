@@ -1,9 +1,11 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { MOVE_INGREDIENT_IN_CONSTRUCTOR, ACCEPT_MOVING, CANCEL_MOVING } from '../../services/actions/selected-ingredients'
+import { MOVE_INGREDIENT_IN_CONSTRUCTOR, ACCEPT_MOVING, CANCEL_MOVING } from '../../services/actions/selected-ingredients';
+import { ADD_INGREDIENT_TO_CONSTRUCTOR, INCREASE_TOTAL_SUM } from '../../services/actions/selected-ingredients';
+import { INCREASE_INGREDIENT_COUNTER } from '../../services/actions/ingredients';
 
 import styles from './inner-ingredient.module.css';
 
@@ -15,15 +17,13 @@ const InnerIngredient = ({
     image,
     handleClose,
     rightMargin,
-    topMargin
+    topMargin,
+    isItemDragging
 }) => {
-    /* TODO: было бы прикольно добавить:
-       1. customDragLayer (разный для левого и правого списков)
-       2. Перенос из левого списка в правый с учетом позиции (наверное, придется на моменте ховера добавлять ингредиент
-          с позицией to, и чтобы отрендерился прозрачный ConstructorElement, а потом воспользоваться механизмом подтверждения/отмены
-          перемещения. */
+    // TODO: было бы прикольно добавить customDragLayer (разный для левого и правого списков).
     const ref = useRef(null);
     const dispatch = useDispatch();
+    const { innerIngredients } = useSelector(state => state.selectedIngredients);
     const [{ isDragging }, dragRef] = useDrag({
         type: 'selectedIngredient',
         item: {
@@ -34,7 +34,7 @@ const InnerIngredient = ({
             price
         },
         collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
+            isDragging: monitor.isDragging()
         }),
         end: (item, monitor) => {
             if (monitor.getDropResult()) {
@@ -45,40 +45,72 @@ const InnerIngredient = ({
         }
     });
     const [, dropRef] = useDrop({
-        accept: 'selectedIngredient',
+        accept: ['ingredient', 'selectedIngredient'],
         hover(item, monitor) {
-            if (!ref.current) {
-                return;
-            }
-            const dragIndex = item.index;
-            const hoverIndex = index;
-        
-            if (dragIndex === hoverIndex) {
-                return;
-            }
-        
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-        
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-                return;
-            }
-        
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-                return;
-            }
+            if (item.type !== 'bun') {
+                if (!ref.current) {
+                    return;
+                }
+    
+                const dragIndex = item.index;
+                const hoverIndex = index;
+            
+                if (dragIndex === hoverIndex) {
+                    return;
+                }
+            
+                const hoverBoundingRect = ref.current?.getBoundingClientRect();
+                const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+                const clientOffset = monitor.getClientOffset();
+                const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+                let hasAdded = false;
+    
+                if (monitor.getItemType() === 'ingredient' && item.type !== 'bun') {
+                    const findIndex = innerIngredients.findIndex(itemInConstructor => itemInConstructor.constructorId === item.constructorId);
+                    if (findIndex === -1) {
+                        hasAdded = true;
+                        dispatch({
+                            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+                            item: {
+                                ...item,
+                                isDragging: true
+                            },
+                            to: hoverIndex
+                        });
+                    }
+                }
+            
+                if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+                    return;
+                }
+            
+                if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+                    return;
+                }
+    
+                if (!hasAdded) {
+                    dispatch({
+                        type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
+                        from: dragIndex,
+                        to: hoverIndex
+                    });
+                }
 
-            dispatch({
-                type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
-                from: dragIndex,
-                to: hoverIndex
-            });
-        
-            item.index = hoverIndex;
+                item.index = hoverIndex;
+            }
         },
-        drop: () => {
+        drop: (item, monitor) => {
+            if (monitor.getItemType() === 'ingredient' && item.type !== 'bun') {
+                dispatch({
+                    type: INCREASE_INGREDIENT_COUNTER,
+                    id: item.id,
+                    value: 1
+                });
+                dispatch({
+                    type: INCREASE_TOTAL_SUM,
+                    value: item.price
+                });
+            }
             return {};
         }
     });
@@ -87,7 +119,7 @@ const InnerIngredient = ({
        <div
             ref={ ref }
             draggable
-            className={ `${ styles.InnerIngredient } ${ topMargin ? 'mt-4' : '' } ${ isDragging ? styles.Drag : '' }` }>
+            className={ `${ styles.InnerIngredient } ${ topMargin ? 'mt-4' : '' } ${ isDragging || isItemDragging ? styles.Drag : '' }` }>
             <DragIcon />
             <ConstructorElement
                 extraClass={ `ml-2 ${ rightMargin ? 'mr-2' : '' }` }

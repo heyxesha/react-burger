@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
-import uuid from 'react-uuid';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import OrderDetails from '../order-details/order-details';
@@ -9,7 +8,12 @@ import Modal from '../modal/modal';
 import InnerIngredient from '../inner-ingredient/inner-ingredient';
 import { createOrder } from '../../services/actions/order';
 import { RESET_VIEWED_ORDER } from '../../services/actions/order';
-import { ADD_INGREDIENT_TO_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/selected-ingredients';
+import {
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+    INCREASE_TOTAL_SUM,
+    DECREASE_TOTAL_SUM
+} from '../../services/actions/selected-ingredients';
 import { INCREASE_INGREDIENT_COUNTER, DECREASE_INGREDIENT_COUNTER } from '../../services/actions/ingredients';
 
 import styles from './burger-constructor.module.css';
@@ -17,7 +21,6 @@ import styles from './burger-constructor.module.css';
 const MIN_ITEMS_COUNT_FOR_SCROLL = 5;
 const BUN_PRICE_COEFF = 2;
 const INNER_PRICE_COEFF = 1;
-
 
 const BurgerConstructor = () => {
     const [state, setState] = useState({
@@ -32,13 +35,8 @@ const BurgerConstructor = () => {
     const [{ dragIngredientType, dragItemType, isHover }, dropTarget] = useDrop({
         accept: ['ingredient', 'selectedIngredient'],
         drop(item) {
-            if (dragItemType === 'ingredient') {
-                const constructorItem = {
-                    ...item,
-                    constructorId: uuid()
-                };
-    
-                if (constructorItem.type === 'bun') {
+            if (dragItemType === 'ingredient') {    
+                if (item.type === 'bun') {
                     if (bun) {
                         dispatch({
                             type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
@@ -49,18 +47,31 @@ const BurgerConstructor = () => {
                             id: bun.id,
                             value: BUN_PRICE_COEFF
                         });
+                        dispatch({
+                            type: DECREASE_TOTAL_SUM,
+                            value: bun.price * BUN_PRICE_COEFF
+                        });
                     }
                 }
-                
-                dispatch({
-                    type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-                    item: constructorItem
-                });
-                dispatch({
-                    type: INCREASE_INGREDIENT_COUNTER,
-                    id: constructorItem.id,
-                    value: constructorItem.type === 'bun' ? BUN_PRICE_COEFF : INNER_PRICE_COEFF
-                });
+
+                if (!innerIngredients.length || item.type === 'bun') {
+                    dispatch({
+                        type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+                        item: item
+                    });
+
+                    dispatch({
+                        type: INCREASE_INGREDIENT_COUNTER,
+                        id: item.id,
+                        value: item.type === 'bun' ? BUN_PRICE_COEFF : INNER_PRICE_COEFF
+                    });
+                    dispatch({
+                        type: INCREASE_TOTAL_SUM,
+                        value: item.type === 'bun' ? item.price * BUN_PRICE_COEFF : item.price
+                    });
+                }
+
+                return {};
             }
         },
         collect: monitor => ({
@@ -79,6 +90,10 @@ const BurgerConstructor = () => {
             type: DECREASE_INGREDIENT_COUNTER,
             id: item.id,
             value: INNER_PRICE_COEFF
+        });
+        dispatch({
+            type: DECREASE_TOTAL_SUM,
+            value: item.price
         });
     };
 
@@ -109,7 +124,6 @@ const BurgerConstructor = () => {
     const counstructorElementWidthClass = innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.CounstructorElementWidth : styles.CounstructorElementFullWidth;
     const dragTargetBunClass = isHover && dragIngredientType === 'bun' ? styles.DragTarget : '';
     const dragTargetInnerClass = isHover && dragIngredientType !== 'bun' ? styles.DragTarget : '';
-    const scrollAreaDragClass = dragTargetInnerClass && dragItemType === 'ingredient' ? styles.ScrollAreaDragTarget : '';
     return (
         <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
             <div ref={ dropTarget }>
@@ -132,7 +146,7 @@ const BurgerConstructor = () => {
                         }
                         {
                             innerIngredients.length ? (
-                                <div className={ `${ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : ''} ${ scrollAreaDragClass }` }>
+                                <div className={ `${ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL ? styles.ScrollArea : ''}` }>
                                     {   
                                         innerIngredients.map((item, index) => (
                                             <InnerIngredient
@@ -141,6 +155,7 @@ const BurgerConstructor = () => {
                                                 price={ item.price }
                                                 image={ item.image }
                                                 index={ index }
+                                                isItemDragging={ item.isDragging }
                                                 rightMargin={ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL }
                                                 topMargin={ index > 0 }
                                                 handleClose={ event => removeItem(item) } />
