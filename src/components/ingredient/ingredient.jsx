@@ -5,27 +5,20 @@ import uuid from 'react-uuid';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ACCEPT_ADD_TO_CONSTRUCTOR, CANCEL_ADD_TO_CONSTRUCTOR } from '../../services/actions/selected-ingredients';
+import { IngredientPropTypes } from "../../utils/types";
+
 import styles from './ingredient.module.css';
 
-const Ingredient = ({ 
-    id,
-    type,
+const Ingredient = ({
+    item,
     needMargin,
-    name,
-    image,
-    price,
-    selectedCount,
     onClick
- }) => {
+}) => {
     const dispatch = useDispatch();
     const [, dragRef] = useDrag({
         type: 'ingredient',
         item: {
-            id,
-            type,
-            image,
-            name,
-            price,
+            ...item,
             constructorId: uuid()
         },
         end: (item, monitor) => {
@@ -48,31 +41,26 @@ const Ingredient = ({
             ref={ dragRef }
             draggable
             onClick={ onClick }>
-            <img src={ image } alt={ name } />
+            <img src={ item.image } alt={ item.name } />
             <div className={ `${ styles.Price } mt-1` }>
                 <p className="text text_type_digits-default mr-1">
-                    { price }
+                    { item.price }
                 </p>
                 <CurrencyIcon />
             </div>
             <p className={ `${ styles.Name } text text_type_main-default mt-1` }>
-                { name }
+                { item.name }
             </p>
             {
-                !!selectedCount && <Counter count={ selectedCount } size="default" />
+                !!item.selectedCount && <Counter count={ item.selectedCount } size="default" />
             }
         </div>
     );
 };
 
 Ingredient.propTypes = {
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
+    item: IngredientPropTypes.isRequired,
     needMargin: PropTypes.bool,
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    selectedCount: PropTypes.number,
     onClick: PropTypes.func
 };
   

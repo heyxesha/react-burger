@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Element } from 'react-scroll';
 import IngredientsGroup from '../ingredients-group/ingredients-group';
-import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
+import { IngredientsPropTypes } from '../../utils/types';
 import styles from './ingredients-list.module.css';
 
 const IngredientsList = ({ ingredientsGroups }) => {

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Ingredient from '../ingredient/ingredient';
-import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
+import { IngredientsPropTypes } from '../../utils/types';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { SET_VIEWED_INGREDIENT, RESET_VIEWED_INGREDIENT } from '../../services/actions/viewed-ingredient';
@@ -53,11 +53,7 @@ const IngredientsGroup = ({
                     ingredients.map((item, index) => (
                         <Ingredient
                             key={ item._id }
-                            id={ item._id }
-                            name={ item.name }
-                            image={ item.image }
-                            price={ item.price }
-                            type={ item.type }
+                            item={ item }
                             selectedCount={ item.selectedCount }
                             needMargin={ index > 1 }
                             onClick={ () => click(item) } />

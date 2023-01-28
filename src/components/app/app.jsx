@@ -13,7 +13,7 @@ import styles from './app.module.css';
 
 const ERROR_MESSAGE = 'Произошла ошибка при получении данных :(';
 
-function App() {
+export const App = () => {
     const {
         ingredients,
         isIngredientsLoading,

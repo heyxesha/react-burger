@@ -1,24 +1,22 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { MOVE_INGREDIENT_IN_CONSTRUCTOR, ACCEPT_MOVING, CANCEL_MOVING } from '../../services/actions/selected-ingredients';
 import { ADD_INGREDIENT_TO_CONSTRUCTOR, INCREASE_TOTAL_SUM } from '../../services/actions/selected-ingredients';
 import { INCREASE_INGREDIENT_COUNTER } from '../../services/actions/ingredients';
+import { IngredientPropTypes } from '../../utils/types';
 
 import styles from './inner-ingredient.module.css';
 
 const InnerIngredient = ({
-    id,
     index,
-    name,
-    price,
-    image,
+    item,
     handleClose,
     rightMargin,
-    topMargin,
-    isItemDragging
+    topMargin
 }) => {
     // TODO: было бы прикольно добавить customDragLayer (разный для левого и правого списков).
     const ref = useRef(null);
@@ -27,11 +25,8 @@ const InnerIngredient = ({
     const [{ isDragging }, dragRef] = useDrag({
         type: 'selectedIngredient',
         item: {
-            id,
-            index,
-            image,
-            name,
-            price
+            ...item,
+            index
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
@@ -103,7 +98,7 @@ const InnerIngredient = ({
             if (monitor.getItemType() === 'ingredient' && item.type !== 'bun') {
                 dispatch({
                     type: INCREASE_INGREDIENT_COUNTER,
-                    id: item.id,
+                    id: item._id,
                     value: 1
                 });
                 dispatch({
@@ -119,16 +114,25 @@ const InnerIngredient = ({
        <div
             ref={ ref }
             draggable
-            className={ `${ styles.InnerIngredient } ${ topMargin ? 'mt-4' : '' } ${ isDragging || isItemDragging ? styles.Drag : '' }` }>
+            className={ `${ styles.InnerIngredient } ${ topMargin ? 'mt-4' : '' } ${ isDragging || item.isDragging ? styles.Drag : '' }` }>
             <DragIcon />
             <ConstructorElement
                 extraClass={ `ml-2 ${ rightMargin ? 'mr-2' : '' }` }
-                text={ name }
-                price={ price }
-                thumbnail={ image }
+                text={ item.name }
+                price={ item.price }
+                thumbnail={ item.image }
                 handleClose={ handleClose } />
         </div>
     );
+};
+
+
+InnerIngredient.propTypes = {
+    item: IngredientPropTypes.isRequired,
+    index: PropTypes.number.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    rightMargin: PropTypes.bool,
+    topMargin: PropTypes.bool
 };
 
 export default InnerIngredient;

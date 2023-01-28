@@ -44,7 +44,7 @@ const BurgerConstructor = () => {
                         });
                         dispatch({
                             type: DECREASE_INGREDIENT_COUNTER,
-                            id: bun.id,
+                            id: bun._id,
                             value: BUN_PRICE_COEFF
                         });
                         dispatch({
@@ -62,7 +62,7 @@ const BurgerConstructor = () => {
 
                     dispatch({
                         type: INCREASE_INGREDIENT_COUNTER,
-                        id: item.id,
+                        id: item._id,
                         value: item.type === 'bun' ? BUN_PRICE_COEFF : INNER_PRICE_COEFF
                     });
                     dispatch({
@@ -88,7 +88,7 @@ const BurgerConstructor = () => {
         });
         dispatch({
             type: DECREASE_INGREDIENT_COUNTER,
-            id: item.id,
+            id: item._id,
             value: INNER_PRICE_COEFF
         });
         dispatch({
@@ -99,7 +99,7 @@ const BurgerConstructor = () => {
 
     const orderButtonClick = () => {
         const ids = innerIngredients.map(item => item._id);
-        ids.push(bun.id);
+        ids.push(bun._id);
         dispatch(createOrder(ids)).then(() => {
             const orderDetails = ( <OrderDetails /> );
             setState({
@@ -149,11 +149,8 @@ const BurgerConstructor = () => {
                                 innerIngredients.map((item, index) => (
                                     <InnerIngredient
                                         key={ item.constructorId }
-                                        name={ item.name }
-                                        price={ item.price }
-                                        image={ item.image }
+                                        item={ item }
                                         index={ index }
-                                        isItemDragging={ item.isDragging }
                                         rightMargin={ innerIngredients.length > MIN_ITEMS_COUNT_FOR_SCROLL }
                                         topMargin={ index > 0 }
                                         handleClose={ event => removeItem(item) } />
