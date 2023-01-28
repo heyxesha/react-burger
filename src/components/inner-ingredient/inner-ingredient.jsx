@@ -7,6 +7,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { moveIngredientInConstructor, acceptMoving, cancelMoving } from '../../services/actions/selected-ingredients';
 import { addIngredientToConstructor, increaceTotalSum } from '../../services/actions/selected-ingredients';
 import { increaseIngredientCounter } from '../../services/actions/ingredients';
+import { acceptAddToConstructor } from '../../services/actions/selected-ingredients';
 import { IngredientPropTypes } from '../../utils/types';
 
 import styles from './inner-ingredient.module.css';
@@ -86,8 +87,13 @@ const InnerIngredient = ({
                 item.index = hoverIndex;
             }
         },
-        drop: () => {
-            return {};
+        drop: (item, monitor) => {
+            if (monitor.getItemType() === 'ingredient' && item.type !== 'bun') {
+                dispatch(increaseIngredientCounter(item._id, 1));
+                dispatch(increaceTotalSum(item.price));
+            }
+            
+            return { type: 'innerIngredients' };
         }
     });
     dragRef(dropRef(ref));

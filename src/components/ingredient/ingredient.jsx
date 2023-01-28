@@ -22,7 +22,8 @@ const Ingredient = ({
             constructorId: uuid()
         },
         end: (item, monitor) => {
-            if (monitor.getDropResult()) {
+            console.log(monitor.getDropResult()?.type);
+            if (monitor.getDropResult()?.type === 'innerIngredients') {
                 dispatch(acceptAddToConstructor());
             } else {
                 dispatch(cancelAddToConstructor());
