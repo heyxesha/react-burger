@@ -60,7 +60,7 @@ export const selectedIngredientsReducer = (state = initialState, action) => {
         case CANCEL_ADD_TO_CONSTRUCTOR:
             return {
                 ...state,
-                innerIngredients: state.prevInnerIngredients ? state.prevInnerIngredients : state.innerIngredients,
+                innerIngredients: state.prevInnerIngredients.length ? state.prevInnerIngredients : state.innerIngredients,
                 prevInnerIngredients: []
             };
         case INCREASE_TOTAL_SUM:
