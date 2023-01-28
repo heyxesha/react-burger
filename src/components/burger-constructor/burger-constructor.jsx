@@ -46,9 +46,10 @@ const BurgerConstructor = () => {
 
                 if (!innerIngredients.length || item.type === 'bun') {
                     dispatch(addIngredientToConstructor(item, 0));
-                    dispatch(increaseIngredientCounter(item._id, item.type === 'bun' ? BUN_PRICE_COEFF : INNER_PRICE_COEFF));
-                    dispatch(increaceTotalSum(item.type === 'bun' ? item.price * BUN_PRICE_COEFF : item.price));
                 }
+
+                dispatch(increaseIngredientCounter(item._id, item.type === 'bun' ? BUN_PRICE_COEFF : INNER_PRICE_COEFF));
+                dispatch(increaceTotalSum(item.type === 'bun' ? item.price * BUN_PRICE_COEFF : item.price));
 
                 return {};
             }

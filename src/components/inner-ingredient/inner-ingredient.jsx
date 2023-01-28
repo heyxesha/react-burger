@@ -86,11 +86,7 @@ const InnerIngredient = ({
                 item.index = hoverIndex;
             }
         },
-        drop: (item, monitor) => {
-            if (monitor.getItemType() === 'ingredient' && item.type !== 'bun') {
-                dispatch(increaseIngredientCounter(item._id, 1));
-                dispatch(increaceTotalSum(item.price));
-            }
+        drop: () => {
             return {};
         }
     });
