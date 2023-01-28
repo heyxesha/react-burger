@@ -7,6 +7,8 @@ export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 export const INCREASE_INGREDIENT_COUNTER = 'INCREASE_INGREDIENTS_SUCCESS';
 export const DECREASE_INGREDIENT_COUNTER = 'DECREASE_INGREDIENT_COUNTER';
 
+export const RESET_SELECTED_INGREDIENTS = 'RESET_SELECTED_INGREDIENTS';
+
 export function getIngredients() {
     return function(dispatch) {
         dispatch({ type: GET_INGREDIENTS_REQUEST });

@@ -2,9 +2,9 @@ import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
     GET_INGREDIENTS_FAILED,
-
     INCREASE_INGREDIENT_COUNTER,
-    DECREASE_INGREDIENT_COUNTER
+    DECREASE_INGREDIENT_COUNTER,
+    RESET_SELECTED_INGREDIENTS
 } from '../actions/ingredients';
 
 const initialState = {
@@ -51,6 +51,13 @@ export const ingredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 iingredients: ingredientsForDecrease
+            };
+        case RESET_SELECTED_INGREDIENTS:
+            const ingredientsForReset = [...state.ingredients];
+            ingredientsForReset.forEach(item => item.selectedCount = 0);
+            return {
+                ...state,
+                iingredients: ingredientsForReset
             };
       default: {
         return state;

@@ -7,12 +7,12 @@ import {
     ACCEPT_MOVING,
     CANCEL_MOVING,
     INCREASE_TOTAL_SUM,
-    DECREASE_TOTAL_SUM
+    DECREASE_TOTAL_SUM,
+    CLEAN_CONSTRUCTOR
 } from '../actions/selected-ingredients';
 
 const initialState = {
     totalSum: 0,
-    selectedIngredients: [],
     bun: null,
     innerIngredients: [],
     prevInnerIngredients: []
@@ -83,8 +83,10 @@ export const selectedIngredientsReducer = (state = initialState, action) => {
                 innerIngredients: state.innerIngredients,
                 prevInnerIngredients: []
             };
-      default: {
-        return state;
-      }
+        case CLEAN_CONSTRUCTOR:
+            return initialState;
+        default: {
+            return state;
+        }
     }
 };

@@ -1,4 +1,6 @@
 import getData from '../../utils/burger-api';
+import { CLEAN_CONSTRUCTOR } from './selected-ingredients';
+import { RESET_SELECTED_INGREDIENTS } from './ingredients';
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
@@ -13,6 +15,8 @@ export function createOrder(ingredients) {
                 type: CREATE_ORDER_SUCCESS,
                 id: res.order.number
             });
+            dispatch({ type: CLEAN_CONSTRUCTOR });
+            dispatch({ type: RESET_SELECTED_INGREDIENTS });
         }).catch(error => {
             dispatch({
                 type: CREATE_ORDER_FAILED,
