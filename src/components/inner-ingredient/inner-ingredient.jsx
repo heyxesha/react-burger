@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { MOVE_INGREDIENT_IN_CONSTRUCTOR, ACCEPT_MOVING, CANCEL_MOVING } from '../../services/actions/selected-ingredients';
-import { ADD_INGREDIENT_TO_CONSTRUCTOR, INCREASE_TOTAL_SUM } from '../../services/actions/selected-ingredients';
-import { INCREASE_INGREDIENT_COUNTER } from '../../services/actions/ingredients';
+import { moveIngredientInConstructor, acceptMoving, cancelMoving } from '../../services/actions/selected-ingredients';
+import { addIngredientToConstructor, increaceTotalSum } from '../../services/actions/selected-ingredients';
+import { increaseIngredientCounter } from '../../services/actions/ingredients';
 import { IngredientPropTypes } from '../../utils/types';
 
 import styles from './inner-ingredient.module.css';
@@ -33,9 +33,9 @@ const InnerIngredient = ({
         }),
         end: (item, monitor) => {
             if (monitor.getDropResult()) {
-                dispatch({ type: ACCEPT_MOVING });
+                dispatch(acceptMoving());
             } else {
-                dispatch({ type: CANCEL_MOVING });
+                dispatch(cancelMoving());
             }
         }
     });
@@ -64,14 +64,10 @@ const InnerIngredient = ({
                     const findIndex = innerIngredients.findIndex(itemInConstructor => itemInConstructor.constructorId === item.constructorId);
                     if (findIndex === -1) {
                         hasAdded = true;
-                        dispatch({
-                            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-                            item: {
-                                ...item,
-                                isDragging: true
-                            },
-                            to: hoverIndex
-                        });
+                        dispatch(addIngredientToConstructor({
+                            ...item,
+                            isDragging: true
+                        }, hoverIndex));
                     }
                 }
             
@@ -84,11 +80,7 @@ const InnerIngredient = ({
                 }
     
                 if (!hasAdded) {
-                    dispatch({
-                        type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
-                        from: dragIndex,
-                        to: hoverIndex
-                    });
+                    dispatch(moveIngredientInConstructor(dragIndex, hoverIndex));
                 }
 
                 item.index = hoverIndex;
@@ -96,15 +88,8 @@ const InnerIngredient = ({
         },
         drop: (item, monitor) => {
             if (monitor.getItemType() === 'ingredient' && item.type !== 'bun') {
-                dispatch({
-                    type: INCREASE_INGREDIENT_COUNTER,
-                    id: item._id,
-                    value: 1
-                });
-                dispatch({
-                    type: INCREASE_TOTAL_SUM,
-                    value: item.price
-                });
+                dispatch(increaseIngredientCounter(item._id, 1));
+                dispatch(increaceTotalSum(item.price));
             }
             return {};
         }

@@ -12,3 +12,60 @@ export const INCREASE_TOTAL_SUM = 'INCREASE_TOTAL_SUM';
 export const DECREASE_TOTAL_SUM = 'DECREASE_TOTAL_SUM';
 
 export const CLEAN_CONSTRUCTOR = 'CLEAN_CONSTRUCTOR';
+
+export function addIngredientToConstructor(item, to) {
+    return {
+        type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+        item,
+        to
+    };
+}
+
+export function acceptAddToConstructor() {
+    return { type: ACCEPT_ADD_TO_CONSTRUCTOR };
+}
+
+export function cancelAddToConstructor() {
+    return { type: CANCEL_ADD_TO_CONSTRUCTOR };
+}
+
+export function removeIngredientFromConstructor(item) {
+    return {
+        type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+        item
+    };
+}
+
+export function moveIngredientInConstructor(from, to) {
+    return {
+        type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
+        from,
+        to
+    };
+}
+
+export function acceptMoving() {
+    return { type: ACCEPT_MOVING };
+}
+
+export function cancelMoving() {
+    return { type: CANCEL_MOVING };
+}
+
+export function increaceTotalSum(value) {
+    return {
+        type: INCREASE_TOTAL_SUM,
+        value
+    };
+}
+
+export function decreaseTotalSum(value) {
+    return {
+        type: DECREASE_TOTAL_SUM,
+        value
+    };
+}
+
+export function cleanConstructor() {
+    return { type: CLEAN_CONSTRUCTOR };
+}

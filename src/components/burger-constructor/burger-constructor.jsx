@@ -7,14 +7,14 @@ import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 import InnerIngredient from '../inner-ingredient/inner-ingredient';
 import { createOrder } from '../../services/actions/order';
-import { RESET_VIEWED_ORDER } from '../../services/actions/order';
+import { resetViewedOrder } from '../../services/actions/order';
 import {
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
-    REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-    INCREASE_TOTAL_SUM,
-    DECREASE_TOTAL_SUM
+    addIngredientToConstructor,
+    removeIngredientFromConstructor,
+    increaceTotalSum,
+    decreaseTotalSum
 } from '../../services/actions/selected-ingredients';
-import { INCREASE_INGREDIENT_COUNTER, DECREASE_INGREDIENT_COUNTER } from '../../services/actions/ingredients';
+import { increaseIngredientCounter, decreaseIngredientCounter } from '../../services/actions/ingredients';
 
 import styles from './burger-constructor.module.css';
 
@@ -38,37 +38,16 @@ const BurgerConstructor = () => {
             if (dragItemType === 'ingredient') {    
                 if (item.type === 'bun') {
                     if (bun) {
-                        dispatch({
-                            type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-                            item: bun
-                        });
-                        dispatch({
-                            type: DECREASE_INGREDIENT_COUNTER,
-                            id: bun._id,
-                            value: BUN_PRICE_COEFF
-                        });
-                        dispatch({
-                            type: DECREASE_TOTAL_SUM,
-                            value: bun.price * BUN_PRICE_COEFF
-                        });
+                        dispatch(removeIngredientFromConstructor(bun));
+                        dispatch(decreaseIngredientCounter(bun._id, BUN_PRICE_COEFF));
+                        dispatch(decreaseTotalSum(bun.price * BUN_PRICE_COEFF));
                     }
                 }
 
                 if (!innerIngredients.length || item.type === 'bun') {
-                    dispatch({
-                        type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-                        item: item
-                    });
-
-                    dispatch({
-                        type: INCREASE_INGREDIENT_COUNTER,
-                        id: item._id,
-                        value: item.type === 'bun' ? BUN_PRICE_COEFF : INNER_PRICE_COEFF
-                    });
-                    dispatch({
-                        type: INCREASE_TOTAL_SUM,
-                        value: item.type === 'bun' ? item.price * BUN_PRICE_COEFF : item.price
-                    });
+                    dispatch(addIngredientToConstructor(item, 0));
+                    dispatch(increaseIngredientCounter(item._id, item.type === 'bun' ? BUN_PRICE_COEFF : INNER_PRICE_COEFF));
+                    dispatch(increaceTotalSum(item.type === 'bun' ? item.price * BUN_PRICE_COEFF : item.price));
                 }
 
                 return {};
@@ -82,19 +61,9 @@ const BurgerConstructor = () => {
     });
 
     const removeItem = (item) => {
-        dispatch({
-            type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-            item
-        });
-        dispatch({
-            type: DECREASE_INGREDIENT_COUNTER,
-            id: item._id,
-            value: INNER_PRICE_COEFF
-        });
-        dispatch({
-            type: DECREASE_TOTAL_SUM,
-            value: item.price
-        });
+        dispatch(removeIngredientFromConstructor(item));
+        dispatch(decreaseIngredientCounter(item._id, INNER_PRICE_COEFF));
+        dispatch(decreaseTotalSum(item.price));
     };
 
     const orderButtonClick = () => {
@@ -113,7 +82,7 @@ const BurgerConstructor = () => {
     };
 
     const close = () => {
-        dispatch({ type: RESET_VIEWED_ORDER });
+        dispatch(resetViewedOrder());
         setState({
             ...state,
             modalVisibility: false,

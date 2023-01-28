@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import uuid from 'react-uuid';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ACCEPT_ADD_TO_CONSTRUCTOR, CANCEL_ADD_TO_CONSTRUCTOR } from '../../services/actions/selected-ingredients';
+import { acceptAddToConstructor, cancelAddToConstructor } from '../../services/actions/selected-ingredients';
 import { IngredientPropTypes } from "../../utils/types";
 
 import styles from './ingredient.module.css';
@@ -23,15 +23,9 @@ const Ingredient = ({
         },
         end: (item, monitor) => {
             if (monitor.getDropResult()) {
-                dispatch({
-                    type: ACCEPT_ADD_TO_CONSTRUCTOR,
-                    dragItemId: item.constructorId
-                });
+                dispatch(acceptAddToConstructor());
             } else {
-                dispatch({
-                    type: CANCEL_ADD_TO_CONSTRUCTOR,
-                    dragItemId: item.constructorId
-                });
+                dispatch(cancelAddToConstructor());
             }
         }
     });

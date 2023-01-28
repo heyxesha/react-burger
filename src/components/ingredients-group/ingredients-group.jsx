@@ -6,7 +6,7 @@ import Ingredient from '../ingredient/ingredient';
 import { IngredientsPropTypes } from '../../utils/types';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { SET_VIEWED_INGREDIENT, RESET_VIEWED_INGREDIENT } from '../../services/actions/viewed-ingredient';
+import { setViewedIngredient, resetViewedIngredient } from '../../services/actions/viewed-ingredient';
 
 import styles from './ingredients-group.module.css'
 
@@ -22,10 +22,7 @@ const IngredientsGroup = ({
     const dispatch = useDispatch();
 
     const click = (item) => {
-        dispatch({
-            type: SET_VIEWED_INGREDIENT,
-            data: item
-        });
+        dispatch(setViewedIngredient(item));
         const ingredientDetails = (
             <IngredientDetails />
         );
@@ -36,7 +33,7 @@ const IngredientsGroup = ({
     };
 
     const close = () => {
-        dispatch({ type: RESET_VIEWED_INGREDIENT });
+        dispatch(resetViewedIngredient());
         setState({
             modalVisibility: false,
             modalChildren: null

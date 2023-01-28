@@ -11,12 +11,9 @@ export const RESET_SELECTED_INGREDIENTS = 'RESET_SELECTED_INGREDIENTS';
 
 export function getIngredients() {
     return function(dispatch) {
-        dispatch({ type: GET_INGREDIENTS_REQUEST });
+        dispatch(getIngredientsRequest());
         getData('ingredients').then(res => {
-            dispatch({
-                type: GET_INGREDIENTS_SUCCESS,
-                items: res.data
-            });
+            dispatch(getIngredientsSuccess(res.data));
         }).catch(error => {
             dispatch({
                 type: GET_INGREDIENTS_FAILED,
@@ -25,3 +22,42 @@ export function getIngredients() {
         });
     };
 };
+
+export function getIngredientsRequest() {
+    return { type: GET_INGREDIENTS_REQUEST };
+}
+
+export function getIngredientsSuccess(items) {
+    return {
+        type: GET_INGREDIENTS_SUCCESS,
+        items
+    };
+}
+
+export function getIngredientsFailed(error) {
+    return {
+        type: GET_INGREDIENTS_FAILED,
+        error
+    };
+}
+
+export function increaseIngredientCounter(id, value) {
+    return {
+        type: INCREASE_INGREDIENT_COUNTER,
+        id,
+        value
+    };
+}
+
+export function decreaseIngredientCounter(id, value) {
+    return {
+        type: DECREASE_INGREDIENT_COUNTER,
+        id,
+        value
+    };
+}
+
+export function resetSelectedIngredients() {
+    return { type: RESET_SELECTED_INGREDIENTS };
+}
+

@@ -1,6 +1,6 @@
 import getData from '../../utils/burger-api';
-import { CLEAN_CONSTRUCTOR } from './selected-ingredients';
-import { RESET_SELECTED_INGREDIENTS } from './ingredients';
+import { cleanConstructor } from './selected-ingredients';
+import { resetSelectedIngredients } from './ingredients';
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
@@ -9,19 +9,35 @@ export const RESET_VIEWED_ORDER = 'RESET_VIEWED_ORDER';
 
 export function createOrder(ingredients) {
     return function(dispatch) {
-        dispatch({ type: CREATE_ORDER_REQUEST });
+        dispatch(createOrderRequest());
         return getData('orders', { ingredients }).then(res => {
-            dispatch({
-                type: CREATE_ORDER_SUCCESS,
-                id: res.order.number
-            });
-            dispatch({ type: CLEAN_CONSTRUCTOR });
-            dispatch({ type: RESET_SELECTED_INGREDIENTS });
+            dispatch(createOrderSuccess(res.order.number));
+            dispatch(cleanConstructor());
+            dispatch(resetSelectedIngredients());
         }).catch(error => {
-            dispatch({
-                type: CREATE_ORDER_FAILED,
-                error
-            });
+            dispatch(createOrderFailed(error));
         });
     };
 };
+
+export function createOrderRequest() {
+    return { type: CREATE_ORDER_REQUEST };
+}
+
+export function createOrderSuccess(id) {
+    return {
+        type: CREATE_ORDER_SUCCESS,
+        id
+    };
+}
+
+export function createOrderFailed(error) {
+    return {
+        type: CREATE_ORDER_FAILED,
+        error
+    };
+}
+
+export function resetViewedOrder() {
+    return { type: RESET_VIEWED_ORDER };
+}
