@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { Default } from 'react-spinners-css';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -16,18 +17,24 @@ const ERROR_MESSAGE = 'Произошла ошибка при получении
 export const App = () => {
     const {
         ingredients,
-        isIngredientsLoading,
-        isIngredientsFailed
+        isIngredientsLoading
     } = useSelector(state => state.ingredients);
+
+    const { isCreateOrderLoading } = useSelector(state => state.order);
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getIngredients());
     }, [dispatch]);
 
-    // TODO: хочу добавить ожиданчик и проверку не на ingredients, а на isIngredientsFailed
     return (
         <div className={ styles.App }>
+            { isCreateOrderLoading &&
+                <div className={ styles.LoadingIndicator}>
+                    <Default color="#8585AD" />
+                </div>
+            }
+
             <AppHeader />
             <main className={ `${styles.Content} ${ !isIngredientsLoading && !ingredients ? styles.ErrorWrapper : '' } pb-10` }>
                 {
