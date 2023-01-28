@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 
-import { compose, createStore, applyMiddleware } from 'redux';
+import './index.css';
+
+import { compose } from 'redux';
+import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers/root';
 import thunk from 'redux-thunk';
@@ -18,9 +20,11 @@ const composeEnhancers =
         ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
         : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-// TODO: может переделать на composeStore????
-const store = createStore(rootReducer, enhancer);
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: [thunk],
+    devTools: composeEnhancers
+});
 
 root.render(
     <React.StrictMode>

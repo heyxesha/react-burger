@@ -19,7 +19,6 @@ const InnerIngredient = ({
     rightMargin,
     topMargin
 }) => {
-    // TODO: было бы прикольно добавить customDragLayer (разный для левого и правого списков).
     const ref = useRef(null);
     const dispatch = useDispatch();
     const { innerIngredients } = useSelector(state => state.selectedIngredients);

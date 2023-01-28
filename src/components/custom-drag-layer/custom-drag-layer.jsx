@@ -1,7 +1,7 @@
 import { useDragLayer } from 'react-dnd';
 
 const getStyle = (x, y) => {
-    // Картинка 240х120, поэтому сделаем отступы, чтобы курсор был ровно посередине.
+    // Картинка 240х120, поэтому сделаем отступы такими, чтобы курсор был ровно посередине.
     return {
         transform: `translate(${x}px, ${y}px)`,
         position: 'fixed',
