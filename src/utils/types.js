@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const IngredientsPropTypes = PropTypes.arrayOf(
+export const IngredientsPropTypes = PropTypes.arrayOf(
     PropTypes.shape({
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -17,4 +17,12 @@ const IngredientsPropTypes = PropTypes.arrayOf(
     }).isRequired
 ).isRequired;
 
-export default IngredientsPropTypes;
+export const IngredientPropTypes = PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    isDragging: PropTypes.bool,
+    selectedCount: PropTypes.number
+});

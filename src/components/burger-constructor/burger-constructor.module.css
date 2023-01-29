@@ -5,14 +5,6 @@
     flex-direction: column;
 }
 
-.Bun {
-    cursor: pointer;
-}
-
-.Ingredient {
-    cursor: pointer;
-}
-
 .ScrollArea {
     max-height: 464px;
     overflow-y: scroll;
@@ -25,12 +17,6 @@
 
 .ScrollArea::-webkit-scrollbar-thumb {
     background-color: #8585AD;
-}
-
-.DragItem {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
 }
 
 .TotalBlock {
@@ -58,4 +44,8 @@
 
 .CounstructorElementFullWidth {
     width: 100%;
+}
+
+.DragTarget {
+    outline: #4C4CFF solid 2px;
 }

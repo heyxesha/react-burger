@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import Ingredient from '../ingredient/ingredient';
-import IngredientsPropTypes from '../../utils/IngredientsPropTypes';
+import { IngredientsPropTypes } from '../../utils/types';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { setViewedIngredient, resetViewedIngredient } from '../../services/actions/viewed-ingredient';
+
 import styles from './ingredients-group.module.css'
 
 const IngredientsGroup = ({
@@ -15,16 +19,12 @@ const IngredientsGroup = ({
         modalChildren: null
     });
 
+    const dispatch = useDispatch();
+
     const click = (item) => {
+        dispatch(setViewedIngredient(item));
         const ingredientDetails = (
-            <IngredientDetails
-                name={ item.name }
-                image={ item.image_large }
-                calories={ item.calories }
-                proteins={ item.proteins }
-                fat={ item.fat }
-                carbohydrates={ item.carbohydrates }
-            />
+            <IngredientDetails />
         );
         setState({
             modalVisibility: true,
@@ -33,6 +33,7 @@ const IngredientsGroup = ({
     };
 
     const close = () => {
+        dispatch(resetViewedIngredient());
         setState({
             modalVisibility: false,
             modalChildren: null
@@ -47,14 +48,10 @@ const IngredientsGroup = ({
             <div className={ `${ styles.IngredientsGroup } pl-4 pr-4 pt-6` }>
                 {
                     ingredients.map((item, index) => (
-                        /* TODO: я думаю, что selectedCount сможем высчитывать на последующих этапах сдачи проекта, а пока что мне
-                        нужно посмотреть верстку счетчика. Нужно будет убрать проверку на _id. */
                         <Ingredient
                             key={ item._id }
-                            name={ item.name }
-                            image={ item.image }
-                            price={ item.price }
-                            selectedCount={ item._id === '60666c42cc7b410027a1a9b1' ? 1 : undefined }
+                            item={ item }
+                            selectedCount={ item.selectedCount }
                             needMargin={ index > 1 }
                             onClick={ () => click(item) } />
                     ))

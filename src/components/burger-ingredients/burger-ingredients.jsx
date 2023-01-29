@@ -1,12 +1,14 @@
-import { useState, useContext } from 'react';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, Events } from 'react-scroll';
-import { IngredientsContext } from '../../services/app-context';
-import styles from './burger-ingredients.module.css';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import IngredientsList from '../ingredients-list/ingredients-list';
 
+import styles from './burger-ingredients.module.css';
+
 const BurgerIngredients = () => {
-    const { ingredients } = useContext(IngredientsContext);
+    const { ingredients } = useSelector(state => state.ingredients);
     const ingredientsGroups = {
         bun: {
             title: 'Булки',
@@ -27,7 +29,7 @@ const BurgerIngredients = () => {
     
     const [activeTab, setActiveTab] = useState('bun');
 
-    Events.scrollEvent.register('end', function(to, element) {
+    Events.scrollEvent.register('end', function(to) {
         setActiveTab(to);
     });
 

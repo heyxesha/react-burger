@@ -1,42 +1,67 @@
+import { useEffect } from 'react';
+import { useDrag } from "react-dnd";
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid';
+import { getEmptyImage } from 'react-dnd-html5-backend';
+
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { acceptAddToConstructor, cancelAddToConstructor } from '../../services/actions/selected-ingredients';
+import { IngredientPropTypes } from "../../utils/types";
+
 import styles from './ingredient.module.css';
 
-const Ingredient = ({ 
+const Ingredient = ({
+    item,
     needMargin,
-    name,
-    image,
-    price,
-    selectedCount,
     onClick
- }) => {
+}) => {
+    const dispatch = useDispatch();
+    const [, dragRef, dragPreview] = useDrag({
+        type: 'ingredient',
+        item: {
+            ...item,
+            constructorId: uuid()
+        },
+        end: (item, monitor) => {
+            if (monitor.getDropResult()?.type === 'innerIngredients') {
+                dispatch(acceptAddToConstructor());
+            } else {
+                dispatch(cancelAddToConstructor());
+            }
+        }
+    });
+    
+    useEffect(() => {
+        dragPreview(getEmptyImage())
+    }, [dragPreview]);
+
     return (
         <div
             className={ `${ styles.Ingredient } ${ needMargin ? 'mt-8' : '' }` }
+            ref={ dragRef }
+            draggable
             onClick={ onClick }>
-            <img src={ image } alt={ name } />
+            <img src={ item.image } alt={ item.name } />
             <div className={ `${ styles.Price } mt-1` }>
                 <p className="text text_type_digits-default mr-1">
-                    { price }
+                    { item.price }
                 </p>
                 <CurrencyIcon />
             </div>
             <p className={ `${ styles.Name } text text_type_main-default mt-1` }>
-                { name }
+                { item.name }
             </p>
             {
-                selectedCount && <Counter count={ selectedCount } size="default" />
+                !!item.selectedCount && <Counter count={ item.selectedCount } size="default" />
             }
         </div>
     );
 };
 
 Ingredient.propTypes = {
+    item: IngredientPropTypes.isRequired,
     needMargin: PropTypes.bool,
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    selectedCount: PropTypes.number,
     onClick: PropTypes.func
 };
   
