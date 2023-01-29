@@ -12,18 +12,17 @@ const getStyle = (x, y) => {
 };
 
 const CustomDragLayer = () => {  
-    const {isDragging, currentOffset, item, clientOffset } = useDragLayer(
+    const {isDragging, item, clientOffset } = useDragLayer(
         (monitor) => {
             return {
                 isDragging: monitor.isDragging(),
-                currentOffset: monitor.getSourceClientOffset(),
                 item: monitor.getItem(),
                 clientOffset: monitor.getClientOffset()
             };
         }
     );
 
-    if (!isDragging || !currentOffset) {
+    if (!isDragging || !clientOffset) {
         return null;
     } else {
         return (
