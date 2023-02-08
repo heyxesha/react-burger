@@ -1,32 +1,15 @@
-
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
+import { useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Default } from 'react-spinners-css';
 
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import { getIngredients } from '../../services/actions/ingredients';
-import CustomDragLayer  from '../custom-drag-layer/custom-drag-layer';
+import MainPage from '../../pages/main/main';
+import LoginPage from '../../pages/login';
+import RegisterPage from '../../pages/register';
 
 import styles from './app.module.css';
 
-const ERROR_MESSAGE = 'Произошла ошибка при получении данных :(';
-
 export const App = () => {
-    const {
-        ingredients,
-        isIngredientsLoading
-    } = useSelector(state => state.ingredients);
-
     const { isCreateOrderLoading } = useSelector(state => state.order);
-
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getIngredients());
-    }, [dispatch]);
 
     return (
         <div className={ styles.App }>
@@ -36,24 +19,19 @@ export const App = () => {
                 </div>
             }
 
-            <AppHeader />
-            <main className={ `${styles.Content} ${ !isIngredientsLoading && !ingredients ? styles.ErrorWrapper : '' } pb-10` }>
-                {
-                    !isIngredientsLoading && (
-                        !ingredients ? (
-                            <div className={` ${ styles.Info } text text_type_main-default`}>
-                                { ERROR_MESSAGE }
-                            </div>
-                        ) : (
-                            <DndProvider backend={ HTML5Backend }>
-                                <BurgerIngredients />
-                                <BurgerConstructor />
-                                <CustomDragLayer />
-                            </DndProvider>
-                        )
-                    )
-                }
-            </main>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={
+                        <MainPage />
+                    }/>
+                    <Route path="/login" element={
+                        <LoginPage />
+                    }/>
+                    <Route path="/register" element={
+                        <RegisterPage />
+                    }/>
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }

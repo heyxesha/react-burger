@@ -4,27 +4,6 @@
     background-color: #131316;
 }
 
-.Content {
-    max-width: 1240px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    position: relative;
-}
-
-/* 88px (высота хэдера) + 40px (нижний паддинг) = 128px  */
-.ErrorWrapper {
-    height: calc(100% - 128px);
-}
-
-.Info {
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    top: 50%;
-}
-
 .LoadingIndicator {
     width: 100vw;
     position: fixed;
