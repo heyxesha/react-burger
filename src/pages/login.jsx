@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import Page from "../components/page-wrapper/page-wrapper";
+import PageWrapper from "../components/page-wrapper/page-wrapper";
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 const LoginPage = () => {
     return (
-        <Page>
+        <PageWrapper>
             <FormPageWrapper>
                 <h2 className="text text_type_main-medium mt-6">
                     Вход
@@ -41,7 +41,7 @@ const LoginPage = () => {
                     </span>
                 </div>
             </FormPageWrapper>
-        </Page>
+        </PageWrapper>
     );
 };
 

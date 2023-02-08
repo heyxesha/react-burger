@@ -6,7 +6,7 @@ const Page = ({ children, pageType }) => {
     return (
         <>
             <AppHeader />
-            <div className={ `${ styles.Content } ${ pageType === 'form' ? styles.FormContent : '' }`}>
+            <div className={ styles.Content }>
                 { children }
             </div>
         </>

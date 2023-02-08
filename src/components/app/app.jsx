@@ -5,6 +5,8 @@ import { Default } from 'react-spinners-css';
 import MainPage from '../../pages/main/main';
 import LoginPage from '../../pages/login';
 import RegisterPage from '../../pages/register';
+import ForgotPassword from '../../pages/forgot-password';
+import ResetPassword from '../../pages/reset-password';
 
 import styles from './app.module.css';
 
@@ -29,6 +31,12 @@ export const App = () => {
                     }/>
                     <Route path="/register" element={
                         <RegisterPage />
+                    }/>
+                    <Route path="/forgot-password" element={
+                        <ForgotPassword />
+                    }/>
+                    <Route path="/reset-password" element={
+                        <ResetPassword />
                     }/>
                 </Routes>
             </BrowserRouter>
