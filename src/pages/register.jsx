@@ -13,7 +13,8 @@ const RegisterPage = () => {
                 </h2>
                 <Input
                     extraClass="mt-6"
-                    placeholder="Имя" />
+                    placeholder="Имя"
+                    autoFocus={ true } />
                 <EmailInput
                     extraClass="mt-6" />
                 <PasswordInput
@@ -27,11 +28,9 @@ const RegisterPage = () => {
                     <span className="text text_type_main-default text_color_inactive">
                         Уже зарегистрированы? 
                     </span>
-                    <span className="text text_type_main-default text_color_accent ml-4">
-                        <Link to="/login">
-                            Войти
-                        </Link>
-                    </span>
+                    <Link to="/login" className="text text_type_main-default text_color_accent ml-4">
+                        Войти
+                    </Link>
                 </div>
                 </FormPageWrapper>
         </PageWrapper>

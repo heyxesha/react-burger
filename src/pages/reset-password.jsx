@@ -8,7 +8,7 @@ import PageWrapper from "../components/page-wrapper/page-wrapper";
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 import LoadingIndicator from '../components/loading-indicator/loading-indicator';
 
-const ResetPassword = () => {
+const ResetPasswordPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isResetPasswordLoading } = useSelector(state => state.resetPassword);
@@ -69,7 +69,8 @@ const ResetPassword = () => {
                     extraClass="mt-6"
                     placeholder="Введите новый пароль"
                     value={ state.password }
-                    onChange={ onPasswordChange } />
+                    onChange={ onPasswordChange }
+                    autoFocus={ true } />
                 <Input
                     extraClass="mt-6"
                     placeholder="Введите код из письма"
@@ -87,15 +88,13 @@ const ResetPassword = () => {
                     <span className="text text_type_main-default text_color_inactive">
                         Вспомнили пароль?
                     </span>
-                    <span className="text text_type_main-default text_color_accent ml-4">
-                        <Link to="/login">
-                            Войти
-                        </Link>
-                    </span>
+                    <Link to="/login" className="text text_type_main-default text_color_accent ml-4">
+                        Войти
+                    </Link>
                 </div>
             </FormPageWrapper>
         </PageWrapper>
     );
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;

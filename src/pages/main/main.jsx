@@ -28,7 +28,7 @@ const MainPage = () => {
     }, [dispatch]);
 
     return (
-        <PageWrapper>
+        <PageWrapper activeTab="constructor">
             { isCreateOrderLoading && <LoadingIndicator/> }
             <main className={ `${styles.Content} ${ !isIngredientsLoading && !ingredients.length ? styles.ErrorWrapper : '' } pb-10` }>
                 {

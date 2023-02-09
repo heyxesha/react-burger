@@ -12,7 +12,8 @@ const LoginPage = () => {
                     Вход
                 </h2>
                 <EmailInput
-                    extraClass="mt-6" />
+                    extraClass="mt-6"
+                    autoFocus={ true } />
                 <PasswordInput
                     extraClass="mt-6" />
                 <Button
@@ -24,21 +25,17 @@ const LoginPage = () => {
                     <span className="text text_type_main-default text_color_inactive">
                         Вы - новый пользователь? 
                     </span>
-                    <span className="text text_type_main-default text_color_accent ml-4">
-                        <Link to="/register">
-                            Зарегистрироваться
-                        </Link>
-                    </span>
+                    <Link to="/register" className="text text_type_main-default text_color_accent ml-4">
+                        Зарегистрироваться
+                    </Link>
                 </div>
                 <div className="mt-4">
                     <span className="text text_type_main-default text_color_inactive">
                         Забыли пароль? 
                     </span>
-                    <span className="text text_type_main-default text_color_accent ml-4">
-                        <Link to="/forgot-password">
-                            Восстановить пароль
-                        </Link>
-                    </span>
+                    <Link to="/forgot-password" className="text text_type_main-default text_color_accent ml-4">
+                        Восстановить пароль
+                    </Link>
                 </div>
             </FormPageWrapper>
         </PageWrapper>

@@ -9,7 +9,7 @@ import PageWrapper from "../components/page-wrapper/page-wrapper";
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 import LoadingIndicator from '../components/loading-indicator/loading-indicator';
 
-const ForgotPassword = () => {
+const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isSendEmailLoading } = useSelector(state => state.resetPassword);
@@ -45,7 +45,8 @@ const ForgotPassword = () => {
                     extraClass="mt-6"
                     placeholder="Укажите e-mail"
                     value={ state.value }
-                    onChange={ onValueChanged } />
+                    onChange={ onValueChanged }
+                    autoFocus={ true } />
                 <Button
                     extraClass="mt-6"
                     size="medium"
@@ -58,15 +59,13 @@ const ForgotPassword = () => {
                     <span className="text text_type_main-default text_color_inactive">
                         Вспомнили пароль?
                     </span>
-                    <span className="text text_type_main-default text_color_accent ml-4">
-                        <Link to="/login">
-                            Войти
-                        </Link>
-                    </span>
+                    <Link to="/login" className="text text_type_main-default text_color_accent ml-4">
+                        Войти
+                    </Link>
                 </div>
             </FormPageWrapper>
         </PageWrapper>
     );
 };
 
-export default ForgotPassword;
+export default ForgotPasswordPage;

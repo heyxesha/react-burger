@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from '../../pages/main/main';
 import LoginPage from '../../pages/login';
 import RegisterPage from '../../pages/register';
-import ForgotPassword from '../../pages/forgot-password';
-import ResetPassword from '../../pages/reset-password';
+import ForgotPasswordPage from '../../pages/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password';
+import ProfilePage from '../../pages/profile/profile';
 
 import styles from './app.module.css';
 
@@ -26,11 +27,15 @@ export const App = () => {
                     />
                     <Route
                         path="/forgot-password"
-                        element={ <ForgotPassword /> }
+                        element={ <ForgotPasswordPage /> }
                     />
                     <Route
                         path="/reset-password"
-                        element={ <ResetPassword /> }
+                        element={ <ResetPasswordPage /> }
+                    />
+                    <Route
+                        path="/profile"
+                        element={ <ProfilePage /> }
                     />
                 </Routes>
             </BrowserRouter>
