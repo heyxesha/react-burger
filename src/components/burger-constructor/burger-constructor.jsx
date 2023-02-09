@@ -67,15 +67,19 @@ const BurgerConstructor = () => {
     const orderButtonClick = () => {
         const ids = innerIngredients.map(item => item._id);
         ids.push(bun._id);
-        dispatch(createOrder(ids)).then(() => {
-            const orderDetails = ( <OrderDetails /> );
-            setState({
-                ...state,
-                modalVisibility: true,
-                modalChildren: orderDetails
-            });
+        dispatch(createOrder(ids)).then((res) => {
+            if (res.success) {
+                const orderDetails = ( <OrderDetails /> );
+                setState({
+                    ...state,
+                    modalVisibility: true,
+                    modalChildren: orderDetails
+                });
+            } else {
+                alert(res.error);
+            }
         }).catch((error) => {
-            alert(`Произошла ошибка при обработке заказа: ${ error }`);
+            alert(error);
         });
     };
 

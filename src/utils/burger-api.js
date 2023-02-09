@@ -16,8 +16,11 @@ const getData = (dataType, bodyParams) => {
                     reject(error);
                 });
             } else {
-                const error = new Error('Ошибка HTTP: ' + response.status);
-                reject(error);
+                response.json().then((data) => {
+                    reject(data.message);
+                }).catch(() => {
+                    reject(new Error('Ошибка HTTP: ' + response.status));
+                });
             }               
         }).catch((error) => {
             reject(error);

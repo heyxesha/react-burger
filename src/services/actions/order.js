@@ -14,8 +14,13 @@ export function createOrder(ingredients) {
             dispatch(createOrderSuccess(res.order.number));
             dispatch(cleanConstructor());
             dispatch(resetSelectedIngredients());
+            return { success: true };
         }).catch(error => {
             dispatch(createOrderFailed(error));
+            return {
+                success: false,
+                error
+            };
         });
     };
 };
