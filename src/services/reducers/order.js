@@ -39,8 +39,8 @@ export const orderReducer = (state = initialState, action) => {
                 ...state,
                 orderId: initialState.orderId
             };
-      default: {
-        return state;
-      }
+        default: {
+            return state;
+        }
     }
 };

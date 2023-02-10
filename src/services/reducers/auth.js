@@ -69,7 +69,7 @@ export const authReducer = (state = initialState, action) => {
                 isLoginLoading: false,
                 isLoginFailed: false,
                 accessToken: action.accessToken,
-                refreshToken: action.refreshToken,
+                refreshToken: action.refreshToken
             };
         case LOGIN_FAILED:
             return {
@@ -111,7 +111,8 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 isTokenLoading: false,
                 isTokenFailed: false,
-                accessToken: action.accessToken
+                accessToken: action.accessToken,
+                refreshToken: action.refreshToken
             };
         case UPDATE_TOKEN_FAILED:
             return {

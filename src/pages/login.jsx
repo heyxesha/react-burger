@@ -5,9 +5,7 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 
 import { login } from '../services/actions/auth';
 import { isValidEmail, isValidPassword } from '../utils/validators';
-import PageWrapper from "../components/page-wrapper/page-wrapper";
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
-import LoadingIndicator from '../components/loading-indicator/loading-indicator';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
@@ -61,48 +59,45 @@ const LoginPage = () => {
     }, [state.email, state.password, setState]);
 
     return (
-        <PageWrapper>
-            { isLoginLoading && <LoadingIndicator/> }
-            <FormPageWrapper>
-                <h2 className="text text_type_main-medium mt-6">
-                    Вход
-                </h2>
-                <EmailInput
-                    extraClass="mt-6"
-                    errorText="Некорректный e-mail"
-                    autoFocus={ true }
-                    value={ state.email }
-                    onChange={ onEmailChange } />
-                <PasswordInput
-                    extraClass="mt-6"
-                    value={ state.password }
-                    onChange={ onPasswordChange } />
-                <Button
-                    extraClass="mt-6"
-                    htmlType="submit"
-                    size="medium"
-                    disabled={ state.enterButtonReadOnly }
-                    onClick={ onClick }>
-                    Войти
-                </Button>
-                <div className="mt-20">
-                    <span className="text text_type_main-default text_color_inactive">
-                        Вы - новый пользователь? 
-                    </span>
-                    <Link to="/register" className="text text_type_main-default text_color_accent ml-4">
-                        Зарегистрироваться
-                    </Link>
-                </div>
-                <div className="mt-4">
-                    <span className="text text_type_main-default text_color_inactive">
-                        Забыли пароль? 
-                    </span>
-                    <Link to="/forgot-password" className="text text_type_main-default text_color_accent ml-4">
-                        Восстановить пароль
-                    </Link>
-                </div>
-            </FormPageWrapper>
-        </PageWrapper>
+        <FormPageWrapper showLoadingIndicator={ isLoginLoading }>
+            <h2 className="text text_type_main-medium mt-6">
+                Вход
+            </h2>
+            <EmailInput
+                extraClass="mt-6"
+                errorText="Некорректный e-mail"
+                autoFocus={ true }
+                value={ state.email }
+                onChange={ onEmailChange } />
+            <PasswordInput
+                extraClass="mt-6"
+                value={ state.password }
+                onChange={ onPasswordChange } />
+            <Button
+                extraClass="mt-6"
+                htmlType="submit"
+                size="medium"
+                disabled={ state.enterButtonReadOnly }
+                onClick={ onClick }>
+                Войти
+            </Button>
+            <div className="mt-20">
+                <span className="text text_type_main-default text_color_inactive">
+                    Вы - новый пользователь? 
+                </span>
+                <Link to="/register" className="text text_type_main-default text_color_accent ml-4">
+                    Зарегистрироваться
+                </Link>
+            </div>
+            <div className="mt-4">
+                <span className="text text_type_main-default text_color_inactive">
+                    Забыли пароль? 
+                </span>
+                <Link to="/forgot-password" className="text text_type_main-default text_color_accent ml-4">
+                    Восстановить пароль
+                </Link>
+            </div>
+        </FormPageWrapper>
     );
 };
 

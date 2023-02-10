@@ -1,50 +1,14 @@
-.ContentWrapper {
-    max-width: 1240px;
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    margin: 0 auto;
-    align-items: center;
-    min-height: 100%;
-}
-
-.Content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-}
-
-.Navigation {
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-}
-
-.NavItem {
-    height: 64px;
-    display: flex;
-    align-items: center;
-}
-
-.NavItem_active,
-.NavItem_active a:visited {
-    color: var(--text-primary-color);
-}
-
-.NavItem_inactive,
-.NavItem_inactive a:visited {
-    color: var(--text-inactive-color);
-}
-
-.Text {
-    opacity: 0.4;
-}
-
 .Inputs {
     display: flex;
     flex-direction: column;
 }
 
-.ExitButton {
-    cursor: pointer;
+.Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ResetButton {
+    color: var(--text-inactive-color);
 }

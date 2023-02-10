@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDrag } from "react-dnd";
+import { useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import uuid from 'react-uuid';
@@ -7,7 +7,7 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { acceptAddToConstructor, cancelAddToConstructor } from '../../services/actions/selected-ingredients';
-import { IngredientPropTypes } from "../../utils/types";
+import { IngredientPropTypes } from '../../utils/types';
 
 import styles from './ingredient.module.css';
 

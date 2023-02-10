@@ -9,19 +9,19 @@ import RegisterPage from '../../pages/register';
 import ForgotPasswordPage from '../../pages/forgot-password';
 import ResetPasswordPage from '../../pages/reset-password';
 import ProfilePage from '../../pages/profile/profile';
+import ProfileOrdersPage from '../../pages/profile-orders';
 
 import styles from './app.module.css';
-
-const ACCESS_TOKEN_LIFE_TIME = 20 * 60 * 1000;
 
 export const App = () => {
     // TODO: красиво было бы переделать все алерты на модалки
     const { accessToken, refreshToken, resetTokens } = useSelector(state => state.auth);
     useEffect(() => {
         if (accessToken) {
-            const expires = new Date() + ACCESS_TOKEN_LIFE_TIME;
             const cookies = new Cookies();
-            cookies.set('accessToken', accessToken, { path: '/' }, expires);
+            const expires = new Date();
+            expires.setMinutes(expires.getMinutes() + 1);
+            cookies.set('accessToken', accessToken, { path: '/', expires });
         }
     }, [accessToken]);
 
@@ -37,7 +37,6 @@ export const App = () => {
             const cookies = new Cookies();
             cookies.remove('accessToken');
             cookies.remove('refreshToken');
-            console.log(cookies.get('refreshToken'));
         }
     }, [resetTokens]);
 
@@ -66,7 +65,11 @@ export const App = () => {
                     />
                     <Route
                         path="/profile"
-                        element={ <ProfilePage /> }
+                        element={ <ProfilePage /> } >
+                    </Route>
+                    <Route
+                        path="/profile/:orders"
+                        element={<ProfileOrdersPage/>}
                     />
                 </Routes>
             </BrowserRouter>

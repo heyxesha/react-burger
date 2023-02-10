@@ -21,11 +21,15 @@ const API_PASS = 'auth';
 export function register(name, email, password) {
     return function(dispatch) {
         dispatch(registerRequest());
-        return getData(API_PASS + '/register', {
+        return getData({
+            path: API_PASS + '/register',
+            method: 'POST',
+            bodyParams: {
                 name,
                 email,
                 password
-            }).then(res => {
+            }
+        }).then(res => {
             dispatch(registerSuccess(res));
             return { success: true };
         }).catch(error => {
@@ -61,10 +65,14 @@ export function registerFailed(error) {
 export function login(email, password) {
     return function(dispatch) {
         dispatch(loginRequest());
-        return getData(API_PASS + '/login', {
+        return getData({
+            path: API_PASS + '/login',
+            method: 'POST',
+            bodyParams: {
                 email,
                 password
-            }).then(res => {
+            }
+        }).then(res => {
             dispatch(loginSuccess(res));
             return { success: true };
         }).catch(error => {
@@ -100,7 +108,11 @@ export function loginFailed(error) {
 export function logout(token) {
     return function(dispatch) {
         dispatch(logoutRequest());
-        return getData(API_PASS + '/logout', { token }).then(res => {
+        return getData({
+            path: API_PASS + '/login',
+            method: 'POST',
+            bodyParams: { token }
+        }).then(res => {
             dispatch(logoutSuccess(res.message));
             return { success: true };
         }).catch(error => {
@@ -134,9 +146,16 @@ export function logoutFailed(error) {
 export function updateToken(token) {
     return function(dispatch) {
         dispatch(updateTokenRequest());
-        return getData(API_PASS + '/token', { token }).then(res => {
-            dispatch(updateTokenSuccess(res.message));
-            return { success: true };
+        return getData({
+            path: API_PASS + '/token',
+            method: 'POST',
+            bodyParams: { token }
+        }).then(res => {
+            dispatch(updateTokenSuccess(res.accessToken, res.refreshToken));
+            return {
+                success: true,
+                accessToken: res.accessToken
+            };
         }).catch(error => {
             dispatch(updateTokenFailed(error));
             return {
@@ -151,10 +170,11 @@ export function updateTokenRequest() {
     return { type: UPDATE_TOKEN_REQUEST };
 }
 
-export function updateTokenSuccess(message) {
+export function updateTokenSuccess(accessToken, refreshToken) {
     return {
         type: UPDATE_TOKEN_SUCCESS,
-        message
+        accessToken,
+        refreshToken
     };
 }
 
