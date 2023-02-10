@@ -22,7 +22,7 @@ export const resetPasswordReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isSendEmailLoading: true,
-                isIngredientsError: false
+                isSendEmailError: false
             };
         case SEND_EMAIL_SUCCESS:
             return {
@@ -40,7 +40,7 @@ export const resetPasswordReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isResetPasswordLoading: true,
-                isIngredientsError: false
+                isSendEmailError: false
             };
         case RESET_PASSWORD_SUCCESS:
             return {

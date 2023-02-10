@@ -8,10 +8,12 @@ export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 
+const RESET_PASSWORD_PATH = 'password-reset';
+
 export function sendEmail(email) {
     return function(dispatch) {
         dispatch(sendEmailRequest());
-        return getData('password-reset', { email }).then(res => {
+        return getData(RESET_PASSWORD_PATH, { email }).then(res => {
             if (res.success) {
                 dispatch(sendEmailSuccess(res.message));
                 return { success: true };
@@ -53,7 +55,7 @@ export function sendEmailFailed(error) {
 export function resetPassword(password, token) {
     return function(dispatch) {
         dispatch(resetPasswordRequest());
-        return getData('password-reset/reset', {
+        return getData(RESET_PASSWORD_PATH + '/reset', {
             password,
             token
         }).then(res => {

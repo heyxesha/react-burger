@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { resetPassword } from '../services/actions/reset-password';
+import { isValidPassword } from '../utils/validators';
 import PageWrapper from "../components/page-wrapper/page-wrapper";
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 import LoadingIndicator from '../components/loading-indicator/loading-indicator';
@@ -39,7 +40,7 @@ const ResetPasswordPage = () => {
     };
     
     useEffect(() => {
-        const saveButtonReadOnly = state.password.length < 6 || !state.code;
+        const saveButtonReadOnly = !isValidPassword(state.password) || !state.code;
         if (state.saveButtonReadOnly !== saveButtonReadOnly) {
             setState({
                 ...state,
@@ -68,6 +69,7 @@ const ResetPasswordPage = () => {
                 <PasswordInput
                     extraClass="mt-6"
                     placeholder="Введите новый пароль"
+                    errorText="Пароль должен быть не короче 6 символов."
                     value={ state.password }
                     onChange={ onPasswordChange }
                     autoFocus={ true } />

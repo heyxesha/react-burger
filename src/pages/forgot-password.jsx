@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { sendEmail } from '../services/actions/reset-password';
-import { isValidEmail } from '../utils/is-valid-email';
+import { isValidEmail } from '../utils/validators';
 import PageWrapper from "../components/page-wrapper/page-wrapper";
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 import LoadingIndicator from '../components/loading-indicator/loading-indicator';
@@ -44,6 +44,7 @@ const ForgotPasswordPage = () => {
                 <EmailInput
                     extraClass="mt-6"
                     placeholder="Укажите e-mail"
+                    errorText="Пожалуйста, введите корректный e-mail."
                     value={ state.value }
                     onChange={ onValueChanged }
                     autoFocus={ true } />

@@ -26,10 +26,12 @@
     align-items: center;
 }
 
+.NavItem_active,
 .NavItem_active a:visited {
     color: var(--text-primary-color);
 }
 
+.NavItem_inactive,
 .NavItem_inactive a:visited {
     color: var(--text-inactive-color);
 }
@@ -41,4 +43,8 @@
 .Inputs {
     display: flex;
     flex-direction: column;
+}
+
+.ExitButton {
+    cursor: pointer;
 }

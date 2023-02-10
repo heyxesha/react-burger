@@ -18,7 +18,7 @@ export const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isCreateOrderLoading: true,
-                isIngredientsError: false
+                isCreateOrderError: false
             };
         case CREATE_ORDER_SUCCESS:
             return {
