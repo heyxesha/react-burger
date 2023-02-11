@@ -1,4 +1,4 @@
-import PageWrapper from "../../components/page-wrapper/page-wrapper";
+import PageWrapper from '../../components/page-wrapper/page-wrapper';
 
 import styles from './not-found.module.css';
 
