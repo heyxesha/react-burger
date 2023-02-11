@@ -78,36 +78,38 @@ const ResetPasswordPage = () => {
 
     return (
         <FormPageWrapper showLoadingIndicator={ isResetPasswordLoading } onSubmit={ onSubmit }>
-            <h2 className="text text_type_main-medium mt-6">
-                Восстановление пароля
-            </h2>
-            <PasswordInput
-                extraClass="mt-6"
-                placeholder="Введите новый пароль"
-                errorText="Пароль должен быть не короче 6 символов."
-                value={ state.password }
-                onChange={ onPasswordChange }
-                autoFocus={ true } />
-            <Input
-                extraClass="mt-6"
-                placeholder="Введите код из письма"
-                value={ state.code }
-                onChange={ onCodeChange } />
-            <Button
-                extraClass="mt-6"
-                size="medium"
-                disabled={ state.saveButtonReadOnly }
-                htmlType="submit">
-                Сохранить
-            </Button>
-            <div className="mt-20">
-                <span className="text text_type_main-default text_color_inactive">
-                    Вспомнили пароль?
-                </span>
-                <Link to="/login" className="text text_type_main-default text_color_accent ml-4">
-                    Войти
-                </Link>
-            </div>
+            <>
+                <h2 className="text text_type_main-medium mt-6">
+                    Восстановление пароля
+                </h2>
+                <PasswordInput
+                    extraClass="mt-6"
+                    placeholder="Введите новый пароль"
+                    errorText="Пароль должен быть не короче 6 символов."
+                    value={ state.password }
+                    onChange={ onPasswordChange }
+                    autoFocus={ true } />
+                <Input
+                    extraClass="mt-6"
+                    placeholder="Введите код из письма"
+                    value={ state.code }
+                    onChange={ onCodeChange } />
+                <Button
+                    extraClass="mt-6"
+                    size="medium"
+                    disabled={ state.saveButtonReadOnly }
+                    htmlType="submit">
+                    Сохранить
+                </Button>
+                <div className="mt-20">
+                    <span className="text text_type_main-default text_color_inactive">
+                        Вспомнили пароль?
+                    </span>
+                    <Link to="/login" className="text text_type_main-default text_color_accent ml-4">
+                        Войти
+                    </Link>
+                </div>
+            </>
         </FormPageWrapper>
     );
 };
