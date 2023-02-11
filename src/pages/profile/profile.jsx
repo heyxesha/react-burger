@@ -94,7 +94,8 @@ const ProfilePage = () => {
         }).catch(error => alert(error));
     };
 
-    const onSaveButtonClick = (event) => {
+    const onSubmit = (event) => {
+        event.preventDefault();
         const cookies = new Cookies();
         const accessToken = cookies.get('accessToken');
         if (accessToken) {
@@ -163,7 +164,7 @@ const ProfilePage = () => {
         <ProfilePageWrapper
             activeTab="profile"
             showLoadingIndicator={ isLogoutLoading }>
-            <div className={ styles.Inputs }>
+            <form className={ styles.Inputs } onSubmit={ onSubmit }>
                 <Input
                     ref={ inputRef }
                     placeholder="Имя"
@@ -197,7 +198,6 @@ const ProfilePage = () => {
                             htmlType="submit"
                             type="primary"
                             size="small"
-                            onClick={ onSaveButtonClick }
                             disabled={ state.saveButtonReadOnly }>
                             Сохранить
                         </Button>
@@ -211,7 +211,7 @@ const ProfilePage = () => {
                         </Button>
                     </div>
                 }
-            </div>
+            </form>
         </ProfilePageWrapper>
     );
 };

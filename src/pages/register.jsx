@@ -49,7 +49,8 @@ const RegisterPage = () => {
         }
     };
 
-    const onClick = () => {
+    const onSubmit = (event) => {
+        event.preventDefault();
         dispatch(register(state.name, state.email, state.password)).then((res) => {
             if (res.success) {
                 navigate('/');
@@ -73,7 +74,7 @@ const RegisterPage = () => {
     }, [state.name, state.email, state.password, setState]);
 
     return (
-        <FormPageWrapper showLoadingIndicator={ isRegisterLoading }>
+        <FormPageWrapper showLoadingIndicator={ isRegisterLoading } onSubmit={ onSubmit }>
             <h2 className="text text_type_main-medium mt-6">
                 Регистрация
             </h2>
@@ -97,8 +98,7 @@ const RegisterPage = () => {
                 htmlType="submit"
                 extraClass="mt-6"
                 size="medium"
-                disabled={ state.registerButtonReadOnly }
-                onClick={ onClick }>
+                disabled={ state.registerButtonReadOnly }>
                 Зарегистрироваться
             </Button>
             <div className="mt-20">

@@ -11,12 +11,14 @@
 }
 
 .NavItem_active,
-.NavItem_active a:visited {
+.NavItem_active a:visited,
+.NavItem_active a {
     color: var(--text-primary-color);
 }
 
 .NavItem_inactive,
-.NavItem_inactive a:visited {
+.NavItem_inactive a:visited,
+.NavItem_inactive a {
     color: var(--text-inactive-color);
 }
 

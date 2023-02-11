@@ -50,7 +50,8 @@ const ResetPasswordPage = () => {
         }
     }, [state.password, state.code, setState]);
 
-    const onClick = () => {
+    const onSubmit = (event) => {
+        event.preventDefault();
         dispatch(resetPassword(state.password, state.code)).then((res) => {
             if (res.success) {
                 navigate('/');
@@ -69,7 +70,7 @@ const ResetPasswordPage = () => {
     }
 
     return (
-        <FormPageWrapper showLoadingIndicator={ isResetPasswordLoading }>
+        <FormPageWrapper showLoadingIndicator={ isResetPasswordLoading } onSubmit={ onSubmit }>
             <h2 className="text text_type_main-medium mt-6">
                 Восстановление пароля
             </h2>
@@ -89,8 +90,7 @@ const ResetPasswordPage = () => {
                 extraClass="mt-6"
                 size="medium"
                 disabled={ state.saveButtonReadOnly }
-                htmlType="submit"
-                onClick={ onClick }>
+                htmlType="submit">
                 Сохранить
             </Button>
             <div className="mt-20">

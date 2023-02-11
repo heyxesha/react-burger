@@ -27,7 +27,8 @@ const ForgotPasswordPage = () => {
         }
     };
 
-    const onClick = () => {
+    const onSubmit = (event) => {
+        event.preventDefault();
         dispatch(sendEmail(state.value)).then(() => {
             dispatch(setMoveFromForgotPasswordStatus(true));
             navigate('/reset-password');
@@ -35,7 +36,7 @@ const ForgotPasswordPage = () => {
     };
 
     return (
-        <FormPageWrapper showLoadingIndicator={ isSendEmailLoading }>
+        <FormPageWrapper showLoadingIndicator={ isSendEmailLoading } onSubmit={ onSubmit }>
             <h2 className="text text_type_main-medium mt-6">
                 Восстановление пароля
             </h2>
@@ -50,8 +51,7 @@ const ForgotPasswordPage = () => {
                 extraClass="mt-6"
                 size="medium"
                 disabled={ state.resetButtonReadOnly }
-                htmlType="submit"
-                onClick={ onClick }>
+                htmlType="submit">
                 Восстановить
             </Button>
             <div className="mt-20">

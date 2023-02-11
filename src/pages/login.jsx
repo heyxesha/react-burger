@@ -39,7 +39,8 @@ const LoginPage = (props) => {
         }
     };
 
-    const onClick = () => {
+    const onSubmit = (event) => {
+        event.preventDefault();
         dispatch(login(state.email, state.password)).then((res) => {
             if (res.success) {
                 navigate(prevSecuredUrl ? prevSecuredUrl : '/');
@@ -60,7 +61,7 @@ const LoginPage = (props) => {
     }, [state.email, state.password, setState]);
 
     return (
-        <FormPageWrapper showLoadingIndicator={ isLoginLoading }>
+        <FormPageWrapper showLoadingIndicator={ isLoginLoading } onSubmit={ onSubmit }>
             <h2 className="text text_type_main-medium mt-6">
                 Вход
             </h2>
@@ -78,8 +79,7 @@ const LoginPage = (props) => {
                 extraClass="mt-6"
                 htmlType="submit"
                 size="medium"
-                disabled={ state.enterButtonReadOnly }
-                onClick={ onClick }>
+                disabled={ state.enterButtonReadOnly }>
                 Войти
             </Button>
             <div className="mt-20">
