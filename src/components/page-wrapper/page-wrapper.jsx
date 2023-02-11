@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import AppHeader from '../app-header/app-header';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
 
@@ -13,6 +15,12 @@ const PageWrapper = ({ children, activeTab, showLoadingIndicator }) => {
             </div>
         </>
     );
+};
+
+PageWrapper.propTypes = {
+    children: PropTypes.element,
+    activeTab: PropTypes.string,
+    showLoadingIndicator: PropTypes.bool
 };
 
 export default PageWrapper;

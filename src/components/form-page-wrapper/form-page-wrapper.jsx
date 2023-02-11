@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import PageWrapper from '../page-wrapper/page-wrapper';
 
 import styles from './form-page-wrapper.module.css';
@@ -10,6 +12,12 @@ const FormPageWrapper = ({ children, showLoadingIndicator, onSubmit }) => {
             </form>
         </PageWrapper>
     );
+};
+
+FormPageWrapper.propTypes = {
+    children: PropTypes.element,
+    showLoadingIndicator: PropTypes.bool,
+    onSubmit: PropTypes.func
 };
 
 export default FormPageWrapper;

@@ -15,6 +15,7 @@ import ProfilePage from '../../pages/profile/profile';
 import ProfileOrdersPage from '../../pages/profile-orders';
 import Modal from '../modal/modal';
 import IngredientDetailsPage from '../../pages/ingredient-details/ingredient-details';
+import NotFoundPage from '../../pages/not-found/not-found';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import styles from './app.module.css';
@@ -131,6 +132,10 @@ export const App = () => {
                 <Route
                     path="/:ingredients/:id"
                     element={ <IngredientDetailsPage /> }
+                />
+                <Route
+                    path="*"
+                    element={ <NotFoundPage /> }
                 />
             </Routes>
             {

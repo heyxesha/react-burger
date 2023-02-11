@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import PropTypes from 'prop-types';
 
 import { logout } from '../../services/actions/auth';
 
@@ -48,5 +49,10 @@ const ProfileNavigation = ({ activeTab }) => {
         </>
     );
 };
+
+ProfileNavigation.propTypes = {
+    activeTab: PropTypes.string
+};
+
 
 export default ProfileNavigation;

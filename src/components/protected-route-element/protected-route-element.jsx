@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -24,5 +26,11 @@ const ProtectedRouteElement = ({ element, needAuthorization }) => {
 
     return !isAuthorized ? element : <Navigate to="/" replace />
 };
+
+ProtectedRouteElement.propTypes = {
+    element: PropTypes.element,
+    needAuthorization: PropTypes.bool
+};
+
 
 export default ProtectedRouteElement;

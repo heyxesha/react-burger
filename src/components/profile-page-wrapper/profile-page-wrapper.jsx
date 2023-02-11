@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import PageWrapper from '../../components/page-wrapper/page-wrapper';
 import ProfileNavigation from '../../components/profile-navigation/profile-navigation';
 
@@ -17,5 +19,12 @@ const ProfilePageWrapper = ({ children, activeTab }) => {
         </PageWrapper>
     );
 };
+
+
+ProfilePageWrapper.propTypes = {
+    children: PropTypes.element,
+    activeTab: PropTypes.string
+};
+
 
 export default ProfilePageWrapper;

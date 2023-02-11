@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+
 import Button from '../nav-button/nav-button';
+
 import styles from './app-header.module.css';
 
 const AppHeader = ({ activeTab }) => {
@@ -14,10 +17,10 @@ const AppHeader = ({ activeTab }) => {
                     style={ activeTab === 'constructor' ? 'primary' : 'secondary'}
                     title="Конструктор" />
             </Link>
-            <Link to="/ordersFeed">
+            <Link to="/orders-feed">
                 <Button
                     iconType="list"
-                    style={ activeTab === 'ordersFeed' ? 'primary' : 'secondary'}
+                    style={ activeTab === '/orders-feed' ? 'primary' : 'secondary'}
                     title="Лента заказов" />
             </Link>
             </div>
@@ -33,6 +36,10 @@ const AppHeader = ({ activeTab }) => {
         </div>
     </header>
   );
+};
+
+AppHeader.propTypes = {
+    activeTab: PropTypes.string
 };
   
 export default AppHeader;
