@@ -10,13 +10,11 @@ const ProfileNavigation = ({ activeTab }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const onIconClick = () => {};
-
     const onExitClick = () => {
         const cookies = new Cookies();
         dispatch(logout(cookies.get('refreshToken'))).then((res) => {
             if (res.success) {
-                navigate('/');
+                navigate('/login');
             } else {
                 alert(res.error);
             }
@@ -32,7 +30,7 @@ const ProfileNavigation = ({ activeTab }) => {
                     </Link>
                 </li>
                 <li className={ `${ styles.NavItem } ${ activeTab === 'orders' ? styles.NavItem_active : styles.NavItem_inactive } text text_type_main-medium` }>
-                    <Link to="/profile/orders">
+                    <Link to="orders">
                         История заказов
                     </Link>
                 </li>

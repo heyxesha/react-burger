@@ -1,4 +1,5 @@
 import getData from '../../utils/burger-api';
+import Cookies from 'universal-cookie';
 
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
@@ -15,6 +16,8 @@ export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST';
 export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
 export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
+
+export const SET_AUTHORIZATION_STATUS = 'SET_AUTHORIZATION_STATUS';
 
 const API_PASS = 'auth';
 
@@ -109,7 +112,7 @@ export function logout(token) {
     return function(dispatch) {
         dispatch(logoutRequest());
         return getData({
-            path: API_PASS + '/login',
+            path: API_PASS + '/logout',
             method: 'POST',
             bodyParams: { token }
         }).then(res => {
@@ -182,5 +185,36 @@ export function updateTokenFailed(error) {
     return {
         type: UPDATE_TOKEN_FAILED,
         error
+    };
+}
+
+export function checkAutharization() {
+    return function(dispatch) {
+        const cookies = new Cookies();
+        const accessToken = cookies.get('accessToken');
+        const refreshToken = cookies.get('refreshToken');
+        if (accessToken) {
+            dispatch(setAutharizationStatus(true));
+        } else if (refreshToken) {
+            dispatch(updateToken(refreshToken)).then((res) => {
+                if (res.success) {
+                    dispatch(setAutharizationStatus(true));
+                } else {
+                    dispatch(setAutharizationStatus(false));
+                }
+            }).catch((error) => {
+                setAutharizationStatus(false);
+                return error;
+            });
+        } else {
+            dispatch(setAutharizationStatus(false));
+        }
+    };
+};
+
+export function setAutharizationStatus(isAuthorized) {
+    return {
+        type: SET_AUTHORIZATION_STATUS,
+        isAuthorized
     };
 }

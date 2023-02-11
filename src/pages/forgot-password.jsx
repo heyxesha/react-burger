@@ -4,10 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { sendEmail } from '../services/actions/reset-password';
+import { setMoveFromForgotPasswordStatus } from '../services/actions/router';
 import { isValidEmail } from '../utils/validators';
-import PageWrapper from '../components/page-wrapper/page-wrapper';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
-import LoadingIndicator from '../components/loading-indicator/loading-indicator';
 
 const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
@@ -30,6 +29,7 @@ const ForgotPasswordPage = () => {
 
     const onClick = () => {
         dispatch(sendEmail(state.value)).then(() => {
+            dispatch(setMoveFromForgotPasswordStatus(true));
             navigate('/reset-password');
         }).catch(error => alert(`Произошла ошибка при отправке e-mail: ${ error }`));
     };

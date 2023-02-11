@@ -14,9 +14,9 @@ const ProfilePage = () => {
     const { isLogoutLoading } = useSelector(state => state.auth);
     const { name, email, password } = useSelector(state => state.user);
     const [state, setState] = useState({
-        name: '',
-        email: '',
-        password: '',
+        name,
+        email,
+        password,
         nameReadOnly: true,
         showButtons: true,
         saveButtonReadOnly: true

@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 
+import { checkAutharization } from '../../services/actions/auth';
+import ProtectedRouteElement from '../protected-route-element/protected-route-element';
 import MainPage from '../../pages/main/main';
 import LoginPage from '../../pages/login';
 import RegisterPage from '../../pages/register';
@@ -16,11 +18,17 @@ import styles from './app.module.css';
 export const App = () => {
     // TODO: красиво было бы переделать все алерты на модалки
     const { accessToken, refreshToken, resetTokens } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(checkAutharization());
+    }, []);
+
     useEffect(() => {
         if (accessToken) {
             const cookies = new Cookies();
             const expires = new Date();
-            expires.setMinutes(expires.getMinutes() + 1);
+            expires.setMinutes(expires.getMinutes() + 20);
             cookies.set('accessToken', accessToken, { path: '/', expires });
         }
     }, [accessToken]);
@@ -50,26 +58,58 @@ export const App = () => {
                     />
                     <Route
                         path="/login"
-                        element={ <LoginPage /> }/>
+                        element={
+                            <ProtectedRouteElement
+                                needAuthorization={ false }
+                                element={ <LoginPage /> }
+                            />
+                        }
+                    />
                     <Route
                         path="/register"
-                        element={ <RegisterPage /> }
+                        element={
+                            <ProtectedRouteElement
+                                needAuthorization={ false }
+                                element={ <RegisterPage /> }
+                            />
+                        }
                     />
                     <Route
                         path="/forgot-password"
-                        element={ <ForgotPasswordPage /> }
+                        element={
+                            <ProtectedRouteElement
+                                needAuthorization={ false }
+                                element={ <ForgotPasswordPage /> }
+                            />
+                        }
                     />
                     <Route
                         path="/reset-password"
-                        element={ <ResetPasswordPage /> }
+                        element={
+                            <ProtectedRouteElement
+                                needAuthorization={ false }
+                                element={ <ResetPasswordPage /> }
+                            />
+                        }
                     />
                     <Route
                         path="/profile"
-                        element={ <ProfilePage /> } >
+                        element={
+                            <ProtectedRouteElement
+                                needAuthorization={ true }
+                                element={ <ProfilePage /> }
+                            />
+                        }
+                    >
                     </Route>
                     <Route
                         path="/profile/:orders"
-                        element={<ProfileOrdersPage/>}
+                        element={
+                            <ProtectedRouteElement
+                                needAuthorization={ true }
+                                element={ <ProfileOrdersPage/> }
+                            />
+                        }
                     />
                 </Routes>
             </BrowserRouter>

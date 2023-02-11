@@ -14,7 +14,9 @@ import {
 
     UPDATE_TOKEN_REQUEST,
     UPDATE_TOKEN_SUCCESS,
-    UPDATE_TOKEN_FAILED
+    UPDATE_TOKEN_FAILED,
+
+    SET_AUTHORIZATION_STATUS
 } from '../actions/auth';
 
 const initialState = {
@@ -32,7 +34,10 @@ const initialState = {
     isLogoutFailed: false,
 
     isTokenLoading: false,
-    isTokenFailed: false
+    isTokenFailed: false,
+
+    isAuthorized: false,
+    wasAuthorizationCheck: false
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -50,6 +55,7 @@ export const authReducer = (state = initialState, action) => {
                 isRegisterFailed: false,
                 accessToken: action.accessToken,
                 refreshToken: action.refreshToken,
+                isAuthorized: true
             };
         case REGISTER_FAILED:
             return {
@@ -69,7 +75,8 @@ export const authReducer = (state = initialState, action) => {
                 isLoginLoading: false,
                 isLoginFailed: false,
                 accessToken: action.accessToken,
-                refreshToken: action.refreshToken
+                refreshToken: action.refreshToken,
+                isAuthorized: true
             };
         case LOGIN_FAILED:
             return {
@@ -91,7 +98,8 @@ export const authReducer = (state = initialState, action) => {
                 isLogoutFailed: false,
                 accessToken: initialState.accessToken,
                 refreshToken: initialState.refreshToken,
-                resetTokens: true
+                resetTokens: true,
+                isAuthorized: false
             };
         case LOGOUT_FAILED:
             return {
@@ -119,6 +127,12 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 isTokenLoading: false,
                 isTokenFailed: true
+            };
+        case SET_AUTHORIZATION_STATUS:
+            return {
+                ...state,
+                isAuthorized: action.isAuthorized,
+                wasAuthorizationCheck: true
             };
         default: {
             return state;
