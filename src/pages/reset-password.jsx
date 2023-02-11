@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { resetPassword } from '../services/actions/reset-password';
-import { setMoveFromForgotPasswordStatus } from '../services/actions/router';
 import { isValidPassword } from '../utils/validators';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 const ResetPasswordPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const { isResetPasswordLoading } = useSelector(state => state.resetPassword);
-    const { moveFromForgotPassword } = useSelector(state => state.router);
     const [state, setState] = useState({
         password: '',
         code: '',
         saveButtonReadOnly: true,
-        moveFromForgotPassword
+        moveFromForgotPassword: location.state?.moveFromForgotPassword
     });
 
     const onPasswordChange = (event) => {
@@ -61,8 +60,16 @@ const ResetPasswordPage = () => {
         }).catch(error => alert(error));
     };
 
+    
     useEffect(() => {
-        dispatch(setMoveFromForgotPasswordStatus(false));
+        const newState = {
+            ...(location.state || {}),
+            moveFromForgotPassword: false
+        };
+        navigate(".", {
+            replace: true,
+            state: newState
+        });
     }, []);
 
     if (!state.moveFromForgotPassword) {

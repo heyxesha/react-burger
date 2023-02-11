@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { login } from '../services/actions/auth';
 import { isValidEmail, isValidPassword } from '../utils/validators';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
-const LoginPage = (props) => {
+const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -17,7 +17,6 @@ const LoginPage = (props) => {
     });
 
     const { isLoginLoading } = useSelector(state => state.auth);
-    const { prevSecuredUrl } = useSelector(state => state.router);
 
     const onEmailChange = (event) => {
         const email = event.target.value;
@@ -39,11 +38,13 @@ const LoginPage = (props) => {
         }
     };
 
+    const location = useLocation();
     const onSubmit = (event) => {
         event.preventDefault();
         dispatch(login(state.email, state.password)).then((res) => {
             if (res.success) {
-                navigate(prevSecuredUrl ? prevSecuredUrl : '/');
+                const lastSecuredPage = location.state?.lastSecuredPage;
+                navigate(lastSecuredPage ? lastSecuredPage : '/');
             } else {
                 alert(res.error);
             }

@@ -1,18 +1,25 @@
-import { Navigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { setUnsecuredUrl } from '../../services/actions/router';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ProtectedRouteElement = ({ element, needAuthorization }) => {
     const { isAuthorized, wasAuthorizationCheck } = useSelector(state => state.auth);
-    const dispatch = useDispatch();
+    const location = useLocation();
     if (!wasAuthorizationCheck) {
         return null;
     }
 
     if (needAuthorization) {
-        dispatch(setUnsecuredUrl(window.location.pathname));
-        return isAuthorized ? element : <Navigate to="/login" replace />
+        return isAuthorized ? element :
+            <Navigate
+                to="/login"
+                replace
+                state={
+                    {
+                        ...(location || {}),
+                        lastSecuredPage: window.location.pathname
+                    }
+                }
+            />
     }
 
     return !isAuthorized ? element : <Navigate to="/" replace />

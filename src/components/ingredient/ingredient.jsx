@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 import uuid from 'react-uuid';
-import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { acceptAddToConstructor, cancelAddToConstructor } from '../../services/actions/selected-ingredients';
@@ -36,26 +37,38 @@ const Ingredient = ({
         dragPreview(getEmptyImage())
     }, [dragPreview]);
 
+    const location = useLocation();
+
     return (
+        <Link
+            to={`ingredients/${ item._id }`}
+            state={
+                {
+                    ...(location.state || {}),
+                    background: location
+                }
+            }>
         <div
             className={ `${ styles.Ingredient } ${ needMargin ? 'mt-8' : '' }` }
             ref={ dragRef }
             draggable
             onClick={ onClick }>
-            <img src={ item.image } alt={ item.name } />
-            <div className={ `${ styles.Price } mt-1` }>
-                <p className="text text_type_digits-default mr-1">
-                    { item.price }
+            
+                <img src={ item.image } alt={ item.name } />
+                <div className={ `${ styles.Price } mt-1` }>
+                    <p className="text text_type_digits-default mr-1">
+                        { item.price }
+                    </p>
+                    <CurrencyIcon />
+                </div>
+                <p className={ `${ styles.Name } text text_type_main-default mt-1` }>
+                    { item.name }
                 </p>
-                <CurrencyIcon />
+                {
+                    !!item.selectedCount && <Counter count={ item.selectedCount } size="default" />
+                }
             </div>
-            <p className={ `${ styles.Name } text text_type_main-default mt-1` }>
-                { item.name }
-            </p>
-            {
-                !!item.selectedCount && <Counter count={ item.selectedCount } size="default" />
-            }
-        </div>
+        </Link>
     );
 };
 

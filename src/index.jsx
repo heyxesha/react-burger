@@ -9,6 +9,7 @@ import { compose } from 'redux';
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers/root';
+import { BrowserRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 
 const root = ReactDOM.createRoot(
@@ -29,7 +30,9 @@ const store = configureStore({
 root.render(
     <React.StrictMode>
         <Provider store={ store }>
-            <App />
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
         </Provider>
     </React.StrictMode>
 );

@@ -4,6 +4,7 @@ import {
 } from '../actions/viewed-ingredient';
 
 const initialState = {
+    _id: '',
     image: '',
     name: '',
     calories: 0,
@@ -15,7 +16,9 @@ const initialState = {
 export const viewedIngredientReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_VIEWED_INGREDIENT:
-            return action.data;
+            return {
+                ...action.data
+            };
         case RESET_VIEWED_INGREDIENT:
             return initialState;
         default: {

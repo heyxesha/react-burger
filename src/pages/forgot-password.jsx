@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { sendEmail } from '../services/actions/reset-password';
-import { setMoveFromForgotPasswordStatus } from '../services/actions/router';
 import { isValidEmail } from '../utils/validators';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const { isSendEmailLoading } = useSelector(state => state.resetPassword);
     const [state, setState] = useState({
         value: '',
@@ -30,8 +30,11 @@ const ForgotPasswordPage = () => {
     const onSubmit = (event) => {
         event.preventDefault();
         dispatch(sendEmail(state.value)).then(() => {
-            dispatch(setMoveFromForgotPasswordStatus(true));
-            navigate('/reset-password');
+            const newState = {
+                ...(location.state || {}),
+                moveFromForgotPassword: true
+            };
+            navigate('/reset-password', { state: newState });
         }).catch(error => alert(`Произошла ошибка при отправке e-mail: ${ error }`));
     };
 
