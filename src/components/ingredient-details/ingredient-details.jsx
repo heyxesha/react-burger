@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { getIngredients } from '../../services/actions/ingredients';
 import { setViewedIngredient } from '../../services/actions/viewed-ingredient';
 import IngredientDetailItem from '../ingredient-detail-item/ingredient-detail-item';
 
@@ -27,8 +26,6 @@ const IngredientDetails = () => {
             if (ingredients.length) {
                 const viewedIngredient = ingredients.find(item => item._id === params.id);
                 dispatch(setViewedIngredient(viewedIngredient));
-            } else {
-                dispatch(getIngredients());
             }
         }
     }, [ingredients]);

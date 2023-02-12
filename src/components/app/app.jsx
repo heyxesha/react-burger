@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 
 import { checkAutharization } from '../../services/actions/auth';
 import { resetViewedIngredient } from '../../services/actions/viewed-ingredient';
+import { getIngredients } from '../../services/actions/ingredients';
 import ProtectedRouteElement from '../protected-route-element/protected-route-element';
 import MainPage from '../../pages/main/main';
 import LoginPage from '../../pages/login';
@@ -55,6 +56,10 @@ export const App = () => {
             cookies.remove('refreshToken');
         }
     }, [resetTokens]);
+
+    useEffect(() => {
+        dispatch(getIngredients());
+    }, []);
     
     const onModalClose = () => {
         dispatch(resetViewedIngredient());

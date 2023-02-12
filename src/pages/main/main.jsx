@@ -1,10 +1,7 @@
-
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-import { getIngredients } from '../../services/actions/ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import CustomDragLayer  from '../../components/custom-drag-layer/custom-drag-layer';
@@ -20,11 +17,6 @@ const MainPage = () => {
         ingredients,
         isIngredientsLoading
     } = useSelector(state => state.ingredients);
-
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getIngredients());
-    }, [dispatch]);
 
     return (
         <PageWrapper
