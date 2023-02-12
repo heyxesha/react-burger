@@ -5,53 +5,24 @@ import { EmailInput, PasswordInput, Button, Input } from '@ya.praktikum/react-de
 
 import { register } from '../services/actions/auth';
 import { isValidEmail, isValidPassword } from '../utils/validators';
+import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 const RegisterPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [state, setState] = useState({
-        name: '',
-        email: '',
-        password: '',
-        registerButtonReadOnly: true
-    });
+    const [registerButtonReadOnly, setRegisterButtonReadOnly] = useState(true);
 
     const { isRegisterLoading } = useSelector(state => state.auth);
-
-    const onNameChange = (event) => {
-        const name = event.target.value;
-        if (state.name !== name) {
-            setState({
-                ...state,
-                name
-            });
-        }
-    };
-
-    const onEmailChange = (event) => {
-        const email = event.target.value;
-        if (state.email !== email) {
-            setState({
-                ...state,
-                email
-            });
-        }
-    };
-
-    const onPasswordChange = (event) => {
-        const password = event.target.value;
-        if (state.password !== password) {
-            setState({
-                ...state,
-                password
-            });
-        }
-    };
+    const { values, handleChange } = useForm({
+        name: '',
+        email: '',
+        password: ''
+    });
 
     const onSubmit = (event) => {
         event.preventDefault();
-        dispatch(register(state.name, state.email, state.password)).then((res) => {
+        dispatch(register(values.name, values.email, values.password)).then((res) => {
             if (res.success) {
                 navigate('/');
             } else {
@@ -61,17 +32,14 @@ const RegisterPage = () => {
     };
 
     useEffect(() => {
-        const registerButtonReadOnly =
-            !state.name
-            || !isValidEmail(state.email)
-            || !isValidPassword(state.password);
-        if (state.registerButtonReadOnly !== registerButtonReadOnly) {
-            setState({
-                ...state,
-                registerButtonReadOnly
-            });
+        const newRegisterButtonReadOnly =
+            !values.name
+            || !isValidEmail(values.email)
+            || !isValidPassword(values.password);
+        if (registerButtonReadOnly !== newRegisterButtonReadOnly) {
+            setRegisterButtonReadOnly(newRegisterButtonReadOnly);
         }
-    }, [state.name, state.email, state.password, setState]);
+    }, [values.name, values.email, values.password, setRegisterButtonReadOnly]);
 
     return (
         <FormPageWrapper showLoadingIndicator={ isRegisterLoading } onSubmit={ onSubmit }>
@@ -81,24 +49,27 @@ const RegisterPage = () => {
             <Input
                 extraClass="mt-6"
                 placeholder="Имя"
+                name="name"
                 autoFocus={ true }
-                value={ state.name }
-                onChange={ onNameChange } />
+                value={ values.name }
+                onChange={ handleChange } />
             <EmailInput
                 extraClass="mt-6"
-                value={ state.email }
-                onChange={ onEmailChange }
+                name="email"
+                value={ values.email }
+                onChange={ handleChange }
                 errorText="Пожалуйста, введите корректный e-mail." />
             <PasswordInput
                 extraClass="mt-6"
-                value={ state.password }
+                name="password"
+                value={ values.password }
                 errorText="Пароль должен быть не короче 6 символов."
-                onChange={ onPasswordChange } />
+                onChange={ handleChange } />
             <Button
                 htmlType="submit"
                 extraClass="mt-6"
                 size="medium"
-                disabled={ state.registerButtonReadOnly }>
+                disabled={ registerButtonReadOnly }>
                 Зарегистрироваться
             </Button>
             <div className="mt-20">

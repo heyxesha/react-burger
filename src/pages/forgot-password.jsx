@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { sendEmail } from '../services/actions/reset-password';
 import { isValidEmail } from '../utils/validators';
+import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 const ForgotPasswordPage = () => {
@@ -12,24 +13,20 @@ const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isSendEmailLoading } = useSelector(state => state.resetPassword);
-    const [state, setState] = useState({
-        value: '',
-        resetButtonReadOnly: true
-    });
+    const [resetButtonReadOnly, setResetButtonReadOnly] = useState(true);
 
-    const onValueChanged = (event) => {
-        const value = event.target.value;
-        if (state.value !== value) {
-            setState({
-                resetButtonReadOnly: !isValidEmail(value),
-                value
-            });
+    const { values, handleChange } = useForm({ email: '' });
+
+    useEffect(() => {
+        const newResetButtonReadOnly = !isValidEmail(values.email)
+        if (resetButtonReadOnly !== newResetButtonReadOnly) {
+            setResetButtonReadOnly(newResetButtonReadOnly);
         }
-    };
+    }, [values.email, setResetButtonReadOnly]);
 
     const onSubmit = (event) => {
         event.preventDefault();
-        dispatch(sendEmail(state.value)).then(() => {
+        dispatch(sendEmail(values.email)).then(() => {
             const newState = {
                 ...(location.state || {}),
                 moveFromForgotPassword: true
@@ -47,13 +44,14 @@ const ForgotPasswordPage = () => {
                 extraClass="mt-6"
                 placeholder="Укажите e-mail"
                 errorText="Пожалуйста, введите корректный e-mail."
-                value={ state.value }
-                onChange={ onValueChanged }
+                name="email"
+                value={ values.email }
+                onChange={ handleChange }
                 autoFocus={ true } />
             <Button
                 extraClass="mt-6"
                 size="medium"
-                disabled={ state.resetButtonReadOnly }
+                disabled={ resetButtonReadOnly }
                 htmlType="submit">
                 Восстановить
             </Button>

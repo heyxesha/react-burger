@@ -3,7 +3,9 @@ import ProfilePageWrapper from '../components/profile-page-wrapper/profile-page-
 const ProfileOrdersPage = () => {
     return (
         <ProfilePageWrapper activeTab="orders">
-            Тут будет лента заказов
+            <span>
+                Тут будет лента заказов
+            </span>
         </ProfilePageWrapper>
     );
 };

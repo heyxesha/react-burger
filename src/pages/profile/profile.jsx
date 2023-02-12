@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { getUser, updateUser } from '../../services/actions/user';
 import { updateToken } from '../../services/actions/auth';
+import { useForm } from '../../hooks/useForm';
 import ProfilePageWrapper from '../../components/profile-page-wrapper/profile-page-wrapper';
 
 import styles from './profile.module.css';
@@ -14,15 +15,17 @@ const ProfilePage = () => {
     const { isLogoutLoading } = useSelector(state => state.auth);
     const { name, email, password } = useSelector(state => state.user);
     const [state, setState] = useState({
-        name,
-        email,
-        password,
         nameReadOnly: true,
         showButtons: true,
         saveButtonReadOnly: true
     });
     const inputRef = useRef(null);
     const dispatch = useDispatch();
+    const { values, handleChange, setValues } = useForm({
+        name,
+        email,
+        password
+    });
 
     const onNameIconClick = () => {
         if (state.nameReadOnly) {
@@ -46,42 +49,12 @@ const ProfilePage = () => {
         });
     };
 
-    const onNameChange = (event) => {
-        const name = event.target.value;
-        if (state.name !== name) {
-            setState({
-                ...state,
-                name
-            });
-        }
-    };
-
-    const onEmailChange = (event) => {
-        const email = event.target.value;
-        if (state.email !== email) {
-            setState({
-                ...state,
-                email
-            });
-        }
-    };
-
-    const onPasswordChange = (event) => {
-        const password = event.target.value;
-        if (state.password !== password) {
-            setState({
-                ...state,
-                password
-            });
-        }
-    };
-
     const dispatchUpdateUser = (token) => {
         dispatch(updateUser(
             token,
-            state.name,
-            state.email,
-            state.password ? state.password : undefined
+            values.name,
+            values.email,
+            values.password ? values.password : undefined
         )).then((res) => {
             if (res.success) {
                 setState({
@@ -111,12 +84,15 @@ const ProfilePage = () => {
         }
     };
 
-    const onCancelButtonClick = (event) => {
-        setState({
-            ...state,
+    const onCancelButtonClick = () => {
+        setValues({
+            ...values,
             name,
             email,
-            password,
+            password
+        });
+        setState({
+            ...state,
             nameReadOnly: true,
             showButtons: false
         });
@@ -139,26 +115,29 @@ const ProfilePage = () => {
     }, []);
 
     useEffect(() => {
+        setValues({
+            ...values,
+            name,
+            email
+        });
         setState({
             ...state,
-            name,
-            email,
             nameReadOnly: true
         });
     }, [name, email]);
 
     useEffect(() => {
         const saveButtonReadOnly =
-            !state.name
-            || !isValidEmail(state.email)
-            || (state.password && !isValidPassword(state.password));
-        const showButtons = state.name !== name || state.email !== email || state.password !== password;
+            !values.name
+            || !isValidEmail(values.email)
+            || (values.password && !isValidPassword(values.password));
+        const showButtons = values.name !== name || values.email !== email || values.password !== password;
         setState({
             ...state,
             saveButtonReadOnly,
             showButtons
         });
-    }, [state.name, state.email, state.password, setState]);
+    }, [values.name, values.email, values.password, setState]);
 
     return (
         <ProfilePageWrapper
@@ -168,29 +147,32 @@ const ProfilePage = () => {
                 <Input
                     ref={ inputRef }
                     placeholder="Имя"
-                    value={ state.name }
+                    name="name"
+                    value={ values.name }
                     icon="EditIcon"
                     autoFocus={ true }
                     disabled={ state.nameReadOnly }
                     onIconClick={ onNameIconClick }
                     onBlur={ onNameBlur }
-                    onChange={ onNameChange } />
+                    onChange={ handleChange } />
                 <EmailInput
                     extraClass="mt-6"
                     placeholder="Логин"
-                    value={ state.email }
+                    value={ values.email }
                     icon="EditIcon"
+                    name="email"
                     isIcon={ true }
                     errorText="Пожалуйста, введите корректный e-mail."
-                    onChange={ onEmailChange } />
+                    onChange={ handleChange } />
                 <PasswordInput
                     extraClass="mt-6"
                     placeholder="Пароль"
                     errorText="Пароль должен быть не короче 6 символов."
-                    value={ state.password }
+                    value={ values.password }
                     icon="EditIcon"
                     isicon="true"
-                    onChange={ onPasswordChange }/>
+                    name="password"
+                    onChange={ handleChange }/>
                 {
                     state.showButtons &&
                     <div className={ `${ styles.Buttons } mt-7` }>

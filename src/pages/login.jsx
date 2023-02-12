@@ -5,43 +5,24 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 
 import { login } from '../services/actions/auth';
 import { isValidEmail, isValidPassword } from '../utils/validators';
+import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [state, setState] = useState({
-        email: '',
-        password: '',
-        registerButtonReadOnly: true
-    });
+    const [enterButtonReadOnly, setEnterButtonReadOnly] = useState(true);
 
     const { isLoginLoading } = useSelector(state => state.auth);
-
-    const onEmailChange = (event) => {
-        const email = event.target.value;
-        if (state.email !== email) {
-            setState({
-                ...state,
-                email
-            });
-        }
-    };
-
-    const onPasswordChange = (event) => {
-        const password = event.target.value;
-        if (state.password !== password) {
-            setState({
-                ...state,
-                password
-            });
-        }
-    };
+    const { values, handleChange } = useForm({
+        email: '',
+        password: ''
+    });
 
     const location = useLocation();
     const onSubmit = (event) => {
         event.preventDefault();
-        dispatch(login(state.email, state.password)).then((res) => {
+        dispatch(login(values.email, values.password)).then((res) => {
             if (res.success) {
                 const lastSecuredPage = location.state?.lastSecuredPage;
                 navigate(lastSecuredPage ? lastSecuredPage : '/');
@@ -52,14 +33,11 @@ const LoginPage = () => {
     };
 
     useEffect(() => {
-        const enterButtonReadOnly = !isValidEmail(state.email) || !isValidPassword(state.password);
-        if (state.enterButtonReadOnly !== enterButtonReadOnly) {
-            setState({
-                ...state,
-                enterButtonReadOnly
-            });
+        const newEnterButtonReadOnly = !isValidEmail(values.email) || !isValidPassword(values.password);
+        if (enterButtonReadOnly !== newEnterButtonReadOnly) {
+            setEnterButtonReadOnly(newEnterButtonReadOnly);
         }
-    }, [state.email, state.password, setState]);
+    }, [values.email, values.password, setEnterButtonReadOnly]);
 
     return (
         <FormPageWrapper showLoadingIndicator={ isLoginLoading } onSubmit={ onSubmit }>
@@ -71,17 +49,19 @@ const LoginPage = () => {
                     extraClass="mt-6"
                     errorText="Некорректный e-mail"
                     autoFocus={ true }
-                    value={ state.email }
-                    onChange={ onEmailChange } />
+                    value={ values.email }
+                    name="email"
+                    onChange={ handleChange } />
                 <PasswordInput
                     extraClass="mt-6"
-                    value={ state.password }
-                    onChange={ onPasswordChange } />
+                    name="password"
+                    value={ values.password }
+                    onChange={ handleChange } />
                 <Button
                     extraClass="mt-6"
                     htmlType="submit"
                     size="medium"
-                    disabled={ state.enterButtonReadOnly }>
+                    disabled={ enterButtonReadOnly }>
                     Войти
                 </Button>
                 <div className="mt-20">

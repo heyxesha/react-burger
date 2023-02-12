@@ -5,6 +5,7 @@ import { PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burg
 
 import { resetPassword } from '../services/actions/reset-password';
 import { isValidPassword } from '../utils/validators';
+import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 const ResetPasswordPage = () => {
@@ -13,45 +14,28 @@ const ResetPasswordPage = () => {
     const location = useLocation();
     const { isResetPasswordLoading } = useSelector(state => state.resetPassword);
     const [state, setState] = useState({
-        password: '',
-        code: '',
         saveButtonReadOnly: true,
         moveFromForgotPassword: location.state?.moveFromForgotPassword
     });
 
-    const onPasswordChange = (event) => {
-        const value = event.target.value;
-        if (state.password !== value) {
-            setState({
-                ...state,
-                password: value
-            });
-        }
-    };
+    const { values, handleChange } = useForm({
+        password: '',
+        code: ''
+    });
 
-    const onCodeChange = (event) => {
-        const value = event.target.value;
-        if (state.code !== value) {
-            setState({
-                ...state,
-                code: value
-            });
-        }
-    };
-    
     useEffect(() => {
-        const saveButtonReadOnly = !isValidPassword(state.password) || !state.code;
+        const saveButtonReadOnly = !isValidPassword(values.password) || !values.code;
         if (state.saveButtonReadOnly !== saveButtonReadOnly) {
             setState({
                 ...state,
                 saveButtonReadOnly
             });
         }
-    }, [state.password, state.code, setState]);
+    }, [values.password, values.code, setState]);
 
     const onSubmit = (event) => {
         event.preventDefault();
-        dispatch(resetPassword(state.password, state.code)).then((res) => {
+        dispatch(resetPassword(values.password, values.code)).then((res) => {
             if (res.success) {
                 navigate('/');
             } else {
@@ -86,14 +70,16 @@ const ResetPasswordPage = () => {
                     extraClass="mt-6"
                     placeholder="Введите новый пароль"
                     errorText="Пароль должен быть не короче 6 символов."
-                    value={ state.password }
-                    onChange={ onPasswordChange }
+                    name="password"
+                    value={ values.password }
+                    onChange={ handleChange }
                     autoFocus={ true } />
                 <Input
                     extraClass="mt-6"
                     placeholder="Введите код из письма"
-                    value={ state.code }
-                    onChange={ onCodeChange } />
+                    name="code"
+                    value={ values.code }
+                    onChange={ handleChange } />
                 <Button
                     extraClass="mt-6"
                     size="medium"
