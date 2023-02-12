@@ -6,25 +6,31 @@ import { useSelector } from 'react-redux';
 const ProtectedRouteElement = ({ element, needAuthorization }) => {
     const { isAuthorized, wasAuthorizationCheck } = useSelector(state => state.auth);
     const location = useLocation();
+
     if (!wasAuthorizationCheck) {
         return null;
     }
 
-    if (needAuthorization) {
-        return isAuthorized ? element :
+    if (needAuthorization && !isAuthorized) {
+        return (
             <Navigate
                 to="/login"
                 replace
                 state={
                     {
                         ...(location || {}),
-                        lastSecuredPage: window.location.pathname
+                        lastSecuredPage: location.pathname
                     }
                 }
             />
+        );
     }
 
-    return !isAuthorized ? element : <Navigate to="/" replace />
+    if (!needAuthorization && isAuthorized) {
+        return <Navigate to="/" replace />;
+    }
+
+    return element;
 };
 
 ProtectedRouteElement.propTypes = {

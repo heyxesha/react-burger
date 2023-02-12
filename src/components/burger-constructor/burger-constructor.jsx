@@ -89,7 +89,7 @@ const BurgerConstructor = () => {
         } else {
             const newState = {
                 ...(location.state || {}),
-                lastSecuredPage: window.location.pathname
+                lastSecuredPage: location.pathname
             };
             navigate('/login', { state: newState });
         }
