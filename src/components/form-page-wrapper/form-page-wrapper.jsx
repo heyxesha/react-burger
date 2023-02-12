@@ -15,7 +15,7 @@ const FormPageWrapper = ({ children, showLoadingIndicator, onSubmit }) => {
 };
 
 FormPageWrapper.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.element ||  PropTypes.array(PropTypes.element),
     showLoadingIndicator: PropTypes.bool,
     onSubmit: PropTypes.func
 };
