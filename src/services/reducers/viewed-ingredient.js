@@ -17,7 +17,8 @@ export const viewedIngredientReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_VIEWED_INGREDIENT:
             return {
-                ...action.data
+                ...action.data,
+                image: action.data.image_large
             };
         case RESET_VIEWED_INGREDIENT:
             return initialState;
