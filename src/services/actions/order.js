@@ -10,12 +10,21 @@ export const RESET_VIEWED_ORDER = 'RESET_VIEWED_ORDER';
 export function createOrder(ingredients) {
     return function(dispatch) {
         dispatch(createOrderRequest());
-        return getData('orders', { ingredients }).then(res => {
+        return getData({
+            path: 'orders',
+            method: 'POST',
+            bodyParams: { ingredients }
+        }).then(res => {
             dispatch(createOrderSuccess(res.order.number));
             dispatch(cleanConstructor());
             dispatch(resetSelectedIngredients());
+            return { success: true };
         }).catch(error => {
             dispatch(createOrderFailed(error));
+            return {
+                success: false,
+                error
+            };
         });
     };
 };

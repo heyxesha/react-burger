@@ -1,0 +1,14 @@
+.Inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ResetButton {
+    color: var(--text-inactive-color);
+}

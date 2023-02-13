@@ -1,12 +1,20 @@
 const NORMA_API = 'https://norma.nomoreparties.space/api';
 
-const getData = (dataType, bodyParams) => {
-    const url = NORMA_API + '/' + dataType;
-    const requestParams = bodyParams ? {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bodyParams)
-    } : undefined;
+const getData = ({
+        path,
+        method,
+        bodyParams,
+        headers
+    }) => {
+    const url = NORMA_API + '/' + path;
+    const requestParams = {
+        method,
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        body: bodyParams ? JSON.stringify(bodyParams) : undefined
+    };
     return new Promise((resolve, reject) => {
         fetch(url, requestParams).then((response) => {
             if (response.ok) {
@@ -16,8 +24,11 @@ const getData = (dataType, bodyParams) => {
                     reject(error);
                 });
             } else {
-                const error = new Error('Ошибка HTTP: ' + response.status);
-                reject(error);
+                response.json().then((data) => {
+                    reject(data.message);
+                }).catch(() => {
+                    reject(new Error('Ошибка HTTP: ' + response.status));
+                });
             }               
         }).catch((error) => {
             reject(error);

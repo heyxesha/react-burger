@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrop } from "react-dnd";
+import { useDrop } from 'react-dnd';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import OrderDetails from '../order-details/order-details';
@@ -30,7 +31,10 @@ const BurgerConstructor = () => {
     });
 
     const { bun, innerIngredients, totalSum } = useSelector(state => state.selectedIngredients);
+    const { isAuthorized } = useSelector(state => state.auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const [{ dragIngredientType, dragItemType, isHover }, dropTarget] = useDrop({
         accept: ['ingredient', 'selectedIngredient'],
@@ -65,18 +69,30 @@ const BurgerConstructor = () => {
     };
 
     const orderButtonClick = () => {
-        const ids = innerIngredients.map(item => item._id);
-        ids.push(bun._id);
-        dispatch(createOrder(ids)).then(() => {
-            const orderDetails = ( <OrderDetails /> );
-            setState({
-                ...state,
-                modalVisibility: true,
-                modalChildren: orderDetails
+        if (isAuthorized) {
+            const ids = innerIngredients.map(item => item._id);
+            ids.push(bun._id);
+            dispatch(createOrder(ids)).then((res) => {
+                if (res.success) {
+                    const orderDetails = ( <OrderDetails /> );
+                    setState({
+                        ...state,
+                        modalVisibility: true,
+                        modalChildren: orderDetails
+                    });
+                } else {
+                    alert(res.error);
+                }
+            }).catch((error) => {
+                alert(error);
             });
-        }).catch((error) => {
-            alert(`Произошла ошибка при обработке заказа: ${ error }`);
-        });
+        } else {
+            const newState = {
+                ...(location.state || {}),
+                lastSecuredPage: location.pathname
+            };
+            navigate('/login', { state: newState });
+        }
     };
 
     const close = () => {

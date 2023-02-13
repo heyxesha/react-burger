@@ -12,7 +12,10 @@ export const RESET_SELECTED_INGREDIENTS = 'RESET_SELECTED_INGREDIENTS';
 export function getIngredients() {
     return function(dispatch) {
         dispatch(getIngredientsRequest());
-        getData('ingredients').then(res => {
+        getData({
+            path: 'ingredients',
+            method: 'GET'
+        }).then(res => {
             dispatch(getIngredientsSuccess(res.data));
         }).catch(error => {
             dispatch({

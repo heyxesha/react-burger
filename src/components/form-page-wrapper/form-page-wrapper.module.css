@@ -1,0 +1,15 @@
+.Content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.Content a:hover {
+    text-decoration: underline;
+}
+
+.Content a:visited {
+    color: var(--colors-interface-accent);
+}

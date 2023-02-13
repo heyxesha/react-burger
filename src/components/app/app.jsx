@@ -1,59 +1,163 @@
-
 import { useEffect } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
-import { Default } from 'react-spinners-css';
+import Cookies from 'universal-cookie';
 
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import { checkAutharization } from '../../services/actions/auth';
+import { resetViewedIngredient } from '../../services/actions/viewed-ingredient';
 import { getIngredients } from '../../services/actions/ingredients';
-import CustomDragLayer  from '../custom-drag-layer/custom-drag-layer';
+import ProtectedRouteElement from '../protected-route-element/protected-route-element';
+import MainPage from '../../pages/main/main';
+import LoginPage from '../../pages/login';
+import RegisterPage from '../../pages/register';
+import ForgotPasswordPage from '../../pages/forgot-password';
+import ResetPasswordPage from '../../pages/reset-password';
+import ProfilePage from '../../pages/profile/profile';
+import ProfileOrdersPage from '../../pages/profile-orders';
+import Modal from '../modal/modal';
+import IngredientDetailsPage from '../../pages/ingredient-details/ingredient-details';
+import NotFoundPage from '../../pages/not-found/not-found';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import styles from './app.module.css';
 
-const ERROR_MESSAGE = 'Произошла ошибка при получении данных :(';
-
 export const App = () => {
-    const {
-        ingredients,
-        isIngredientsLoading
-    } = useSelector(state => state.ingredients);
-
-    const { isCreateOrderLoading } = useSelector(state => state.order);
-
+    // TODO: красиво было бы переделать все алерты на модалки
+    const { accessToken, refreshToken, resetTokens } = useSelector(state => state.auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const background = location.state?.background;
+
+    useEffect(() => {
+        dispatch(checkAutharization());
+    }, []);
+
+    useEffect(() => {
+        if (accessToken) {
+            const cookies = new Cookies();
+            const expires = new Date();
+            expires.setMinutes(expires.getMinutes() + 20);
+            cookies.set('accessToken', accessToken, { path: '/', expires });
+        }
+    }, [accessToken]);
+
+    useEffect(() => {
+        if (refreshToken) {
+            const cookies = new Cookies();
+            cookies.set('refreshToken', refreshToken, { path: '/' });
+        }
+    }, [refreshToken]);
+
+    useEffect(() => {
+        if (resetTokens) {
+            const cookies = new Cookies();
+            cookies.remove('accessToken');
+            cookies.remove('refreshToken');
+        }
+    }, [resetTokens]);
+
     useEffect(() => {
         dispatch(getIngredients());
-    }, [dispatch]);
+    }, []);
+    
+    const onModalClose = () => {
+        dispatch(resetViewedIngredient());
+        navigate('/', {
+            replace: true,
+            state: {
+                ...(location.state || {}),
+                background: ''
+            }
+        });
+    };
 
     return (
         <div className={ styles.App }>
-            { isCreateOrderLoading &&
-                <div className={ styles.LoadingIndicator}>
-                    <Default color="#8585AD" />
-                </div>
+            <Routes location={ background || location }>
+                <Route
+                    path="/"
+                    element={ <MainPage /> }
+                />
+                <Route
+                    path="/login"
+                    element={
+                        <ProtectedRouteElement
+                            needAuthorization={ false }
+                            element={ <LoginPage /> }
+                        />
+                    }
+                />
+                <Route
+                    path="/register"
+                    element={
+                        <ProtectedRouteElement
+                            needAuthorization={ false }
+                            element={ <RegisterPage /> }
+                        />
+                    }
+                />
+                <Route
+                    path="/forgot-password"
+                    element={
+                        <ProtectedRouteElement
+                            needAuthorization={ false }
+                            element={ <ForgotPasswordPage /> }
+                        />
+                    }
+                />
+                <Route
+                    path="/reset-password"
+                    element={
+                        <ProtectedRouteElement
+                            needAuthorization={ false }
+                            element={ <ResetPasswordPage /> }
+                        />
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRouteElement
+                            needAuthorization={ true }
+                            element={ <ProfilePage /> }
+                        />
+                    }
+                >
+                </Route>
+                <Route
+                    path="/profile/:orders"
+                    element={
+                        <ProtectedRouteElement
+                            needAuthorization={ true }
+                            element={ <ProfileOrdersPage/> }
+                        />
+                    }
+                />
+                <Route
+                    path="/:ingredients/:id"
+                    element={ <IngredientDetailsPage /> }
+                />
+                <Route
+                    path="*"
+                    element={ <NotFoundPage /> }
+                />
+            </Routes>
+            {
+                background &&
+                <Routes>
+                    <Route
+                        path="/:ingredients/:id"
+                        element={ 
+                            <Modal
+                                title="Детали ингридиента"
+                                onClose={ onModalClose }>
+                                    <IngredientDetails />
+                            </Modal>
+                        }
+                    />
+                </Routes>
             }
-
-            <AppHeader />
-            <main className={ `${styles.Content} ${ !isIngredientsLoading && !ingredients ? styles.ErrorWrapper : '' } pb-10` }>
-                {
-                    !isIngredientsLoading && (
-                        !ingredients ? (
-                            <div className={` ${ styles.Info } text text_type_main-default`}>
-                                { ERROR_MESSAGE }
-                            </div>
-                        ) : (
-                            <DndProvider backend={ HTML5Backend }>
-                                <BurgerIngredients />
-                                <BurgerConstructor />
-                                <CustomDragLayer />
-                            </DndProvider>
-                        )
-                    )
-                }
-            </main>
         </div>
     );
 }

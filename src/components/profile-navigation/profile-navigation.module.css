@@ -1,0 +1,31 @@
+.Navigation {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.NavItem {
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.NavItem_active,
+.NavItem_active a:visited,
+.NavItem_active a {
+    color: var(--text-primary-color);
+}
+
+.NavItem_inactive,
+.NavItem_inactive a:visited,
+.NavItem_inactive a {
+    color: var(--text-inactive-color);
+}
+
+.ExitButton {
+    cursor: pointer;
+}
+
+.Text {
+    opacity: 0.4;
+}
