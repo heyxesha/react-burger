@@ -7,7 +7,7 @@ import {
 } from '../actions/order';
 
 const initialState = {
-    orderId: null,
+    orderId: undefined,
     isCreateOrderLoading: false,
     isCreateOrderFailed: false
 };
