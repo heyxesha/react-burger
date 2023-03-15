@@ -1,14 +1,13 @@
 import { useEffect, useState, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useSelector, useDispatch } from '../store';
 import { login } from '../services/actions/auth';
 import { isValidEmail, isValidPassword } from '../utils/validators';
 import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
-import IState from '../interfaces/state';
 import IActionResponseData from '../interfaces/action-response-data';
 import ILocation from '../interfaces/location';
 
@@ -17,7 +16,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const [enterButtonReadOnly, setEnterButtonReadOnly] = useState(true);
 
-    const { isLoginLoading } = useSelector((state: IState) => state.auth);
+    const { isLoginLoading } = useSelector(state => state.auth);
     const { values, handleChange } = useForm({
         email: '',
         password: ''
@@ -26,7 +25,7 @@ const LoginPage = () => {
     const location: ILocation = useLocation();
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch<any>(login(values.email, values.password)).then((res: IActionResponseData) => {
+        dispatch(login(values.email, values.password)).then((res: IActionResponseData) => {
             if (res.success) {
                 const lastSecuredPage = location.state?.lastSecuredPage;
                 navigate(lastSecuredPage ? lastSecuredPage : '/');

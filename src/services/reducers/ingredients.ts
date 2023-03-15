@@ -4,16 +4,25 @@ import {
     GET_INGREDIENTS_FAILED,
     INCREASE_INGREDIENT_COUNTER,
     DECREASE_INGREDIENT_COUNTER,
-    RESET_SELECTED_INGREDIENTS
-} from '../actions/ingredients';
+    RESET_SELECTED_INGREDIENTS,
 
-const initialState = {
+    TIngtedientsActions
+} from '../actions/ingredients';
+import IIngredient from '../../interfaces/ingredient';
+
+export interface IIngredientsState {
+    ingredients: IIngredient[];
+    isIngredientsLoading: boolean;
+    isIngredientsFailed: boolean;
+};
+
+const initialState: IIngredientsState = {
     ingredients: [],
     isIngredientsLoading: false,
     isIngredientsFailed: false
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: TIngtedientsActions) => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST:
             return {
@@ -47,7 +56,8 @@ export const ingredientsReducer = (state = initialState, action) => {
         case DECREASE_INGREDIENT_COUNTER:
             const ingredientsForDecrease = [...state.ingredients];
             const decreasedIndex = ingredientsForDecrease.findIndex(item => item._id === action.id);
-            ingredientsForDecrease[decreasedIndex].selectedCount -= action.value;
+            const currentSelectedCount =  ingredientsForDecrease[decreasedIndex].selectedCount || 0;
+            ingredientsForDecrease[decreasedIndex].selectedCount = currentSelectedCount - action.value;
             return {
                 ...state,
                 iingredients: ingredientsForDecrease

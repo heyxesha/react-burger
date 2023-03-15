@@ -3,16 +3,24 @@ import {
     CREATE_ORDER_SUCCESS,
     CREATE_ORDER_FAILED,
 
-    RESET_VIEWED_ORDER
+    RESET_VIEWED_ORDER,
+
+    IOrderActions
 } from '../actions/order';
 
-const initialState = {
+export interface IOrderState {
+    orderId: number | undefined;
+    isCreateOrderLoading: boolean;
+    isCreateOrderFailed: boolean;
+};
+
+const initialState: IOrderState = {
     orderId: undefined,
     isCreateOrderLoading: false,
     isCreateOrderFailed: false
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: IOrderActions) => {
     switch (action.type) {
         case CREATE_ORDER_REQUEST:
             return {

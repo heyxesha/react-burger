@@ -16,10 +16,33 @@ import {
     UPDATE_TOKEN_SUCCESS,
     UPDATE_TOKEN_FAILED,
 
-    SET_AUTHORIZATION_STATUS
+    SET_AUTHORIZATION_STATUS,
+
+    TAuthActions
 } from '../actions/auth';
 
-const initialState = {
+export interface IAuthState {
+    accessToken: string;
+    refreshToken: string;
+    resetTokens: boolean;
+
+    isRegisterLoading: boolean;
+    isRegisterFailed: boolean;
+
+    isLoginLoading: boolean;
+    isLoginFailed: boolean;
+
+    isLogoutLoading: boolean;
+    isLogoutFailed: boolean;
+
+    isTokenLoading: boolean;
+    isTokenFailed: boolean;
+
+    isAuthorized: boolean;
+    wasAuthorizationCheck: boolean;
+};
+
+const initialState: IAuthState = {
     accessToken: '',
     refreshToken: '',
     resetTokens: false,
@@ -40,7 +63,7 @@ const initialState = {
     wasAuthorizationCheck: false
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions) => {
     switch (action.type) {
         case REGISTER_REQUEST:
             return {

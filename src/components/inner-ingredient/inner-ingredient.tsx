@@ -1,15 +1,14 @@
 import { useRef, useEffect, RefObject } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useSelector, useDispatch } from '../../store';
 import { moveIngredientInConstructor, acceptMoving, cancelMoving } from '../../services/actions/selected-ingredients';
 import { addIngredientToConstructor, increaceTotalSum } from '../../services/actions/selected-ingredients';
 import { increaseIngredientCounter } from '../../services/actions/ingredients';
 
 import ISelectedIngredient from '../../interfaces/selected-ingredient';
-import IState from '../../interfaces/state';
 import IDropResult from '../../interfaces/drop-result';
 
 import styles from './inner-ingredient.module.css';
@@ -31,7 +30,7 @@ const InnerIngredient = ({
 }: IInnerIngredientProps) => {
     const ref: RefObject<HTMLDivElement> = useRef(null);
     const dispatch = useDispatch();
-    const { innerIngredients } = useSelector((state: IState) => state.selectedIngredients);
+    const { innerIngredients } = useSelector(state => state.selectedIngredients);
     const [{ isDragging }, dragRef, dragPreview] = useDrag({
         type: 'selectedIngredient',
         item: {

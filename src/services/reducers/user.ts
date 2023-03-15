@@ -5,10 +5,22 @@ import {
 
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
-    UPDATE_USER_FAILED
+    UPDATE_USER_FAILED,
+
+    TUserActions
 } from '../actions/user';
 
-const initialState = {
+export interface IUserState {
+    name: string;
+    email: string;
+    password: string;
+    isGetUserLoading: boolean;
+    isGetUserFailed: boolean;
+    isUpdateUserLoading: boolean;
+    isUpdateUserFailed: boolean;
+};
+
+const initialState: IUserState = {
     name: '',
     email: '',
     password: '',
@@ -20,7 +32,7 @@ const initialState = {
     isUpdateUserFailed: false
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions) => {
     switch (action.type) {
         case GET_USER_REQUEST:
             return {

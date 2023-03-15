@@ -1,8 +1,7 @@
 import { ReactElement } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
-import IState from '../../interfaces/state';
+import { useSelector } from '../../store';
 import ILocation from '../../interfaces/location';
 
 interface IProtectedRouteElement {
@@ -14,7 +13,7 @@ const ProtectedRouteElement = ({
     element,
     needAuthorization
 }: IProtectedRouteElement) => {
-    const { isAuthorized, wasAuthorizationCheck } = useSelector((state: IState) => state.auth);
+    const { isAuthorized, wasAuthorizationCheck } = useSelector(state => state.auth);
     const location: ILocation = useLocation();
 
     if (!wasAuthorizationCheck) {

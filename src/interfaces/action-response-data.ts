@@ -1,4 +1,5 @@
 export default interface IActionResponseData {
     success: boolean;
-    error?: Error;
-}
+    error?: Error | string;
+    accessToken?: string;
+};

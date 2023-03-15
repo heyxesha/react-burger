@@ -15,13 +15,13 @@ interface IGetDataOptions {
 
 interface IBaseServerResponse {
     success: boolean;
-    message?: string;
+    message: string;
 }
 
 interface IOrderResponse {
-    name?: string;
-    order?: {
-        number: number
+    name: string;
+    order: {
+        number: number;
     };
 }
 
@@ -31,12 +31,12 @@ interface IUpdateTokenResponse {
 }
 
 interface IAuthResponse {
-    user?: {
+    user: {
         name: string;
         email: string;
     },
-    accessToken?: string;
-    refreshToken?: string;
+    accessToken: string;
+    refreshToken: string;
 }
 
 interface IGetIngredientsResponse {
@@ -45,7 +45,7 @@ interface IGetIngredientsResponse {
 
 type TServerResponse<T> = IBaseServerResponse & T;
 
-type TResponseType = IOrderResponse | IUpdateTokenResponse | IAuthResponse | IGetIngredientsResponse;
+type TResponseType = IOrderResponse & IUpdateTokenResponse & IAuthResponse & IGetIngredientsResponse;
 
 const getData = ({
         path,

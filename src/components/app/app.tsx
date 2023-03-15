@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import Cookies from 'universal-cookie';
 
+import { useSelector, useDispatch } from '../../store';
 import { checkAutharization } from '../../services/actions/auth';
 import { resetViewedIngredient } from '../../services/actions/viewed-ingredient';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -20,26 +20,24 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import ILocation from '../../interfaces/location';
-import IState from '../../interfaces/state';
 
 import styles from './app.module.css';
 
 export const App = () => {
     // TODO: красиво было бы переделать все алерты на модалки.
-    // TODO: в следующем спринте заменить dispatch<any>.
     
     const {
         accessToken,
         refreshToken,
         resetTokens
-    } = useSelector((state: IState) => state.auth);
+    } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location: ILocation = useLocation();
     const background = location.state?.background;
 
     useEffect(() => {
-        dispatch<any>(checkAutharization());
+        dispatch(checkAutharization());
     }, []);
 
     useEffect(() => {
@@ -67,7 +65,7 @@ export const App = () => {
     }, [resetTokens]);
 
     useEffect(() => {
-        dispatch<any>(getIngredients());
+        dispatch(getIngredients());
     }, []);
     
     const onModalClose = () => {

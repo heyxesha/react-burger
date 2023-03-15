@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { useSelector, useDispatch } from '../../store';
 import { setViewedIngredient } from '../../services/actions/viewed-ingredient';
 import IngredientDetailItem from '../ingredient-detail-item/ingredient-detail-item';
-
-import IState from '../../interfaces/state';
 
 import styles from './ingredient-details.module.css';
 
@@ -18,8 +16,8 @@ const IngredientDetails = () => {
         proteins,
         fat,
         carbohydrates
-    } = useSelector((state: IState) => state.viewedIngredient);
-    const { ingredients } = useSelector((state: IState) => state.ingredients);
+    } = useSelector(state => state.viewedIngredient);
+    const { ingredients } = useSelector(state => state.ingredients);
     const dispatch = useDispatch();
     const params = useParams();
 
@@ -27,7 +25,9 @@ const IngredientDetails = () => {
         if (!_id) {
             if (ingredients.length) {
                 const viewedIngredient = ingredients.find(item => item._id === params.id);
-                dispatch(setViewedIngredient(viewedIngredient));
+                if (viewedIngredient) {
+                    dispatch(setViewedIngredient(viewedIngredient));
+                }
             }
         }
     }, [ingredients]);

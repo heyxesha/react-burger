@@ -5,10 +5,19 @@ import {
 
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_SUCCESS,
-    RESET_PASSWORD_FAILED
+    RESET_PASSWORD_FAILED,
+
+    TResetPasswordActions
 } from '../actions/reset-password';
 
-const initialState = {
+export interface IResetPasswordState {
+    isSendEmailLoading: boolean;
+    isSendEmailFailed: boolean;
+    isResetPasswordLoading: boolean;
+    isResetPasswordFailed: boolean;
+};
+
+const initialState: IResetPasswordState = {
     isSendEmailLoading: false,
     isSendEmailFailed: false,
 
@@ -16,7 +25,7 @@ const initialState = {
     isResetPasswordFailed: false
 };
 
-export const resetPasswordReducer = (state = initialState, action) => {
+export const resetPasswordReducer = (state = initialState, action: TResetPasswordActions) => {
     switch (action.type) {
         case SEND_EMAIL_REQUEST:
             return {

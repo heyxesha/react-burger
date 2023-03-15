@@ -1,13 +1,11 @@
-import { useSelector } from 'react-redux';
-
 import image from '../../images/done.svg';
 
-import IState from '../../interfaces/state';
+import { useSelector } from '../../store';
 
 import styles from './order-details.module.css';
 
 const OrderDetails = () => {
-    const { orderId } = useSelector((state: IState) => state.order);
+    const { orderId } = useSelector(state => state.order);
     return (
         <div className={ `${styles.OrderDetails} pb-15`}>
             <p className={ `${ styles.OrderId } text text_type_digits-large mt-4` }>

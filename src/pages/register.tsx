@@ -1,14 +1,13 @@
 import { useEffect, useState, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { EmailInput, PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useSelector, useDispatch } from '../store';
 import { register } from '../services/actions/auth';
 import { isValidEmail, isValidPassword } from '../utils/validators';
 import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
-import IState from '../interfaces/state';
 import IActionResponseData from '../interfaces/action-response-data';
 
 const RegisterPage = () => {
@@ -16,7 +15,7 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const [registerButtonReadOnly, setRegisterButtonReadOnly] = useState(true);
 
-    const { isRegisterLoading } = useSelector((state: IState) => state.auth);
+    const { isRegisterLoading } = useSelector(state => state.auth);
     const { values, handleChange } = useForm({
         name: '',
         email: '',
@@ -25,7 +24,7 @@ const RegisterPage = () => {
 
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch<any>(register(values.name, values.email, values.password)).then((res: IActionResponseData) => {
+        dispatch(register(values.name, values.email, values.password)).then((res: IActionResponseData) => {
             if (res.success) {
                 navigate('/');
             } else {

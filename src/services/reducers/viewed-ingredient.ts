@@ -1,9 +1,21 @@
 import {
     SET_VIEWED_INGREDIENT,
-    RESET_VIEWED_INGREDIENT
+    RESET_VIEWED_INGREDIENT,
+
+    TViewedIngredientActions
 } from '../actions/viewed-ingredient';
 
-const initialState = {
+export interface IViewedIngredientState {
+    _id: string;
+    image: string;
+    name: string;
+    calories: number;
+    proteins: number;
+    fat: number;
+    carbohydrates: number;
+}
+
+const initialState: IViewedIngredientState = {
     _id: '',
     image: '',
     name: '',
@@ -13,7 +25,7 @@ const initialState = {
     carbohydrates: 0
 };
 
-export const viewedIngredientReducer = (state = initialState, action) => {
+export const viewedIngredientReducer = (state = initialState, action: TViewedIngredientActions) => {
     switch (action.type) {
         case SET_VIEWED_INGREDIENT:
             return {

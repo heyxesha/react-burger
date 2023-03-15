@@ -1,22 +1,21 @@
 import { useEffect, useState, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useSelector, useDispatch } from '../store';
 import { resetPassword } from '../services/actions/reset-password';
 import { isValidPassword } from '../utils/validators';
 import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
 import ILocation from '../interfaces/location';
-import IState from '../interfaces/state';
 import IActionResponseData from '../interfaces/action-response-data';
 
 const ResetPasswordPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location: ILocation = useLocation();
-    const { isResetPasswordLoading } = useSelector((state: IState) => state.resetPassword);
+    const { isResetPasswordLoading } = useSelector(state => state.resetPassword);
     const [state, setState] = useState({
         saveButtonReadOnly: true,
         moveFromForgotPassword: location.state?.moveFromForgotPassword
@@ -39,7 +38,7 @@ const ResetPasswordPage = () => {
 
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch<any>(resetPassword(values.password, values.code)).then((res: IActionResponseData) => {
+        dispatch(resetPassword(values.password, values.code)).then((res: IActionResponseData) => {
             if (res.success) {
                 navigate('/');
             } else {

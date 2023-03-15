@@ -1,21 +1,21 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useDispatch } from '../store';
 import { sendEmail } from '../services/actions/reset-password';
 import { isValidEmail } from '../utils/validators';
 import { useForm } from '../hooks/useForm';
 import FormPageWrapper from '../components/form-page-wrapper/form-page-wrapper';
 
-import IState from '../interfaces/state';
+import { useSelector } from '../store';
 import ILocation from '../interfaces/location';
 
 const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location: ILocation = useLocation();
-    const { isSendEmailLoading } = useSelector((state: IState) => state.resetPassword);
+    const { isSendEmailLoading } = useSelector(state => state.resetPassword);
     const [resetButtonReadOnly, setResetButtonReadOnly] = useState(true);
 
     const { values, handleChange } = useForm({ email: '' });
@@ -29,7 +29,7 @@ const ForgotPasswordPage = () => {
 
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch<any>(sendEmail(values.email)).then(() => {
+        dispatch(sendEmail(values.email)).then(() => {
             const newState = {
                 ...(location.state || {}),
                 moveFromForgotPassword: true

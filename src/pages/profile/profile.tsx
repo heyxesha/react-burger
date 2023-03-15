@@ -1,26 +1,22 @@
 import { useState, useRef, useEffect, RefObject, FormEvent } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Cookies from 'universal-cookie';
 
+import { useSelector, useDispatch } from '../../store';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
 import { getUser, updateUser } from '../../services/actions/user';
 import { updateToken } from '../../services/actions/auth';
 import { useForm } from '../../hooks/useForm';
 import ProfilePageWrapper from '../../components/profile-page-wrapper/profile-page-wrapper';
 
-import IState from '../../interfaces/state';
+import { TRootState } from '../../store';
 import IActionResponseData from '../../interfaces/action-response-data';
 
 import styles from './profile.module.css';
 
-interface IUpdateTokenActionResponseData extends IActionResponseData {
-    accessToken?: string;
-}
-
 const ProfilePage = () => {
-    const { isLogoutLoading } = useSelector((state: IState) => state.auth);
-    const { name, email, password } = useSelector((state: IState) => state.user);
+    const { isLogoutLoading } = useSelector(state => state.auth);
+    const { name, email, password } = useSelector((state: TRootState) => state.user);
     const [state, setState] = useState({
         nameReadOnly: true,
         showButtons: true,
@@ -56,8 +52,8 @@ const ProfilePage = () => {
         });
     };
 
-    const dispatchUpdateUser = (token: string|undefined) => {
-        dispatch<any>(updateUser(
+    const dispatchUpdateUser = (token: string) => {
+        dispatch(updateUser(
             token,
             values.name,
             values.email,
@@ -77,12 +73,12 @@ const ProfilePage = () => {
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const cookies = new Cookies();
-        const accessToken: string|undefined = cookies.get('accessToken');
+        const accessToken: string | undefined = cookies.get('accessToken');
         if (accessToken) {
             dispatchUpdateUser(accessToken);
         } else {
-            dispatch<any>(updateToken(cookies.get('refreshToken'))).then((res: IUpdateTokenActionResponseData) => {
-                if (res.success) {
+            dispatch(updateToken(cookies.get('refreshToken'))).then((res: IActionResponseData) => {
+                if (res.success && res.accessToken) {
                     dispatchUpdateUser(res.accessToken);
                 } else {
                     alert(res.error);
@@ -109,11 +105,11 @@ const ProfilePage = () => {
         const cookies = new Cookies();
         const accessToken: string | undefined = cookies.get('accessToken');
         if (accessToken) {
-            dispatch<any>(getUser(accessToken)).catch((error: Error) => alert(error));
+            dispatch(getUser(accessToken)).catch((error: Error) => alert(error));
         } else {
-            dispatch<any>(updateToken(cookies.get('refreshToken'))).then((res: IUpdateTokenActionResponseData) => {
-                if (res.success) {
-                    dispatch<any>(getUser(res.accessToken));
+            dispatch(updateToken(cookies.get('refreshToken'))).then((res: IActionResponseData) => {
+                if (res.success && res.accessToken) {
+                    dispatch(getUser(res.accessToken));
                 } else {
                     alert(res.error);
                 }

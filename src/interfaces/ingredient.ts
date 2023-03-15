@@ -4,6 +4,7 @@ export default interface IIngredient {
     type: string;
     price: number;
     image: string;
+    image_large: string;
     isDragging?: boolean;
     selectedCount?: number;
-}
+};
