@@ -1,4 +1,4 @@
-import ISelectedIngredient from "../../interfaces/selected-ingredient";
+import ISelectedIngredient from '../../interfaces/selected-ingredient';
 
 interface IAddIngredientToConstructorAction {
     readonly type: typeof ADD_INGREDIENT_TO_CONSTRUCTOR;

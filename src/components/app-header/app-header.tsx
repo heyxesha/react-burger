@@ -20,10 +20,10 @@ const AppHeader = ({ activeTab }: IAppHeaderProps) => {
                     style={ activeTab === 'constructor' ? 'primary' : 'secondary'}
                     title="Конструктор" />
             </Link>
-            <Link to="/orders-feed">
+            <Link to="/feed">
                 <Button
                     iconType="list"
-                    style={ activeTab === '/orders-feed' ? 'primary' : 'secondary'}
+                    style={ activeTab === 'feed' ? 'primary' : 'secondary'}
                     title="Лента заказов" />
             </Link>
             </div>

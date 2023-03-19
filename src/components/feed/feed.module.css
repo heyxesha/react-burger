@@ -1,0 +1,18 @@
+.Feed {
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.Feed::-webkit-scrollbar {
+    width: 8px;
+}
+
+.Feed::-webkit-scrollbar-track {
+    background-color: #2F2F37;
+}
+
+.Feed::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}

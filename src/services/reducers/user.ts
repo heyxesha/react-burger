@@ -10,7 +10,7 @@ import {
     TUserActions
 } from '../actions/user';
 
-export interface IUserState {
+interface IUserState {
     name: string;
     email: string;
     password: string;
@@ -32,13 +32,13 @@ const initialState: IUserState = {
     isUpdateUserFailed: false
 };
 
-export const userReducer = (state = initialState, action: TUserActions) => {
+export const userReducer = (state: IUserState = initialState, action: TUserActions): IUserState => {
     switch (action.type) {
         case GET_USER_REQUEST:
             return {
                 ...state,
                 isGetUserLoading: true,
-                isGetUserError: false
+                isGetUserFailed: false
             };
         case GET_USER_SUCCESS:
             return {
@@ -58,7 +58,7 @@ export const userReducer = (state = initialState, action: TUserActions) => {
             return {
                 ...state,
                 isUpdateUserLoading: true,
-                isUpdateUserError: false
+                isUpdateUserFailed: false
             };
         case UPDATE_USER_SUCCESS:
             return {
@@ -67,7 +67,7 @@ export const userReducer = (state = initialState, action: TUserActions) => {
                 isUpdateUserFailed: false,
                 name: action.user.name,
                 email: action.user.email,
-                password: action.user.password
+                password: action.user.password || ''
             };
         case UPDATE_USER_FAILED:
             return {

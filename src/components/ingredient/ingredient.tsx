@@ -65,7 +65,6 @@ const Ingredient = ({
             ref={ dragRef }
             draggable
             onClick={ onClick }>
-            
                 <img src={ item.image } alt={ item.name } />
                 <div className={ `${ styles.Price } mt-1` }>
                     <p className="text text_type_digits-default mr-1">

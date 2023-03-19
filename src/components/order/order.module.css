@@ -1,0 +1,36 @@
+.Order {
+    display: flex;
+    flex-direction: column;
+    width: 640px;
+}
+
+.Number {
+    align-self: center;
+}
+
+.List {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.List::-webkit-scrollbar {
+    width: 8px;
+}
+
+.List::-webkit-scrollbar-track {
+    background-color: #2F2F37;
+}
+
+.List::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.LastRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.TotalSum {
+    display: flex;
+    flex-wrap: nowrap;
+}

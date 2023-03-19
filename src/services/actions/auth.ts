@@ -2,9 +2,9 @@ import Cookies from 'universal-cookie';
 
 import getData from '../../utils/burger-api';
 
-import { TAppThunk } from "../../store";
+import { TAppThunk } from '../../store';
 import IUser from '../../interfaces/user';
-import IActionResponseData from "../../interfaces/action-response-data";
+import IActionResponseData from '../../interfaces/action-response-data';
 
 interface IRegisterRequestAction {
     readonly type: typeof REGISTER_REQUEST;

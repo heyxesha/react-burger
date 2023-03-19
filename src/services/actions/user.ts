@@ -1,7 +1,7 @@
 import getData from '../../utils/burger-api';
 
-import { TAppThunk } from "../../store";
-import IUser from "../../interfaces/user";
+import { TAppThunk } from '../../store';
+import IUser from '../../interfaces/user';
 import IActionResponseData from '../../interfaces/action-response-data';
 
 interface IGetUserRequestAction {

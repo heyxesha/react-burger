@@ -1,6 +1,6 @@
 import getData from '../../utils/burger-api';
 
-import { TAppThunk } from "../../store";
+import { TAppThunk } from '../../store';
 
 import IActionResponseData from '../../interfaces/action-response-data';
 

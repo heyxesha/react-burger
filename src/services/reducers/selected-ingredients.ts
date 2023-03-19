@@ -14,7 +14,7 @@ import {
 } from '../actions/selected-ingredients';
 import ISelectedIngredient from '../../interfaces/selected-ingredient';
 
-export interface ISelectedIngredientsState {
+interface ISelectedIngredientsState {
     totalSum: number;
     bun: ISelectedIngredient | null;
     innerIngredients: ISelectedIngredient[];
@@ -28,7 +28,9 @@ const initialState: ISelectedIngredientsState = {
     prevInnerIngredients: []
 };
 
-export const selectedIngredientsReducer = (state = initialState, action: ISelectedIngredientsActions) => {
+export const selectedIngredientsReducer = (
+    state: ISelectedIngredientsState = initialState,
+    action: ISelectedIngredientsActions): ISelectedIngredientsState  => {
     switch (action.type) {
         case ADD_INGREDIENT_TO_CONSTRUCTOR:
             const innerIngredientsForAdd = [...state.innerIngredients];

@@ -15,10 +15,12 @@ const ESC_CODE = 27;
 interface IModalProps {
     title?: string;
     children?: ReactNode;
+    customHeaderContent?: ReactNode;
     onClose: () => void;
 }
 
 const Modal = ({
+    customHeaderContent,
     title,
     children,
     onClose
@@ -55,9 +57,14 @@ const Modal = ({
         <ModalOverlay onClick={ outsideClick }>
             <div className={ `${ styles.Modal } pl-10 pt-10 pr-10 pb-15` }>
                 <div className={ styles.Header }>
-                    <h1 className="text text_type_main-large">
-                        { title }
-                    </h1>
+                    {
+                        customHeaderContent ? (customHeaderContent) : (
+                            <h1 className="text text_type_main-large">
+                                { title }
+                            </h1>
+                        )
+                    } 
+                    
                     <div className={ styles.CloseButton }>
                         <CloseIcon
                             type="primary"

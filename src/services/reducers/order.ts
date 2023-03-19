@@ -8,7 +8,7 @@ import {
     IOrderActions
 } from '../actions/order';
 
-export interface IOrderState {
+interface IOrderState {
     orderId: number | undefined;
     isCreateOrderLoading: boolean;
     isCreateOrderFailed: boolean;
@@ -20,13 +20,13 @@ const initialState: IOrderState = {
     isCreateOrderFailed: false
 };
 
-export const orderReducer = (state = initialState, action: IOrderActions) => {
+export const orderReducer = (state: IOrderState = initialState, action: IOrderActions): IOrderState => {
     switch (action.type) {
         case CREATE_ORDER_REQUEST:
             return {
                 ...state,
                 isCreateOrderLoading: true,
-                isCreateOrderError: false
+                isCreateOrderFailed: false
             };
         case CREATE_ORDER_SUCCESS:
             return {

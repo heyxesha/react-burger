@@ -1,6 +1,6 @@
 import getData from '../../utils/burger-api';
 
-import { TAppThunk } from "../../store";
+import { TAppThunk } from '../../store';
 import IActionResponseData from '../../interfaces/action-response-data';
 
 interface ICreateOrderRequestAction {
@@ -32,13 +32,14 @@ export const CREATE_ORDER_SUCCESS: 'CREATE_ORDER_SUCCESS' = 'CREATE_ORDER_SUCCES
 export const CREATE_ORDER_FAILED: 'CREATE_ORDER_FAILED' = 'CREATE_ORDER_FAILED';
 export const RESET_VIEWED_ORDER: 'RESET_VIEWED_ORDER' = 'RESET_VIEWED_ORDER';
 
-export function createOrder(ingredients: string[]): TAppThunk<Promise<IActionResponseData>> {
+export function createOrder(ingredients: string[], token: string): TAppThunk<Promise<IActionResponseData>> {
     return function(dispatch) {
         dispatch(createOrderRequest());
         return getData({
             path: 'orders',
             method: 'POST',
-            bodyParams: { ingredients }
+            bodyParams: { ingredients },
+            headers: { Authorization: token }
         }).then(res => {
             dispatch(createOrderSuccess(res.order.number));
             return { success: true };

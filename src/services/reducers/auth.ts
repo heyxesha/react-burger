@@ -21,7 +21,7 @@ import {
     TAuthActions
 } from '../actions/auth';
 
-export interface IAuthState {
+interface IAuthState {
     accessToken: string;
     refreshToken: string;
     resetTokens: boolean;
@@ -63,13 +63,13 @@ const initialState: IAuthState = {
     wasAuthorizationCheck: false
 };
 
-export const authReducer = (state = initialState, action: TAuthActions) => {
+export const authReducer = (state: IAuthState = initialState, action: TAuthActions): IAuthState => {
     switch (action.type) {
         case REGISTER_REQUEST:
             return {
                 ...state,
                 isRegisterLoading: true,
-                isRegisterError: false
+                isRegisterFailed: false
             };
         case REGISTER_SUCCESS:
             return {
@@ -90,7 +90,7 @@ export const authReducer = (state = initialState, action: TAuthActions) => {
             return {
                 ...state,
                 isLoginLoading: true,
-                isLoginError: false
+                isLoginFailed: false
             };
         case LOGIN_SUCCESS:
             return {
@@ -111,7 +111,7 @@ export const authReducer = (state = initialState, action: TAuthActions) => {
             return {
                 ...state,
                 isLogoutLoading: true,
-                isLogoutError: false,
+                isLogoutFailed: false,
                 resetTokens: false
             };
         case LOGOUT_SUCCESS:
@@ -134,7 +134,7 @@ export const authReducer = (state = initialState, action: TAuthActions) => {
             return {
                 ...state,
                 isTokenLoading: true,
-                isTokenError: false,
+                isTokenFailed: false,
                 resetTokens: false
             };
         case UPDATE_TOKEN_SUCCESS:

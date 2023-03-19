@@ -1,4 +1,4 @@
-import IIngredient from "../../interfaces/ingredient";
+import IIngredient from '../../interfaces/ingredient';
 
 interface ISetViewedIngredientAction {
     readonly type: typeof SET_VIEWED_INGREDIENT;

@@ -21,9 +21,9 @@ const ProfilePageWrapper = ({
             activeTab="profile"
             showLoadingIndicator={ showLoadingIndicator }>
             <main className={ `${ styles.ContentWrapper } pb-10`}>
-                <div className={ `${ styles.Content } pb-10`}>
+                <div className={ `${ styles.Content }`}>
                     <ProfileNavigation activeTab={ activeTab } />
-                    <div className="ml-15 mt-10">
+                    <div className={ `${ styles.Children } ml-15 mt-10` }>
                         { children }
                     </div>
                 </div>

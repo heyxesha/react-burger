@@ -10,7 +10,7 @@ import {
 } from '../actions/ingredients';
 import IIngredient from '../../interfaces/ingredient';
 
-export interface IIngredientsState {
+interface IIngredientsState {
     ingredients: IIngredient[];
     isIngredientsLoading: boolean;
     isIngredientsFailed: boolean;
@@ -22,13 +22,13 @@ const initialState: IIngredientsState = {
     isIngredientsFailed: false
 };
 
-export const ingredientsReducer = (state = initialState, action: TIngtedientsActions) => {
+export const ingredientsReducer = (state: IIngredientsState = initialState, action: TIngtedientsActions): IIngredientsState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST:
             return {
                 ...state,
                 isIngredientsLoading: true,
-                isIngredientsError: false
+                isIngredientsFailed: false
             };
         case GET_INGREDIENTS_SUCCESS:
             return {
@@ -60,17 +60,17 @@ export const ingredientsReducer = (state = initialState, action: TIngtedientsAct
             ingredientsForDecrease[decreasedIndex].selectedCount = currentSelectedCount - action.value;
             return {
                 ...state,
-                iingredients: ingredientsForDecrease
+                ingredients: ingredientsForDecrease
             };
         case RESET_SELECTED_INGREDIENTS:
             const ingredientsForReset = [...state.ingredients];
             ingredientsForReset.forEach(item => item.selectedCount = 0);
             return {
                 ...state,
-                iingredients: ingredientsForReset
+                ingredients: ingredientsForReset
             };
-      default: {
-        return state;
-      }
+        default: {
+            return state;
+        }
     }
 };

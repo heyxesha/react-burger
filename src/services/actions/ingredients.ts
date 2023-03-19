@@ -1,6 +1,6 @@
 import getData from '../../utils/burger-api';
 
-import { TAppThunk } from "../../store";
+import { TAppThunk } from '../../store';
 import IIngredient from '../../interfaces/ingredient';
 
 interface IGetIngredientsRequestAction {

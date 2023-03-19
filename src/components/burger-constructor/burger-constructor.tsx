@@ -2,6 +2,7 @@ import { useState, ReactNode } from 'react';
 import { useDrop } from 'react-dnd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import Cookies from 'universal-cookie';
 
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
@@ -21,6 +22,7 @@ import {
     decreaseIngredientCounter,
     resetSelectedIngredients
 } from '../../services/actions/ingredients';
+import { updateToken } from '../../services/actions/auth';
 
 import ILocation from '../../interfaces/location';
 import ISelectedIngredient from '../../interfaces/selected-ingredient';
@@ -83,28 +85,44 @@ const BurgerConstructor = () => {
         dispatch(decreaseTotalSum(item.price));
     };
 
+    const sendCreateOrder = (ids: string[], token: string) => {
+        dispatch(createOrder(ids, token)).then((res: IActionResponseData) => {
+            if (res.success) {
+                const orderDetails = ( <OrderDetails /> );
+                setState({
+                    ...state,
+                    modalVisibility: true,
+                    modalChildren: orderDetails
+                });
+                dispatch(cleanConstructor());
+                dispatch(resetSelectedIngredients());
+            } else {
+                alert(res.error);
+            }
+        }).catch((error: Error) => {
+            alert(error);
+        });
+    };
+
     const orderButtonClick = () => {
         if (isAuthorized) {
             const ids = innerIngredients.map(item => item._id);
             if (bun) {
                 ids.push(bun._id);
             }
-            dispatch(createOrder(ids)).then((res: IActionResponseData) => {
-                if (res.success) {
-                    const orderDetails = ( <OrderDetails /> );
-                    setState({
-                        ...state,
-                        modalVisibility: true,
-                        modalChildren: orderDetails
-                    });
-                    dispatch(cleanConstructor());
-                    dispatch(resetSelectedIngredients());
-                } else {
-                    alert(res.error);
-                }
-            }).catch((error: Error) => {
-                alert(error);
-            });
+            const cookies = new Cookies();
+            const accessToken: string | undefined = cookies.get('accessToken');
+            if (accessToken) {
+                sendCreateOrder(ids, accessToken);
+            } else {
+                dispatch(updateToken(cookies.get('refreshToken'))).then((res: IActionResponseData) => {
+                    if (res.success && res.accessToken) {
+                        sendCreateOrder(ids, res.accessToken);
+                    } else {
+                        alert(res.error);
+                    }
+                }).catch((error: Error) => alert(error));
+            }
         } else {
             const newState = {
                 ...(location.state || {}),
