@@ -20,17 +20,39 @@ import { TViewedOrderActions } from './services/actions/viewed-order';
 import { socketMiddleware } from './services/middleware';
 import { rootReducer } from './services/reducers/root';
 
-import { TFeedActions } from './services/actions/feed';
+import { 
+  FEED_CONNECT,
+  FEED_DISCONNECT,
+
+  feedWSConnecting,
+  feedWSOpen,
+  feedWSMessage,
+  feedWSClose,
+  feedWSError,
+
+  TFeedActions
+} from './services/actions/feed';
+import IWSActions from './interfaces/ws-actions';
+
+const feedWSActions: IWSActions = {
+    connect: FEED_CONNECT,
+    disconnect: FEED_DISCONNECT,
+    onConnecting: feedWSConnecting,
+    onConnect: feedWSOpen,
+    onMessage: feedWSMessage,
+    onError: feedWSError,
+    onClose: feedWSClose
+};
 
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: [thunk, socketMiddleware()],
+    middleware: [thunk, socketMiddleware(feedWSActions)],
     devTools: true
 });
 
 export type TRootState = ReturnType<typeof rootReducer>;
 
-type TAppActions =
+export type TAppActions =
       TAuthActions
     | TIngtedientsActions
     | IOrderActions

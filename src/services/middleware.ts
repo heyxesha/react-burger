@@ -1,46 +1,58 @@
 import { Middleware } from 'redux';
-import { 
-    FEED_CONNECT,
-    FEED_DISCONNECT,
 
-    feedWSConnecting,
-    feedWSOpen,
-    feedWSMessage,
-    feedWSClose,
-    feedWSError,
+import { TAppActions } from '../store';
+import IWSActions from '../interfaces/ws-actions';
 
-    TFeedActions
-} from './actions/feed';
+interface IConnectAction {
+    endpoint: string;
+}
 
-export const socketMiddleware = (): Middleware => {
+interface ISendAction {
+    message: string | SharedArrayBuffer | ArrayBuffer | Blob | ArrayBufferView;
+}
+
+export const socketMiddleware = (WSActions: IWSActions): Middleware => {
     return (store => {
+        const {
+            connect,
+            disconnect,
+            send,
+            onConnecting,
+            onConnect,
+            onMessage,
+            onError,
+            onClose
+        } = WSActions;
         let socket: WebSocket | null = null;
         let isConnected = false;
-        return next => (action: TFeedActions) => {
+        return next => (action: TAppActions) => {
             const { dispatch } = store;
-            if (action.type === FEED_CONNECT && !isConnected) {
-                socket = new WebSocket(action.endpoint);
+            if (action.type === connect && !isConnected) {
+                socket = new WebSocket((action as IConnectAction).endpoint);
                 isConnected = true;
-                dispatch(feedWSConnecting());
+                dispatch(onConnecting());
             }
-            if (action.type === FEED_DISCONNECT && isConnected) {
+            if (action.type === disconnect && socket && isConnected) {
                 isConnected = false;
-                socket?.close();
+                socket.close();
+            }
+            if (action.type === send && socket && isConnected) {
+                socket.send((action as ISendAction).message);
             }
             if (socket) {
                 socket.onopen = () => {
-                    dispatch(feedWSOpen());
+                    dispatch(onConnect());
                 };
                 socket.onmessage = event => {
                     const parsedData = JSON.parse(event.data);
-                    dispatch(feedWSMessage(parsedData));
+                    dispatch(onMessage(parsedData));
                 };
                 socket.onerror = () => {
                     // Не нашла в ответе от сокета типы ошибок, поэтому будет общая:
-                    dispatch(feedWSError(new Error('Ошибка при работе с WebSocket')));
+                    dispatch(onError(new Error('Ошибка при работе с WebSocket')));
                 };
                 socket.onclose = () => {
-                    dispatch(feedWSClose());
+                    dispatch(onClose());
                 };
             }
 

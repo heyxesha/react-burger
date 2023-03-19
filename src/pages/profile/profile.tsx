@@ -9,14 +9,13 @@ import { updateToken } from '../../services/actions/auth';
 import { useForm } from '../../hooks/useForm';
 import ProfilePageWrapper from '../../components/profile-page-wrapper/profile-page-wrapper';
 
-import { TRootState } from '../../store';
 import IActionResponseData from '../../interfaces/action-response-data';
 
 import styles from './profile.module.css';
 
 const ProfilePage = () => {
     const { isLogoutLoading } = useSelector(state => state.auth);
-    const { name, email, password } = useSelector((state: TRootState) => state.user);
+    const { name, email, password } = useSelector(state => state.user);
     const [state, setState] = useState({
         nameReadOnly: true,
         showButtons: true,

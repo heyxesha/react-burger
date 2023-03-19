@@ -7,8 +7,6 @@ import BurgerIngredients from '../../components/burger-ingredients/burger-ingred
 import CustomDragLayer  from '../../components/custom-drag-layer/custom-drag-layer';
 import PageWrapper from '../../components/page-wrapper/page-wrapper';
 
-import { TRootState } from '../../store';
-
 import styles from './main.module.css';
 
 const ERROR_MESSAGE = 'Произошла ошибка при получении данных :(';
@@ -18,7 +16,7 @@ const MainPage = () => {
     const {
         ingredients,
         isIngredientsLoading
-    } = useSelector((state: TRootState) => state.ingredients);
+    } = useSelector(state => state.ingredients);
 
     return (
         <PageWrapper
