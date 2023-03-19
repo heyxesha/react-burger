@@ -6,7 +6,7 @@ import {
     useSelector as selectorHook
   } from 'react-redux';
 
-//add to fix https://github.com/reduxjs/redux-thunk/issues/333
+// fix: https://github.com/reduxjs/redux-thunk/issues/333
 import type {} from 'redux-thunk/extend-redux';
 
 import { TAuthActions } from './services/actions/auth';
