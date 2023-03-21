@@ -63,7 +63,7 @@ const InnerIngredient = ({
     
                 const dragIndex = item.index;
                 const hoverIndex = index;
-            
+                
                 if (dragIndex === hoverIndex) {
                     return;
                 }
@@ -93,11 +93,12 @@ const InnerIngredient = ({
                 if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
                     return;
                 }
-    
+
                 if (!hasAdded) {
                     dispatch(moveIngredientInConstructor(dragIndex, hoverIndex));
-                }
 
+                }
+                
                 item.index = hoverIndex;
             }
         },
