@@ -22,6 +22,7 @@ interface IIngredientProps {
 
 interface IDragIngredient extends IIngredient {
     constructorId: string;
+    index?: number;
 }
 
 const Ingredient = ({
@@ -40,6 +41,9 @@ const Ingredient = ({
             if (monitor.getDropResult<IDropResult>()?.type === 'innerIngredients') {
                 dispatch(acceptAddToConstructor());
             } else {
+                // Вот это нужно потому что на hover в inner-ingredient переопределяем индекс.
+                // И при последующем попадании в hover почему-то на айтеме снова оставался этот index.
+                item.index = undefined;
                 dispatch(cancelAddToConstructor());
             }
         }

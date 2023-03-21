@@ -35,6 +35,8 @@ export const App = () => {
      * 2. Развесить еще в разных местах ожиданчики (?????)
      * 3. Возможно, переписать обращение к токенам
      * 4. Заменить хардкод цвета на var
+     * 5. Вынести общие стили
+     * 6. ХАРДКОР: переписать на createAcrtion и createReducer
      */
     
     const {
@@ -201,7 +203,7 @@ export const App = () => {
                                 customHeaderContent={
                                     <OrderHeader />
                                 }>
-                                    <Order />
+                                <Order />
                             </Modal>
                         }
                     />
@@ -211,13 +213,14 @@ export const App = () => {
                             <ProtectedRouteElement
                                 needAuthorization={ true }
                                 element={
-                                <Modal
-                                    onClose={ onModalClose }
-                                    customHeaderContent={
-                                        <OrderHeader />
-                                    }>
-                                        <Order />
-                                </Modal> }
+                                    <Modal
+                                        onClose={ onModalClose }
+                                        customHeaderContent={
+                                            <OrderHeader />
+                                        }>
+                                            <Order />
+                                    </Modal>
+                                }
                             />
                         }
                     />
