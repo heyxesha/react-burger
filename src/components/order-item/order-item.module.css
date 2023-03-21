@@ -1,0 +1,30 @@
+.OrderItem {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.ImageWrapper {
+    width: 64px;
+    height: 64px;
+    border: solid #4C4CFF 2px;
+    border-radius: 100px;
+    position: relative;
+    background-color: #131316;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Image {
+    position: absolute;
+    left: -22px;
+}
+
+.ItemBlock {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}

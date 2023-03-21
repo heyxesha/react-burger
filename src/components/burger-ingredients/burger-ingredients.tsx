@@ -1,17 +1,16 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, Events } from 'react-scroll';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useSelector } from '../../store';
 import IngredientsList from '../ingredients-list/ingredients-list';
 
 import { TIngredientsGroups } from '../../types/ingredients-groups';
-import IState from '../../interfaces/state';
 
 import styles from './burger-ingredients.module.css';
 
 const BurgerIngredients = () => {
-    const { ingredients } = useSelector((state: IState) => state.ingredients);
+    const { ingredients } = useSelector(state => state.ingredients);
     const ingredientsGroups: TIngredientsGroups = {
         bun: {
             name: 'Булки',

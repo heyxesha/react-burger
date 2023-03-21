@@ -1,23 +1,29 @@
 import { useState, ReactNode } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import Cookies from 'universal-cookie';
 
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 import InnerIngredient from '../inner-ingredient/inner-ingredient';
+import { useSelector, useDispatch } from '../../store';
 import { createOrder } from '../../services/actions/order';
 import { resetViewedOrder } from '../../services/actions/order';
 import {
     addIngredientToConstructor,
     removeIngredientFromConstructor,
     increaceTotalSum,
-    decreaseTotalSum
+    decreaseTotalSum,
+    cleanConstructor
 } from '../../services/actions/selected-ingredients';
-import { increaseIngredientCounter, decreaseIngredientCounter } from '../../services/actions/ingredients';
+import {
+    increaseIngredientCounter,
+    decreaseIngredientCounter,
+    resetSelectedIngredients
+} from '../../services/actions/ingredients';
+import { updateToken } from '../../services/actions/auth';
 
-import IState from '../../interfaces/state';
 import ILocation from '../../interfaces/location';
 import ISelectedIngredient from '../../interfaces/selected-ingredient';
 import IActionResponseData from '../../interfaces/action-response-data';
@@ -41,8 +47,8 @@ const BurgerConstructor = () => {
         ingredientsForRender: []
     });
 
-    const { bun, innerIngredients, totalSum } = useSelector((state: IState) => state.selectedIngredients);
-    const { isAuthorized } = useSelector((state: IState) => state.auth);
+    const { bun, innerIngredients, totalSum } = useSelector(state => state.selectedIngredients);
+    const { isAuthorized } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location: ILocation = useLocation();
@@ -79,24 +85,44 @@ const BurgerConstructor = () => {
         dispatch(decreaseTotalSum(item.price));
     };
 
+    const sendCreateOrder = (ids: string[], token: string) => {
+        dispatch(createOrder(ids, token)).then((res: IActionResponseData) => {
+            if (res.success) {
+                const orderDetails = ( <OrderDetails /> );
+                setState({
+                    ...state,
+                    modalVisibility: true,
+                    modalChildren: orderDetails
+                });
+                dispatch(cleanConstructor());
+                dispatch(resetSelectedIngredients());
+            } else {
+                alert(res.error);
+            }
+        }).catch((error: Error) => {
+            alert(error);
+        });
+    };
+
     const orderButtonClick = () => {
         if (isAuthorized) {
             const ids = innerIngredients.map(item => item._id);
-            ids.push(bun._id);
-            dispatch<any>(createOrder(ids)).then((res: IActionResponseData) => {
-                if (res.success) {
-                    const orderDetails = ( <OrderDetails /> );
-                    setState({
-                        ...state,
-                        modalVisibility: true,
-                        modalChildren: orderDetails
-                    });
-                } else {
-                    alert(res.error);
-                }
-            }).catch((error: Error) => {
-                alert(error);
-            });
+            if (bun) {
+                ids.push(bun._id);
+            }
+            const cookies = new Cookies();
+            const accessToken: string | undefined = cookies.get('accessToken');
+            if (accessToken) {
+                sendCreateOrder(ids, accessToken);
+            } else {
+                dispatch(updateToken(cookies.get('refreshToken'))).then((res: IActionResponseData) => {
+                    if (res.success && res.accessToken) {
+                        sendCreateOrder(ids, res.accessToken);
+                    } else {
+                        alert(res.error);
+                    }
+                }).catch((error: Error) => alert(error));
+            }
         } else {
             const newState = {
                 ...(location.state || {}),

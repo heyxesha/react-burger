@@ -1,7 +1,7 @@
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
+import { useDispatch } from '../../store';
 import { logout } from '../../services/actions/auth';
 
 import IActionResponseData from '../../interfaces/action-response-data';
@@ -18,7 +18,7 @@ const ProfileNavigation = ({ activeTab }: IProfileNavigationProps) => {
 
     const onExitClick = () => {
         const cookies = new Cookies();
-        dispatch<any>(logout(cookies.get('refreshToken'))).then((res: IActionResponseData) => {
+        dispatch(logout(cookies.get('refreshToken'))).then((res: IActionResponseData) => {
             if (res.success) {
                 navigate('/login');
             } else {

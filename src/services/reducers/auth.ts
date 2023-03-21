@@ -16,10 +16,33 @@ import {
     UPDATE_TOKEN_SUCCESS,
     UPDATE_TOKEN_FAILED,
 
-    SET_AUTHORIZATION_STATUS
+    SET_AUTHORIZATION_STATUS,
+
+    TAuthActions
 } from '../actions/auth';
 
-const initialState = {
+interface IAuthState {
+    accessToken: string;
+    refreshToken: string;
+    resetTokens: boolean;
+
+    isRegisterLoading: boolean;
+    isRegisterFailed: boolean;
+
+    isLoginLoading: boolean;
+    isLoginFailed: boolean;
+
+    isLogoutLoading: boolean;
+    isLogoutFailed: boolean;
+
+    isTokenLoading: boolean;
+    isTokenFailed: boolean;
+
+    isAuthorized: boolean;
+    wasAuthorizationCheck: boolean;
+};
+
+const initialState: IAuthState = {
     accessToken: '',
     refreshToken: '',
     resetTokens: false,
@@ -40,13 +63,13 @@ const initialState = {
     wasAuthorizationCheck: false
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state: IAuthState = initialState, action: TAuthActions): IAuthState => {
     switch (action.type) {
         case REGISTER_REQUEST:
             return {
                 ...state,
                 isRegisterLoading: true,
-                isRegisterError: false
+                isRegisterFailed: false
             };
         case REGISTER_SUCCESS:
             return {
@@ -67,7 +90,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoginLoading: true,
-                isLoginError: false
+                isLoginFailed: false
             };
         case LOGIN_SUCCESS:
             return {
@@ -88,7 +111,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLogoutLoading: true,
-                isLogoutError: false,
+                isLogoutFailed: false,
                 resetTokens: false
             };
         case LOGOUT_SUCCESS:
@@ -111,7 +134,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isTokenLoading: true,
-                isTokenError: false,
+                isTokenFailed: false,
                 resetTokens: false
             };
         case UPDATE_TOKEN_SUCCESS:

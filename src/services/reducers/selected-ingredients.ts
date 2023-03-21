@@ -8,17 +8,29 @@ import {
     CANCEL_MOVING,
     INCREASE_TOTAL_SUM,
     DECREASE_TOTAL_SUM,
-    CLEAN_CONSTRUCTOR
-} from '../actions/selected-ingredients';
+    CLEAN_CONSTRUCTOR,
 
-const initialState = {
+    ISelectedIngredientsActions
+} from '../actions/selected-ingredients';
+import ISelectedIngredient from '../../interfaces/selected-ingredient';
+
+interface ISelectedIngredientsState {
+    totalSum: number;
+    bun: ISelectedIngredient | null;
+    innerIngredients: ISelectedIngredient[];
+    prevInnerIngredients: ISelectedIngredient[];
+};
+
+const initialState: ISelectedIngredientsState = {
     totalSum: 0,
     bun: null,
     innerIngredients: [],
     prevInnerIngredients: []
 };
 
-export const selectedIngredientsReducer = (state = initialState, action) => {
+export const selectedIngredientsReducer = (
+    state: ISelectedIngredientsState = initialState,
+    action: ISelectedIngredientsActions): ISelectedIngredientsState  => {
     switch (action.type) {
         case ADD_INGREDIENT_TO_CONSTRUCTOR:
             const innerIngredientsForAdd = [...state.innerIngredients];

@@ -1,5 +1,4 @@
-import { useDispatch } from 'react-redux';
-
+import { useDispatch } from '../../store';
 import { setViewedIngredient } from '../../services/actions/viewed-ingredient';
 import Ingredient from '../ingredient/ingredient';
 

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDrag } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import uuid from 'react-uuid';
 
+import { useDispatch } from '../../store';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { acceptAddToConstructor, cancelAddToConstructor } from '../../services/actions/selected-ingredients';
 
@@ -65,7 +65,6 @@ const Ingredient = ({
             ref={ dragRef }
             draggable
             onClick={ onClick }>
-            
                 <img src={ item.image } alt={ item.name } />
                 <div className={ `${ styles.Price } mt-1` }>
                     <p className="text text_type_digits-default mr-1">

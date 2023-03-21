@@ -6,4 +6,4 @@ interface ICustomTarget extends EventTarget {
 
 export default interface ICustomMouseEvent extends MouseEvent {
     target: ICustomTarget;
-}
+};

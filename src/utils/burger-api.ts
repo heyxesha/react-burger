@@ -1,4 +1,5 @@
-import IIngredient from "../interfaces/ingredient";
+import IIngredient from '../interfaces/ingredient';
+import IOrder from '../interfaces/order';
 
 const NORMA_API = 'https://norma.nomoreparties.space/api';
 
@@ -15,13 +16,13 @@ interface IGetDataOptions {
 
 interface IBaseServerResponse {
     success: boolean;
-    message?: string;
+    message: string;
 }
 
-interface IOrderResponse {
-    name?: string;
-    order?: {
-        number: number
+interface ICreateOrderResponse {
+    name: string;
+    order: {
+        number: number;
     };
 }
 
@@ -31,21 +32,30 @@ interface IUpdateTokenResponse {
 }
 
 interface IAuthResponse {
-    user?: {
+    user: {
         name: string;
         email: string;
     },
-    accessToken?: string;
-    refreshToken?: string;
+    accessToken: string;
+    refreshToken: string;
 }
 
 interface IGetIngredientsResponse {
     data: IIngredient[];
 }
 
+interface IGetOrderResponse {
+    orders: IOrder[];
+}
+
 type TServerResponse<T> = IBaseServerResponse & T;
 
-type TResponseType = IOrderResponse | IUpdateTokenResponse | IAuthResponse | IGetIngredientsResponse;
+type TResponseType =
+      ICreateOrderResponse
+    & IUpdateTokenResponse
+    & IAuthResponse
+    & IGetIngredientsResponse
+    & IGetOrderResponse;
 
 const getData = ({
         path,
