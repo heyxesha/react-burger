@@ -38,7 +38,6 @@ const Ingredient = ({
             constructorId: uuid()
         },
         end: (item: IDragIngredient, monitor) => {
-            console.log(item.index);
             if (monitor.getDropResult<IDropResult>()?.type === 'innerIngredients') {
                 dispatch(acceptAddToConstructor());
             } else {
