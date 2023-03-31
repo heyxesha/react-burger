@@ -9,11 +9,11 @@ import {
 } from '../actions/feed';
 import IOrder from '../../interfaces/order';
 
-enum WebsocketStatus {
+export enum WebsocketStatus {
     CONNECTING = 'CONNECTING...',
     ONLINE = 'ONLINE',
     OFFLINE = 'OFFLINE'
-}
+};
 
 interface IFeedState {
     status: WebsocketStatus;
@@ -36,7 +36,7 @@ export const feedReducer = (state: IFeedState = initialState, action: TFeedActio
         case FEED_WS_CONNECTING:
             return {
                 ...state,
-                status: WebsocketStatus.CONNECTING,
+                status: WebsocketStatus.CONNECTING
             };
         case FEED_WS_ERROR:
             return {
