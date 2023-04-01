@@ -55,7 +55,9 @@ const Modal = ({
     
     return createPortal(
         <ModalOverlay onClick={ outsideClick }>
-            <div className={ `${ styles.Modal } pl-10 pt-10 pr-10 pb-15` }>
+            <div
+                data-test="modalContainer"
+                className={ `${ styles.Modal } pl-10 pt-10 pr-10 pb-15` }>
                 <div className={ styles.Header }>
                     {
                         customHeaderContent ? (customHeaderContent) : (
@@ -65,7 +67,9 @@ const Modal = ({
                         )
                     } 
                     
-                    <div className={ styles.CloseButton }>
+                    <div
+                        className={ styles.CloseButton }
+                        data-test="modalCloseButton">
                         <CloseIcon
                             type="primary"
                             onClick={ onClose } />

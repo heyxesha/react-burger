@@ -67,6 +67,7 @@ const Ingredient = ({
         <div
             className={ `${ styles.Ingredient } ${ needMargin ? 'mt-8' : '' }` }
             ref={ dragRef }
+            data-test="ingredient"
             draggable
             onClick={ onClick }>
                 <img src={ item.image } alt={ item.name } />

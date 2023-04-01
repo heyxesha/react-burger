@@ -105,6 +105,7 @@ const BurgerConstructor = () => {
     };
 
     const orderButtonClick = () => {
+        console.log(isAuthorized)
         if (isAuthorized) {
             const ids = innerIngredients.map(item => item._id);
             if (bun) {
@@ -146,16 +147,21 @@ const BurgerConstructor = () => {
     const dragTargetInnerClass = isHover && dragIngredientType !== 'bun' ? styles.DragTarget : '';
     return (
         <div className={ `${ styles.BurgerConstructor } pt-25 pl-4` }>
-            <div ref={ dropTarget }>
+            <div
+                ref={ dropTarget }
+                data-test="dndContainer">
                 {
                     bun ? (
-                        <ConstructorElement
-                            extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mb-4` }
-                            type="top"
-                            isLocked={ true }
-                            text={ `${ bun.name } (верх)` }
-                            price={ bun.price }
-                            thumbnail={ bun.image }  />
+                        <div data-test="topBun">
+                            <ConstructorElement
+                                data-test="topBun"
+                                extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mb-4` }
+                                type="top"
+                                isLocked={ true }
+                                text={ `${ bun.name } (верх)` }
+                                price={ bun.price }
+                                thumbnail={ bun.image }  />
+                        </div>
                     ) : (
                         <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetBunClass } constructor-element constructor-element_pos_top mr-2 mb-4 ml-8` }>
                             Перетащите булку
@@ -185,13 +191,15 @@ const BurgerConstructor = () => {
                 }
                 {
                     bun ? (
-                        <ConstructorElement
-                            extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mt-4` }
-                            type="bottom"
-                            isLocked={ true }
-                            text={ `${ bun.name } (низ)` }
-                            price={ bun.price }
-                            thumbnail={ bun.image } />
+                        <div data-test="bottomBun">
+                            <ConstructorElement
+                                extraClass={ `${ counstructorElementWidthClass } ${ dragTargetBunClass } ml-8 mr-4 mt-4` }
+                                type="bottom"
+                                isLocked={ true }
+                                text={ `${ bun.name } (низ)` }
+                                price={ bun.price }
+                                thumbnail={ bun.image } />
+                        </div>
                     ) : (
                         <div className={ `${ styles.EmptyItem } ${ counstructorElementWidthClass } ${ dragTargetBunClass } constructor-element constructor-element_pos_bottom mr-2 mt-4 ml-8` }>
                             Перетащите булку
@@ -201,12 +209,15 @@ const BurgerConstructor = () => {
             </div>
             <div className={ `${ styles.TotalBlock } mt-10` }>
                 <div className={ `${ styles.Sum } mr-10` }>
-                    <div className="text text_type_digits-medium mr-1">
+                    <div
+                        data-test="orderSum"
+                        className="text text_type_digits-medium mr-1">
                         { totalSum }
                     </div>
                     <CurrencyIcon type="primary" />
                 </div>
                 <Button
+                    data-test="createOrderButton"
                     htmlType="button"
                     type="primary"
                     size="medium"

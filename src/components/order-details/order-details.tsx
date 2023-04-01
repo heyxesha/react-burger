@@ -8,7 +8,9 @@ const OrderDetails = () => {
     const { orderId } = useSelector(state => state.order);
     return (
         <div className={ `${styles.OrderDetails} pb-15`}>
-            <p className={ `${ styles.OrderId } text text_type_digits-large mt-4` }>
+            <p
+                data-test="orderId"
+                className={ `${ styles.OrderId } text text_type_digits-large mt-4` }>
                 { orderId }
             </p>
             <p className="text text_type_main-medium mt-8">
