@@ -14,7 +14,9 @@ const AppHeader = ({ activeTab }: IAppHeaderProps) => {
     <header className={ `${ styles.HeaderWrapper } p-4` }>
         <div className={ styles.Header }>
             <div className={ styles.LeftBlock }>
-            <Link to="/">
+            <Link
+                data-test="constructorPageButton"
+                to="/">
                 <Button
                     iconType="burger"
                     style={ activeTab === 'constructor' ? 'primary' : 'secondary'}
@@ -30,7 +32,9 @@ const AppHeader = ({ activeTab }: IAppHeaderProps) => {
             <Link to="/" className={ styles.Logo }>
                 <Logo />
             </Link>
-            <Link to="/profile">
+            <Link
+                data-test="profilePageButton"
+                to="/profile">
                 <Button
                     iconType="person"
                     style={ activeTab === 'profile' ? 'primary' : 'secondary'}
