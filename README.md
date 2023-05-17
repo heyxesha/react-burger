@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# Stellar Burgers
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Overview:
+Stellar Burgers is a user-friendly web application designed to help users create and customize their own burger orders. The app provides an intuitive interface for selecting ingredients from a list and adding them to an order summary by dragging and dropping. Real-time cost calculation is available for each ingredient added, providing users with a clear understanding of the total cost of their order.
 
-## Available Scripts
+[https://heyxesha.github.io/react-burger/](https://heyxesha.github.io/react-burger/)
 
-In the project directory, you can run:
+## Key features:
 
-### `npm start`
+* **Customizable ingredient list**: Users are able to select from a wide variety of toppings, sauces, and other ingredients to create their own unique burger combinations.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* **Easy to use**: The app is designed with an intuitive user interface, providing clear instructions and tooltips to guide users through the ordering process.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* **Real-time cost calculation**: Cost calculation is live, providing users with a clear understanding of the total cost of their order as they add or remove ingredients.
 
-### `npm test`
+* **Drag-and-drop ordering**: Dragging and dropping ingredients onto the order summary makes it easy to add them to the order, providing users with a seamless ordering experience.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Implementation details:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* **React** powers the front-end of the app, providing a powerful and flexible development environment for building modern web applications.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **Redux** is used for state management, ensuring that the state of the application is predictable and easy to manage as users interact with the app.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* **React DnD** is used for drag-and-drop functionality, providing a simple solution for adding and removing ingredients from the order summary.
 
-### `npm run eject`
+* **WebSockets** are used to create a real-time connection between the app and the data source, ensuring that users have access to the latest information available.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Getting started:
+To get started with the Stellar Burgers app, simply clone the repository, install the dependencies, and run the 
+`npm start` command in the project directory. Once the app is running on port 3000, users can navigate to the app in their web browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

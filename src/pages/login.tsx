@@ -60,6 +60,7 @@ const LoginPage = () => {
                     value={ values.password }
                     onChange={ handleChange } />
                 <Button
+                    data-test="loginSubmitButton"
                     extraClass="mt-6"
                     htmlType="submit"
                     size="medium"

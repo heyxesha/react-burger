@@ -42,7 +42,7 @@ export const selectedIngredientsReducer = (
                 bun: action.item.type === 'bun' ? action.item : state.bun,
                 innerIngredients: action.item.type !== 'bun' ? innerIngredientsForAdd : state.innerIngredients,
                 prevInnerIngredients: state.prevInnerIngredients.length ? state.prevInnerIngredients : state.innerIngredients
-              };
+            };
         case REMOVE_INGREDIENT_FROM_CONSTRUCTOR:
             const innerIngredientsForRemove = [...state.innerIngredients];
             if (action.item.type !== 'bun') {

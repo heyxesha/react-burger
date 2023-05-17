@@ -115,6 +115,7 @@ const InnerIngredient = ({
     dragRef(dropRef(ref));
     return (
        <div
+            data-test="inner-ingredient"
             ref={ ref }
             draggable
             className={ `${ styles.InnerIngredient } ${ topMargin ? 'mt-4' : '' } ${ isDragging || item.isDragging ? styles.Drag : '' }` }>

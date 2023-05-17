@@ -35,14 +35,28 @@ const IngredientDetails = () => {
     return (
         <div className={ styles.IngredientDetails }>
             <img src={ image } alt={ name } />
-            <p className="text text_type_main-medium mt-4">
+            <p
+                data-test="ingredientName"
+                className="text text_type_main-medium mt-4">
                 { name }
             </p>
             <div className={ `${ styles.Details } mt-8` }>
-                <IngredientDetailItem text="Каллории,ккал" number={ calories } />
-                <IngredientDetailItem text="Белки, г" number={ proteins } />
-                <IngredientDetailItem text="Жиры, г" number={ fat } />
-                <IngredientDetailItem text="Углеводы, г" number={ carbohydrates } />
+                <IngredientDetailItem
+                    data-test="calories"
+                    text="Каллории,ккал"
+                    number={ calories } />
+                <IngredientDetailItem
+                    data-test="proteins"
+                    text="Белки, г"
+                    number={ proteins } />
+                <IngredientDetailItem
+                    data-test="fat"
+                    text="Жиры, г"
+                    number={ fat } />
+                <IngredientDetailItem
+                    data-test="carbohydrates"
+                    text="Углеводы, г"
+                    number={ carbohydrates } />
             </div>
         </div>
     );

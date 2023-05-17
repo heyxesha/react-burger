@@ -56,7 +56,7 @@ export const ingredientsReducer = (state: IIngredientsState = initialState, acti
         case DECREASE_INGREDIENT_COUNTER:
             const ingredientsForDecrease = [...state.ingredients];
             const decreasedIndex = ingredientsForDecrease.findIndex(item => item._id === action.id);
-            const currentSelectedCount =  ingredientsForDecrease[decreasedIndex].selectedCount || 0;
+            const currentSelectedCount = ingredientsForDecrease[decreasedIndex].selectedCount || 0;
             ingredientsForDecrease[decreasedIndex].selectedCount = currentSelectedCount - action.value;
             return {
                 ...state,
